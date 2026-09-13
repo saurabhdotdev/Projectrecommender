@@ -38,6 +38,8 @@ export default function ProjectDetailModal({
   const [customArchTopology, setCustomArchTopology] = useState('Decoupled Microservices');
   const [customAddons, setCustomAddons] = useState(['auth', 'docker', 'testing']);
   const [customizationSuccess, setCustomizationSuccess] = useState(false);
+  const [archViewMode, setArchViewMode] = useState('visual'); // 'visual' | 'ascii'
+  const [activeScaffoldFile, setActiveScaffoldFile] = useState('schemas');
 
   useEffect(() => {
     setDetailedProject(project);
@@ -108,6 +110,150 @@ export default function ProjectDetailModal({
   const careerPaths = (currentProject.career_paths && currentProject.career_paths.length > 0)
     ? currentProject.career_paths.join(" • ")
     : (currentProject.domain ? `${currentProject.domain} Engineer • AI/ML Engineer` : "Software Engineer • Applied ML Engineer");
+
+  const scaffoldFiles = {
+    schemas: {
+      path: "src/schemas/models.py",
+      lang: "python",
+      code: `# src/schemas/models.py
+from pydantic import BaseModel, Field
+from typing import List, Optional
+import datetime
+
+class ProjectPayload(BaseModel):
+    request_id: str = Field(..., description="Unique idempotency key")
+    domain: str = "${currentProject.domain || 'Machine Learning'}"
+    parameters: dict = Field(default_factory=dict)
+    timestamp: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
+
+class InferenceResult(BaseModel):
+    request_id: str
+    status: str = "success"
+    latency_ms: float
+    data: dict
+    confidence: Optional[float] = Field(default=0.95, ge=0.0, le=1.0)`
+    },
+    engine: {
+      path: "src/engine/core.py",
+      lang: "python",
+      code: `# src/engine/core.py
+import logging
+from dataclasses import dataclass
+from typing import Dict, Any
+
+logger = logging.getLogger(__name__)
+
+@dataclass
+class EngineConfig:
+    batch_size: int = 64
+    timeout_ms: int = 45
+    enable_caching: bool = True
+
+class CoreEngine:
+    \"\"\"Core algorithmic engine implementing domain logic for ${currentProject.title || 'System'}.\"\"\"
+    def __init__(self, config: EngineConfig = None):
+        self.config = config or EngineConfig()
+        logger.info("Initialized CoreEngine with batch_size=%d", self.config.batch_size)
+
+    def execute(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+        \"\"\"Executes algorithmic invariants and returns structured metrics.\"\"\"
+        result = {
+            "processed": True,
+            "domain": "${currentProject.domain || 'General'}",
+            "metrics": {"score": 0.942, "iterations": 12}
+        }
+        return result`
+    },
+    routes: {
+      path: "src/api/routes.py",
+      lang: "python",
+      code: `# src/api/routes.py
+from fastapi import APIRouter, HTTPException, Depends
+from src.schemas.models import ProjectPayload, InferenceResult
+from src.engine.core import CoreEngine
+
+router = APIRouter(prefix="/api/v1", tags=["core"])
+engine = CoreEngine()
+
+@router.post("/execute", response_model=InferenceResult)
+async def execute_pipeline(payload: ProjectPayload):
+    try:
+        output = engine.execute(payload.parameters)
+        return InferenceResult(
+            request_id=payload.request_id,
+            latency_ms=14.2,
+            data=output
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))`
+    },
+    tests: {
+      path: "tests/test_engine.py",
+      lang: "python",
+      code: `# tests/test_engine.py
+import pytest
+from src.engine.core import CoreEngine, EngineConfig
+
+def test_engine_initialization():
+    cfg = EngineConfig(batch_size=32)
+    engine = CoreEngine(cfg)
+    assert engine.config.batch_size == 32
+
+def test_engine_execution_invariants():
+    engine = CoreEngine()
+    result = engine.execute({"input": "sample_record"})
+    assert result["processed"] is True
+    assert "metrics" in result
+    assert result["metrics"]["score"] > 0.9`
+    },
+    docker: {
+      path: "Dockerfile",
+      lang: "dockerfile",
+      code: `# Multi-stage lightweight distroless production build
+FROM python:3.11-slim as builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+FROM python:3.11-slim as runner
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY src/ ./src/
+ENV PATH=/root/.local/bin:$PATH
+EXPOSE 8000
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]`
+    },
+    compose: {
+      path: "docker-compose.yml",
+      lang: "yaml",
+      code: `version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/${currentProject.project_id || 'app_db'}
+      - REDIS_URL=redis://cache:6379/0
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: ${currentProject.project_id || 'app_db'}
+    ports:
+      - "5432:5432"
+
+  cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"`
+    }
+  };
 
   useEffect(() => {
     if (!project) return;
@@ -556,6 +702,58 @@ export default function ProjectDetailModal({
                 </div>
               </div>
 
+              {/* Live Starter Scaffold File Explorer */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                  <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>
+                    💻 Live Starter Scaffold Explorer
+                  </h4>
+                  <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', flexWrap: 'nowrap' }}>
+                    {[
+                      { id: 'schemas', label: 'models.py' },
+                      { id: 'engine', label: 'core.py' },
+                      { id: 'routes', label: 'routes.py' },
+                      { id: 'tests', label: 'test_engine.py' },
+                      { id: 'docker', label: 'Dockerfile' },
+                      { id: 'compose', label: 'docker-compose' }
+                    ].map(tab => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setActiveScaffoldFile(tab.id)}
+                        style={{
+                          background: activeScaffoldFile === tab.id ? 'var(--primary)' : 'var(--bg-input)',
+                          color: activeScaffoldFile === tab.id ? '#ffffff' : 'var(--text-secondary)',
+                          border: '1px solid var(--border-color)',
+                          borderRadius: '6px',
+                          padding: '3px 8px',
+                          fontSize: '0.74rem',
+                          fontWeight: 600,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="copilot-code-block" style={{ margin: 0 }}>
+                  <div className="copilot-code-header" style={{ padding: '6px 12px', fontSize: '0.74rem' }}>
+                    <span>📄 {scaffoldFiles[activeScaffoldFile]?.path}</span>
+                    <button
+                      className="copilot-copy-btn"
+                      onClick={() => navigator.clipboard.writeText(scaffoldFiles[activeScaffoldFile]?.code || '')}
+                    >
+                      📋 Copy File
+                    </button>
+                  </div>
+                  <pre style={{ maxHeight: '220px', overflowY: 'auto', fontSize: '0.8rem', padding: '12px 14px' }}>
+                    <code>{scaffoldFiles[activeScaffoldFile]?.code}</code>
+                  </pre>
+                </div>
+              </div>
+
               {/* Target SLAs & Performance Metrics */}
               <div style={{ marginBottom: '20px' }}>
                 <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
@@ -617,10 +815,45 @@ export default function ProjectDetailModal({
                     High-performance microservice boundary design for {currentProject.title}
                   </span>
                 </div>
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => {
-                    const code = currentProject.architecture_spec?.diagram || `+-------------------------------------------------------------+
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '2px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setArchViewMode('visual')}
+                      style={{
+                        background: archViewMode === 'visual' ? 'var(--primary)' : 'transparent',
+                        color: archViewMode === 'visual' ? '#ffffff' : 'var(--text-secondary)',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                        fontSize: '0.76rem',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      📊 Visual Flow
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setArchViewMode('ascii')}
+                      style={{
+                        background: archViewMode === 'ascii' ? 'var(--primary)' : 'transparent',
+                        color: archViewMode === 'ascii' ? '#ffffff' : 'var(--text-secondary)',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                        fontSize: '0.76rem',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      📜 ASCII
+                    </button>
+                  </div>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => {
+                      const code = currentProject.architecture_spec?.diagram || `+-------------------------------------------------------------+
 |                      Client Layer                           |
 |       (React / Vite Web UI / Mobile App / REST API Client)  |
 +------------------------------+------------------------------+
@@ -653,19 +886,105 @@ export default function ProjectDetailModal({
 |       - Relational Data Store: ${currentProject.customized_db || 'PostgreSQL 16'} |
 |       - Artifact & Model Checkpoints: Object Storage        |
 +-------------------------------------------------------------+`;
-                    navigator.clipboard.writeText(code);
-                  }}
-                >
-                  📋 Copy Architecture
-                </button>
+                      navigator.clipboard.writeText(code);
+                    }}
+                  >
+                    📋 Copy
+                  </button>
+                </div>
               </div>
 
-              {/* Architecture Diagram */}
-              <div className="copilot-code-block" style={{ margin: '0 0 16px 0' }}>
-                <div className="copilot-code-header">
-                  <span>{currentProject.customized_topology || currentProject.architecture_spec?.pattern || 'Decoupled Microservice Topology'}</span>
+              {/* Topology View: Visual Flow Pipeline vs ASCII Diagram */}
+              {archViewMode === 'visual' ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '18px' }}>
+                  {/* Tier 1 */}
+                  <div className="studio-multiplier-card" style={{ padding: '12px 16px', borderLeft: '4px solid #38bdf8' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '0.88rem', color: 'var(--text-primary)' }}>🌐 1. Ingress & Client Layer</strong>
+                      <span className="badge badge-sm" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>TLS 1.3 • HTTPS / WSS</span>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
+                      React Web Dashboard / Mobile Client / REST consumers emitting asynchronous event streams.
+                    </p>
+                  </div>
+
+                  {/* Flow Indicator */}
+                  <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.78rem', margin: '-2px 0' }}>
+                    ⬇️ <em>Encrypted payload via HTTP/2 (Latency budget: &lt; 15ms)</em>
+                  </div>
+
+                  {/* Tier 2 */}
+                  <div className="studio-multiplier-card" style={{ padding: '12px 16px', borderLeft: '4px solid #818cf8' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '0.88rem', color: 'var(--text-primary)' }}>🛡️ 2. API Gateway & Boundary Guard</strong>
+                      <span className="badge badge-sm" style={{ background: 'rgba(129, 140, 248, 0.15)', color: '#818cf8' }}>{displayFrameworks[0] || 'FastAPI'} • JWT + Pydantic</span>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
+                      Validates strict runtime schema invariants, intercepts unauthorized tokens, and enforces 300 RPS token-bucket rate limiting.
+                    </p>
+                  </div>
+
+                  {/* Flow Indicator */}
+                  <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.78rem', margin: '-2px 0' }}>
+                    ⬇️ <em>Decoupled Asynchronous Job Dispatch</em>
+                  </div>
+
+                  {/* Tier 3: Split Grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <div className="studio-component-card" style={{ borderLeft: '3px solid #f59e0b', padding: '10px 14px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <strong style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>⚡ Task Queue</strong>
+                        <span className="badge badge-sm" style={{ fontSize: '0.68rem' }}>Redis Streams</span>
+                      </div>
+                      <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>Buffers incoming bursts and feeds workers without backpressure.</span>
+                    </div>
+                    <div className="studio-component-card" style={{ borderLeft: '3px solid #10b981', padding: '10px 14px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <strong style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>💾 In-Memory Cache</strong>
+                        <span className="badge badge-sm" style={{ fontSize: '0.68rem' }}>Redis 7.x</span>
+                      </div>
+                      <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>Caches query responses with sub-2ms lookup latency.</span>
+                    </div>
+                  </div>
+
+                  {/* Flow Indicator */}
+                  <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.78rem', margin: '-2px 0' }}>
+                    ⬇️ <em>Worker Execution Loop</em>
+                  </div>
+
+                  {/* Tier 4 */}
+                  <div className="studio-multiplier-card" style={{ padding: '12px 16px', borderLeft: '4px solid var(--primary)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '0.88rem', color: 'var(--text-primary)' }}>🧠 4. Domain Processing & Engine Workers</strong>
+                      <span className="badge badge-sm badge-primary">{displayLanguages[0] || 'Python'} Engine</span>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
+                      Executes deterministic algorithms, machine learning inference, and business logic for {currentProject.title}.
+                    </p>
+                  </div>
+
+                  {/* Flow Indicator */}
+                  <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.78rem', margin: '-2px 0' }}>
+                    ⬇️ <em>ACID Transactional Persistence</em>
+                  </div>
+
+                  {/* Tier 5 */}
+                  <div className="studio-multiplier-card" style={{ padding: '12px 16px', borderLeft: '4px solid #a855f7' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '0.88rem', color: 'var(--text-primary)' }}>🗄️ 5. State Store & Relational Persistence</strong>
+                      <span className="badge badge-sm" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc' }}>{currentProject.customized_db || 'PostgreSQL 16'}</span>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
+                      Partitioned relational tables with B-tree indices and automated snapshot checkpoints.
+                    </p>
+                  </div>
                 </div>
-                <pre><code>{currentProject.architecture_spec?.diagram || `+-------------------------------------------------------------+
+              ) : (
+                <div className="copilot-code-block" style={{ margin: '0 0 16px 0' }}>
+                  <div className="copilot-code-header">
+                    <span>{currentProject.customized_topology || currentProject.architecture_spec?.pattern || 'Decoupled Microservice Topology'}</span>
+                  </div>
+                  <pre><code>{currentProject.architecture_spec?.diagram || `+-------------------------------------------------------------+
 |                      Client Layer                           |
 |       (React / Vite Web UI / Mobile App / REST API Client)  |
 +------------------------------+------------------------------+
@@ -698,7 +1017,8 @@ export default function ProjectDetailModal({
 |       - Relational Data Store: ${currentProject.customized_db || 'PostgreSQL 16'} |
 |       - Artifact & Model Checkpoints: Object Storage        |
 +-------------------------------------------------------------+`}</code></pre>
-              </div>
+                </div>
+              )}
 
               {/* Component Responsibilities */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px', marginBottom: '16px' }}>

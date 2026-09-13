@@ -261,6 +261,45 @@ export default function ProjectCopilotChat({ studentProfile, userProjects = [], 
     } catch {}
   };
 
+  const handleExportTranscript = () => {
+    const lines = [
+      `# 🤖 ProjectForge AI Copilot — Technical Session Transcript`,
+      ``,
+      `> **Date**: ${new Date().toLocaleString()}`,
+      selectedProjectCtx ? `> **Project Context**: ${selectedProjectCtx.title} (${selectedProjectCtx.domain})` : `> **Project Context**: General Engineering Mode`,
+      ``,
+      `---`,
+      ``
+    ];
+
+    messages.forEach((m) => {
+      if (m.role === "assistant") {
+        lines.push(`### 🤖 Copilot:`);
+        lines.push(m.content);
+        lines.push(``);
+      } else if (m.role === "user") {
+        lines.push(`### 👤 Student:`);
+        lines.push(m.content);
+        lines.push(``);
+      }
+    });
+
+    lines.push(`---`, `*Exported from ProjectForge AI Engineering Copilot*`);
+
+    const blob = new Blob([lines.join("\n")], { type: "text/markdown;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const safeTitle = selectedProjectCtx
+      ? selectedProjectCtx.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 30)
+      : "session";
+    link.setAttribute("href", url);
+    link.setAttribute("download", `ProjectForge-Copilot-${safeTitle}.md`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handleSelectProject = (proj) => {
     setSelectedProjectCtx({
       project_id: proj.project_id,
@@ -323,6 +362,14 @@ export default function ProjectCopilotChat({ studentProfile, userProjects = [], 
               </div>
             )}
           </div>
+          <button
+            className="copilot-clear-btn"
+            onClick={handleExportTranscript}
+            title="Download full chat transcript as Markdown"
+            style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
+          >
+            📥 Export .md
+          </button>
           <button className="copilot-clear-btn" onClick={handleClearChat} title="Clear conversation">
             🗑️ Clear
           </button>
