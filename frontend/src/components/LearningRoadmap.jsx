@@ -6,9 +6,12 @@ export default function LearningRoadmap({
   savedCompletedTasks = [],
   onToggleTask,
   onDownloadScaffold,
-  onOpenPrepKit
+  onOpenPrepKit,
+  onOpenCopilot
 }) {
   if (!roadmapData) return null;
+
+  const [expandedStarterCode, setExpandedStarterCode] = useState({});
 
   const {
     project_title,
@@ -88,6 +91,12 @@ export default function LearningRoadmap({
         m.acceptance_criteria.forEach((crit) => {
           lines.push(`- [ ] ${crit}`);
         });
+      }
+      if (m.starter_code) {
+        lines.push('### Starter Code Scaffold:');
+        lines.push('```python');
+        lines.push(m.starter_code);
+        lines.push('```');
       }
       lines.push(`**Key Deliverable:** ${m.deliverables}`);
       lines.push('');
@@ -314,6 +323,69 @@ export default function LearningRoadmap({
                       </div>
                       <pre style={{ padding: '8px 12px', fontSize: '0.78rem' }}><code>$ {m.command_snippet}</code></pre>
                     </div>
+                  </div>
+                )}
+
+                {/* Starter Code Scaffold Accordion */}
+                {m.starter_code && (
+                  <div style={{ marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedStarterCode(prev => ({ ...prev, [m.week_number]: !prev[m.week_number] }))}
+                        style={{
+                          background: 'var(--bg-input)',
+                          border: '1px solid var(--border-color)',
+                          color: 'var(--text-primary)',
+                          borderRadius: '6px',
+                          padding: '4px 10px',
+                          fontSize: '0.74rem',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}
+                      >
+                        <span>{expandedStarterCode[m.week_number] ? '▼ Hide Starter Code Scaffold' : '▶ Preview Starter Code Scaffold'}</span>
+                      </button>
+                      {onOpenCopilot && (
+                        <button
+                          type="button"
+                          onClick={() => onOpenCopilot({ project_id: projectId, title: project_title }, `Help me build Week ${m.week_number}: ${m.title}. Focus on ${m.focus} and target files: ${m.target_files?.join(', ') || 'core files'}.`)}
+                          style={{
+                            background: 'rgba(56, 128, 105, 0.12)',
+                            border: '1px solid rgba(56, 128, 105, 0.35)',
+                            color: 'var(--primary)',
+                            borderRadius: '6px',
+                            padding: '4px 10px',
+                            fontSize: '0.74rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          💬 Ask Copilot for this Week
+                        </button>
+                      )}
+                    </div>
+                    {expandedStarterCode[m.week_number] && (
+                      <div className="copilot-code-block" style={{ margin: '6px 0 0 0' }}>
+                        <div className="copilot-code-header" style={{ padding: '4px 10px', fontSize: '0.7rem' }}>
+                          <span>Starter Boilerplate & Invariants</span>
+                          <button
+                            className="copilot-copy-btn"
+                            style={{ padding: '2px 6px', fontSize: '0.68rem' }}
+                            onClick={() => navigator.clipboard.writeText(m.starter_code)}
+                          >
+                            📋 Copy Scaffold
+                          </button>
+                        </div>
+                        <pre style={{ padding: '10px 14px', fontSize: '0.78rem', maxHeight: '240px', overflowY: 'auto' }}><code>{m.starter_code}</code></pre>
+                      </div>
+                    )}
                   </div>
                 )}
 

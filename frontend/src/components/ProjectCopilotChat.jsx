@@ -111,7 +111,7 @@ Select a project from your workspace for context-aware guidance, or just ask me 
 
 // ── Main Component ────────────────────────────────────────────────────────
 
-export default function ProjectCopilotChat({ studentProfile, userProjects = [] }) {
+export default function ProjectCopilotChat({ studentProfile, userProjects = [], initialProject = null, initialPrompt = "" }) {
   const [messages, setMessages] = useState(() => {
     try {
       const saved = localStorage.getItem("projectforge_copilot_messages");
@@ -135,6 +135,45 @@ export default function ProjectCopilotChat({ studentProfile, userProjects = [] }
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Sync initialProject when provided
+  useEffect(() => {
+    if (initialProject) {
+      setSelectedProjectCtx({
+        project_id: initialProject.project_id || `proj_${Date.now()}`,
+        title: initialProject.title || initialProject.project_title || 'Custom Project',
+        domain: initialProject.domain || initialProject.project_domain || 'Engineering',
+        description: initialProject.description || '',
+        tech_stack: initialProject.required_skills || initialProject.programming_languages || []
+      });
+      if (initialPrompt) {
+        setInputText(initialPrompt);
+      }
+    }
+  }, [initialProject, initialPrompt]);
+
+  // Dynamically update quick chips based on context
+  useEffect(() => {
+    if (selectedProjectCtx) {
+      const shortTitle = selectedProjectCtx.title.length > 25
+        ? selectedProjectCtx.title.slice(0, 22) + "..."
+        : selectedProjectCtx.title;
+      setSuggestedChips([
+        `🏗️ Architecture of ${shortTitle}`,
+        "⚡ Generate Phase 1 Starter Code",
+        "🗄️ Write Database DDL Schema",
+        "🧪 Generate Automated Pytest Suite",
+        "📄 Draft STAR Resume Bullets"
+      ]);
+    } else {
+      setSuggestedChips([
+        "🏗️ System Architecture & Data Flow",
+        "⚡ Show Starter Boilerplate",
+        "🧪 Suggest Unit Tests",
+        "📄 Draft STAR Resume Bullets"
+      ]);
+    }
+  }, [selectedProjectCtx]);
 
   // Persist messages
   useEffect(() => {

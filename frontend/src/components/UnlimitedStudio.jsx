@@ -67,6 +67,7 @@ export default function UnlimitedStudio({
   onProjectSaved,
   onOpenPrepKit,
   onOpenMockInterview,
+  onOpenCopilot,
   onIdeasGenerated
 }) {
   // Input form state
@@ -495,6 +496,15 @@ export default function UnlimitedStudio({
                 {onOpenMockInterview && (
                   <button className="btn btn-secondary btn-sm" onClick={() => onOpenMockInterview(blueprint)}>
                     <span>🎙️</span> Mock Interview
+                  </button>
+                )}
+                {onOpenCopilot && (
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => onOpenCopilot(blueprint, `I've architected this custom project: "${blueprint.title}". Explain the system architecture and provide starter code for the first milestone.`)}
+                    style={{ borderColor: 'rgba(56, 128, 105, 0.45)', color: 'var(--primary)', fontWeight: 700 }}
+                  >
+                    <span>💬</span> Discuss in AI Copilot
                   </button>
                 )}
               </div>

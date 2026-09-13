@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchProjects, generateUnlimitedIdeas } from '../api/client';
 
-export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onIdeasGenerated, studentProfile, onOpenCustomStudio }) {
+export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onIdeasGenerated, studentProfile, onOpenCustomStudio, onOpenCopilot }) {
   const [projects, setProjects] = useState([]);
   const [search, setSearch] = useState("");
   const [domainFilter, setDomainFilter] = useState("");
@@ -428,15 +428,25 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
                 </div>
 
                 {/* Deck Action Dock */}
-                <div className="deck-action-dock" style={{ padding: '10px 18px' }}>
+                <div className="deck-action-dock" style={{ padding: '10px 18px', display: 'flex', gap: '8px' }}>
                   <button
                     className="btn-deck-primary"
-                    style={{ width: '100%' }}
+                    style={{ flex: 1 }}
                     onClick={() => onSelectProject(p)}
                   >
-                    <span>🚀 Launch Blueprint & Roadmap</span>
+                    <span>🚀 Launch Blueprint</span>
                     <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>→</span>
                   </button>
+                  {onOpenCopilot && (
+                    <button
+                      className="btn-deck-tool"
+                      onClick={() => onOpenCopilot(p, `I'm reviewing the catalog project "${p.title}". How would you design its architecture and what are the key technical challenges?`)}
+                      title="Discuss this blueprint with AI Copilot"
+                      style={{ padding: '8px 12px' }}
+                    >
+                      <span>💬</span>
+                    </button>
+                  )}
                 </div>
               </div>
             );

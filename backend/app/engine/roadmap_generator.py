@@ -33,6 +33,18 @@ class RoadmapGenerator:
                     f"Acquire and explore project dataset: {project.get('dataset_source', 'Benchmark data')}.",
                     "Perform exploratory data analysis (EDA) and inspect schema invariants."
                 ],
+                "starter_code": """# setup_check.py
+import sys, logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("setup_check")
+
+def verify_environment():
+    logger.info("Python version: %s", sys.version)
+    assert sys.version_info >= (3, 10), "Python 3.10+ required"
+    logger.info("Environment initialized successfully with 0 conflicts!")
+
+if __name__ == "__main__":
+    verify_environment()""",
                 "acceptance_criteria": [
                     "Development environment and virtualenv functional with 0 dependency conflicts.",
                     "Exploratory data analysis notebook documents dataset distributions and null ratios.",
@@ -56,6 +68,20 @@ class RoadmapGenerator:
                     "Implement automated preprocessing, cleaning, and transformation pipelines.",
                     "Establish unit testing framework and continuous integration workflow."
                 ],
+                "starter_code": """# src/schemas.py & src/ingest.py
+from pydantic import BaseModel, Field
+from typing import List
+import datetime
+
+class IngestRecord(BaseModel):
+    record_id: str = Field(..., description="Unique record identifier")
+    timestamp: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
+    payload: dict
+    version: str = "1.0.0"
+
+def ingest_batch(raw_records: List[dict]) -> List[IngestRecord]:
+    \"\"\"Strictly validates and transforms incoming raw records.\"\"\"
+    return [IngestRecord(**r) for r in raw_records]""",
                 "acceptance_criteria": [
                     "Ingestion pipeline handles malformed data gracefully without runtime exceptions.",
                     "Strict Pydantic/dataclass schema validates all incoming record types.",
@@ -81,6 +107,22 @@ class RoadmapGenerator:
                     "Establish validation metrics (e.g. F1, ROC-AUC, latency, throughput).",
                     "Iterate and benchmark against naive baseline."
                 ],
+                "starter_code": """# src/engine/core.py
+from dataclasses import dataclass
+from typing import Any, Dict
+
+@dataclass
+class EngineConfig:
+    batch_size: int = 64
+    timeout_ms: int = 45
+
+class CoreEngine:
+    def __init__(self, config: EngineConfig = None):
+        self.config = config or EngineConfig()
+
+    def execute(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        \"\"\"Executes core algorithmic computation with deterministic invariants.\"\"\"
+        return {"status": "success", "result": inputs, "latency_ms": 14.2}""",
                 "acceptance_criteria": [
                     "Core algorithm executes deterministically and satisfies mathematical correctness invariants.",
                     "Baseline performance metrics recorded and logged for ablation studies.",
@@ -105,6 +147,21 @@ class RoadmapGenerator:
                     "Expose modular REST/FastAPI endpoints for inference or client querying.",
                     "Conduct slice-based error analysis on failure modes."
                 ],
+                "starter_code": """# src/api/routes.py
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI(title="Production Service API", version="1.0.0")
+
+class InferenceRequest(BaseModel):
+    query: str
+    max_results: int = 10
+
+@app.post("/api/v1/predict")
+async def predict_endpoint(req: InferenceRequest):
+    if not req.query.strip():
+        raise HTTPException(status_code=422, detail="Query cannot be empty")
+    return {"status": "ok", "prediction": "processed", "query": req.query}""",
                 "acceptance_criteria": [
                     "REST API endpoints return OpenAPI-compliant JSON with HTTP 200/400/422 status codes.",
                     "Rate limiting middleware actively prevents token/request denial-of-service.",
@@ -127,6 +184,19 @@ class RoadmapGenerator:
                     "Simulate concurrent user requests and identify performance bottlenecks.",
                     "Implement caching (e.g. Redis) and query optimization."
                 ],
+                "starter_code": """# tests/locustfile.py
+from locust import HttpUser, task, between
+
+class StressTestUser(HttpUser):
+    wait_time = between(0.1, 0.4)
+
+    @task(3)
+    def test_health(self):
+        self.client.get("/healthz")
+
+    @task(1)
+    def test_predict(self):
+        self.client.post("/api/v1/predict", json={"query": "benchmark", "max_results": 5})""",
                 "acceptance_criteria": [
                     "Client interface provides real-time latency and progress feedback for users.",
                     "Load testing confirms throughput of at least 150 requests/sec with p95 < 80ms.",
@@ -151,6 +221,19 @@ class RoadmapGenerator:
                 "Write comprehensive GitHub README with architecture diagram, benchmarks, and quickstart.",
                 "Record a 2-minute video walkthrough highlighting business impact and technical challenges."
             ],
+            "starter_code": """# Dockerfile - Multi-stage lightweight distroless build
+FROM python:3.11-slim as builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+FROM python:3.11-slim as runner
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY src/ ./src/
+ENV PATH=/root/.local/bin:$PATH
+EXPOSE 8000
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]""",
             "acceptance_criteria": [
                 "Multi-stage Docker image builds cleanly and runs locally via single command.",
                 "GitHub Actions CI pipeline automatically tests every commit and PR.",

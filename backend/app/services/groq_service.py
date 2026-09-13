@@ -44,8 +44,7 @@ Rules:
     for m in messages[-10:]:  # Keep recent history
         api_messages.append({"role": m.get("role", "user"), "content": m.get("content", "")})
 
-    # Fastest models first — llama-3.1-8b-instant is Groq's lowest-latency option
-    models_to_try = ["llama-3.1-8b-instant", "llama3-8b-8192", settings.GROQ_MODEL]
+    models_to_try = [settings.GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"]
 
     for model in models_to_try:
         try:
@@ -176,7 +175,7 @@ Generate JSON matching this exact structure:
                     {"role": "user", "content": system_prompt}
                 ],
                 temperature=0.3,
-                max_tokens=950,
+                max_tokens=850,
                 response_format={"type": "json_object"}
             )
             raw = completion.choices[0].message.content.strip()
@@ -371,7 +370,7 @@ Respond with valid JSON ONLY."""
                     {"role": "user", "content": system_prompt}
                 ],
                 temperature=0.7,  # Higher temperature for diverse novel ideas
-                max_tokens=2200,
+                max_tokens=850,
                 response_format={"type": "json_object"}
             )
             raw = completion.choices[0].message.content.strip()
@@ -592,7 +591,7 @@ Return ONLY a JSON object with this exact schema:
   ]
 }}"""
 
-    models_to_try = [settings.GROQ_MODEL, "llama-3.3-70b-versatile", "llama3-8b-8192"]
+    models_to_try = [settings.GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"]
     for model in models_to_try:
         try:
             completion = client.chat.completions.create(
@@ -602,7 +601,7 @@ Return ONLY a JSON object with this exact schema:
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.3,
-                max_tokens=1500,
+                max_tokens=850,
                 response_format={"type": "json_object"}
             )
             raw = completion.choices[0].message.content.strip()
@@ -771,7 +770,7 @@ Provide your evaluation as a JSON object with this exact schema:
   "follow_up_question": "A realistic technical follow-up question probing an edge case or scalability limitation of their chosen approach."
 }}"""
 
-    models_to_try = [settings.GROQ_MODEL, "llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+    models_to_try = [settings.GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"]
     for model in models_to_try:
         try:
             completion = client.chat.completions.create(

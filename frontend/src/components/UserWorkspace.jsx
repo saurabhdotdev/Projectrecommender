@@ -13,6 +13,7 @@ export default function UserWorkspace({
   onOpenPrepKit,
   onOpenMockInterview,
   onOpenGitHubAudit,
+  onOpenCopilot,
   onUpdateGithubUrl
 }) {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -457,6 +458,17 @@ export default function UserWorkspace({
                         title="Practice live technical mock interview with AI Bar Raiser"
                       >
                         🎙️ Mock
+                      </button>
+                    )}
+                    {onOpenCopilot && (
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        style={{ padding: '6px 8px', fontSize: '0.76rem', borderColor: 'rgba(56, 128, 105, 0.4)', color: 'var(--primary)', fontWeight: 600 }}
+                        onClick={() => onOpenCopilot({ project_id: p.project_id, title: p.project_title, domain: p.project_domain }, `I'm building my workspace project "${p.project_title}". What is the best strategy to complete the remaining tasks and verify production readiness?`)}
+                        title="Launch dedicated AI Copilot for this workspace project"
+                      >
+                        💬 Copilot
                       </button>
                     )}
                   </div>

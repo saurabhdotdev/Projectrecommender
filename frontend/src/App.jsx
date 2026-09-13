@@ -123,6 +123,8 @@ export default function App() {
   const [auditRepoUrl, setAuditRepoUrl] = useState('https://github.com/saurabhdotdev/DocMindAi');
   const [auditProjectTitle, setAuditProjectTitle] = useState('');
   const [auditProjectId, setAuditProjectId] = useState('');
+  const [copilotProject, setCopilotProject] = useState(null);
+  const [copilotInitialPrompt, setCopilotInitialPrompt] = useState('');
 
   // User Authentication & Personal Workspace State
   const [user, setUser] = useState(() => {
@@ -595,6 +597,16 @@ export default function App() {
     setIsAuditModalOpen(true);
   };
 
+  const handleOpenCopilot = (project = null, prompt = '') => {
+    if (project) {
+      setCopilotProject(project);
+    }
+    if (prompt) {
+      setCopilotInitialPrompt(prompt);
+    }
+    setActiveTab('copilot');
+  };
+
   return (
     <div className="app-container">
       <Navbar
@@ -661,6 +673,7 @@ export default function App() {
             onProjectSaved={handleCustomProjectSaved}
             onOpenPrepKit={handleOpenPrepKit}
             onOpenMockInterview={handleOpenMockInterview}
+            onOpenCopilot={handleOpenCopilot}
             onIdeasGenerated={handleIdeasGenerated}
           />
         )}
@@ -680,6 +693,7 @@ export default function App() {
             onOpenPrepKit={handleOpenPrepKit}
             onOpenMockInterview={handleOpenMockInterview}
             onOpenGitHubAudit={handleOpenGitHubAudit}
+            onOpenCopilot={handleOpenCopilot}
             onUpdateGithubUrl={handleUpdateGithubUrl}
           />
         )}
@@ -692,6 +706,7 @@ export default function App() {
             onIdeasGenerated={handleIdeasGenerated}
             studentProfile={studentProfile}
             onOpenCustomStudio={() => setIsCustomStudioOpen(true)}
+            onOpenCopilot={handleOpenCopilot}
           />
         )}
 
@@ -700,6 +715,8 @@ export default function App() {
           <ProjectCopilotChat
             studentProfile={studentProfile}
             userProjects={userProjects}
+            initialProject={copilotProject}
+            initialPrompt={copilotInitialPrompt}
           />
         )}
 
@@ -721,6 +738,7 @@ export default function App() {
           onOpenPrepKit={handleOpenPrepKit}
           onOpenMockInterview={handleOpenMockInterview}
           onOpenGitHubAudit={handleOpenGitHubAudit}
+          onOpenCopilot={handleOpenCopilot}
           onToggleTask={handleToggleRoadmapTask}
         />
       )}

@@ -13,6 +13,7 @@ export default function ProjectDetailModal({
   onOpenPrepKit,
   onOpenMockInterview,
   onOpenGitHubAudit,
+  onOpenCopilot,
   onToggleTask
 }) {
   const [detailedProject, setDetailedProject] = useState(project);
@@ -352,6 +353,22 @@ export default function ProjectDetailModal({
               <span>📥</span>
               <span>Export .md</span>
             </button>
+
+            {onOpenCopilot && (
+              <button
+                id="btn-modal-open-copilot"
+                className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  onClose();
+                  onOpenCopilot(currentProject, `I'm planning to build "${currentProject.title}". Break down the architecture and provide a recommended implementation plan for Week 1.`);
+                }}
+                title="Launch dedicated AI Copilot for this project"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', fontSize: '0.84rem', borderColor: 'rgba(56, 128, 105, 0.5)', color: 'var(--primary)', fontWeight: 700 }}
+              >
+                <span>💬</span>
+                <span>Ask Copilot</span>
+              </button>
+            )}
 
             <button
               className="btn btn-secondary btn-sm"
@@ -1103,6 +1120,10 @@ CREATE INDEX IF NOT EXISTS idx_${slug}_recorded ON ${slug}_events(record_id, rec
                   onToggleTask={onToggleTask}
                   onDownloadScaffold={handleDownloadScaffold}
                   onOpenPrepKit={() => onOpenPrepKit && onOpenPrepKit(project)}
+                  onOpenCopilot={(proj, prompt) => {
+                    onClose();
+                    onOpenCopilot && onOpenCopilot(proj, prompt);
+                  }}
                 />
               )}
             </div>
