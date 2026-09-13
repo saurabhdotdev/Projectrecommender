@@ -16,6 +16,7 @@ export default function UserWorkspace({
   onOpenCopilot,
   onUpdateGithubUrl
 }) {
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'kanban'
   const [filterStatus, setFilterStatus] = useState('all');
   const [editingGithubId, setEditingGithubId] = useState(null);
   const [githubInput, setGithubInput] = useState("");
@@ -35,6 +36,36 @@ export default function UserWorkspace({
   const totalWeeks = userProjects
     .filter(p => p.status === 'started' || p.status === 'in_progress')
     .reduce((sum, p) => sum + (p.project_duration || 4.0), 0);
+
+  const kanbanColumns = [
+    {
+      id: 'backlog',
+      title: 'Backlog & Saved',
+      icon: '📌',
+      color: '#d97706',
+      badgeBg: 'rgba(245, 158, 11, 0.15)',
+      badgeBorder: 'rgba(245, 158, 11, 0.3)',
+      items: userProjects.filter(p => p.status === 'saved' || p.status === 'bookmarked')
+    },
+    {
+      id: 'sprint',
+      title: 'Active Sprint',
+      icon: '⚡',
+      color: 'var(--primary)',
+      badgeBg: 'rgba(56, 189, 248, 0.15)',
+      badgeBorder: 'rgba(56, 189, 248, 0.3)',
+      items: userProjects.filter(p => p.status === 'started' || p.status === 'in_progress')
+    },
+    {
+      id: 'completed',
+      title: 'Portfolio Ready',
+      icon: '🏆',
+      color: '#10b981',
+      badgeBg: 'rgba(16, 185, 129, 0.15)',
+      badgeBorder: 'rgba(16, 185, 129, 0.3)',
+      items: userProjects.filter(p => p.status === 'completed')
+    }
+  ];
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -136,39 +167,87 @@ export default function UserWorkspace({
         </div>
       </div>
 
-      {/* Filter Tabs */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
-        <button
-          type="button"
-          className={`btn btn-sm ${filterStatus === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => setFilterStatus('all')}
-        >
-          All Projects ({userProjects.length})
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${filterStatus === 'in_progress' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => setFilterStatus('in_progress')}
-        >
-          ⚡ In Progress ({inProgressCount})
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${filterStatus === 'saved' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => setFilterStatus('saved')}
-        >
-          ★ Saved ({savedCount})
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${filterStatus === 'completed' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => setFilterStatus('completed')}
-        >
-          ✓ Completed ({completedCount})
-        </button>
+      {/* Controls Bar: Filters & View Switcher */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+          {/* View Mode Toggle: Grid vs Kanban */}
+          <div style={{ display: 'flex', background: 'var(--bg-input)', borderRadius: '8px', padding: '3px', border: '1px solid var(--border-color)', gap: '3px', marginRight: '6px' }}>
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              style={{
+                background: viewMode === 'grid' ? 'var(--primary)' : 'transparent',
+                color: viewMode === 'grid' ? '#ffffff' : 'var(--text-secondary)',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '4px 10px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              📋 Grid View
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('kanban')}
+              style={{
+                background: viewMode === 'kanban' ? 'var(--primary)' : 'transparent',
+                color: viewMode === 'kanban' ? '#ffffff' : 'var(--text-secondary)',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '4px 10px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              🗂️ Kanban Board
+            </button>
+          </div>
+
+          {viewMode === 'grid' && (
+            <>
+              <button
+                type="button"
+                className={`btn btn-sm ${filterStatus === 'all' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => setFilterStatus('all')}
+              >
+                All Projects ({userProjects.length})
+              </button>
+              <button
+                type="button"
+                className={`btn btn-sm ${filterStatus === 'in_progress' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => setFilterStatus('in_progress')}
+              >
+                ⚡ In Progress ({inProgressCount})
+              </button>
+              <button
+                type="button"
+                className={`btn btn-sm ${filterStatus === 'saved' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => setFilterStatus('saved')}
+              >
+                ★ Saved ({savedCount})
+              </button>
+              <button
+                type="button"
+                className={`btn btn-sm ${filterStatus === 'completed' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => setFilterStatus('completed')}
+              >
+                ✓ Completed ({completedCount})
+              </button>
+            </>
+          )}
+
+          {viewMode === 'kanban' && (
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              Organize builds across sprint stages with 1-click status transitions
+            </span>
+          )}
+        </div>
 
         {onOpenGitHubAudit && (
-          <div style={{ marginLeft: 'auto' }}>
+          <div>
             <button
               type="button"
               className="btn btn-secondary btn-sm"
@@ -183,8 +262,7 @@ export default function UserWorkspace({
         )}
       </div>
 
-      {/* Project Cards Grid */}
-      {filteredProjects.length === 0 ? (
+      {userProjects.length === 0 ? (
         <div
           className="glass-panel"
           style={{
@@ -196,14 +274,10 @@ export default function UserWorkspace({
         >
           <div style={{ fontSize: '3rem', marginBottom: '14px' }}>📂</div>
           <h3 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>
-            {userProjects.length === 0
-              ? 'No projects in your workspace yet'
-              : 'No projects match this filter'}
+            No projects in your workspace yet
           </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '480px', margin: '0 auto 20px' }}>
-            {userProjects.length === 0
-              ? 'Browse the AI recommendations or project catalog and click "🚀 Start Project" or "★ Save" to begin building.'
-              : 'Switch filter tabs above or explore more projects to start.'}
+            Browse the AI recommendations or project catalog and click "🚀 Start Project" or "★ Save" to begin building.
           </p>
           <button
             type="button"
@@ -214,11 +288,259 @@ export default function UserWorkspace({
             🎯 Discover Recommended Projects
           </button>
         </div>
+      ) : viewMode === 'kanban' ? (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
+          gap: '20px',
+          alignItems: 'start'
+        }}>
+          {kanbanColumns.map(col => (
+            <div
+              key={col.id}
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '14px',
+                padding: '16px',
+                minHeight: '440px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px'
+              }}
+            >
+              {/* Column Header */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingBottom: '12px',
+                borderBottom: '1px solid var(--border-color)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '1.1rem' }}>{col.icon}</span>
+                  <h3 style={{ fontSize: '0.95rem', margin: 0, fontWeight: 700, color: 'var(--text-primary)' }}>
+                    {col.title}
+                  </h3>
+                </div>
+                <span
+                  style={{
+                    background: col.badgeBg,
+                    color: col.color,
+                    border: `1px solid ${col.badgeBorder}`,
+                    borderRadius: '20px',
+                    padding: '2px 9px',
+                    fontSize: '0.74rem',
+                    fontWeight: 700
+                  }}
+                >
+                  {col.items.length}
+                </span>
+              </div>
+
+              {/* Column Items */}
+              {col.items.length === 0 ? (
+                <div style={{
+                  padding: '40px 16px',
+                  textAlign: 'center',
+                  border: '1px dashed var(--border-color)',
+                  borderRadius: '10px',
+                  color: 'var(--text-muted)',
+                  fontSize: '0.84rem'
+                }}>
+                  No projects in this stage
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {col.items.map(p => (
+                    <div
+                      key={p.project_id}
+                      style={{
+                        background: 'var(--bg-input)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '10px',
+                        padding: '14px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                      }}
+                    >
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '4px' }}>
+                          <h4
+                            onClick={() => onOpenDetails({ project_id: p.project_id, title: p.project_title, domain: p.project_domain, required_skills: p.tech_stack || [] })}
+                            style={{
+                              fontSize: '0.92rem',
+                              margin: 0,
+                              cursor: 'pointer',
+                              color: 'var(--text-primary)',
+                              fontWeight: 700,
+                              lineHeight: 1.35
+                            }}
+                          >
+                            {p.project_title}
+                          </h4>
+                          <span
+                            className="badge badge-secondary"
+                            style={{ fontSize: '0.7rem', padding: '2px 6px', whiteSpace: 'nowrap' }}
+                          >
+                            {p.project_domain || 'Engineering'}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                          ⏱️ {p.project_duration || 4} Weeks · {p.completed_tasks?.length || 0} tasks done
+                        </div>
+                      </div>
+
+                      {/* Tech Stack Pills */}
+                      {p.tech_stack && p.tech_stack.length > 0 && (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                          {p.tech_stack.slice(0, 3).map((tech, i) => (
+                            <span
+                              key={i}
+                              style={{
+                                fontSize: '0.7rem',
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                border: '1px solid var(--border-color)',
+                                borderRadius: '4px',
+                                padding: '1px 6px',
+                                color: 'var(--text-secondary)'
+                              }}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {p.tech_stack.length > 3 && (
+                            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', alignSelf: 'center' }}>
+                              +{p.tech_stack.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Transition and Tool Buttons */}
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', paddingTop: '8px', borderTop: '1px solid var(--border-color)', alignItems: 'center' }}>
+                        {col.id === 'backlog' && (
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-sm"
+                            style={{ fontSize: '0.74rem', padding: '3px 8px', flex: 1 }}
+                            onClick={() => onUpdateProjectStatus(p.project_id, 'in_progress')}
+                          >
+                            ⚡ Start Sprint ➡️
+                          </button>
+                        )}
+                        {col.id === 'sprint' && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-sm"
+                              style={{ fontSize: '0.72rem', padding: '3px 6px' }}
+                              onClick={() => onUpdateProjectStatus(p.project_id, 'saved')}
+                              title="Move back to Backlog"
+                            >
+                              ⬅️
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-sm"
+                              style={{ fontSize: '0.74rem', padding: '3px 8px', flex: 1, background: '#10b981', borderColor: '#10b981' }}
+                              onClick={() => onUpdateProjectStatus(p.project_id, 'completed')}
+                            >
+                              🏆 Done ➡️
+                            </button>
+                          </>
+                        )}
+                        {col.id === 'completed' && (
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-sm"
+                            style={{ fontSize: '0.74rem', padding: '3px 8px', flex: 1 }}
+                            onClick={() => onUpdateProjectStatus(p.project_id, 'in_progress')}
+                          >
+                            ↺ Reopen Sprint
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          style={{ fontSize: '0.74rem', padding: '3px 7px' }}
+                          onClick={() => onOpenDetails({ project_id: p.project_id, title: p.project_title, domain: p.project_domain, required_skills: p.tech_stack || [] })}
+                          title="View Blueprint"
+                        >
+                          🔍
+                        </button>
+                        {onOpenRoadmap && (
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-sm"
+                            style={{ fontSize: '0.74rem', padding: '3px 7px' }}
+                            onClick={() => onOpenRoadmap(p)}
+                            title="Interactive Roadmap"
+                          >
+                            🗺️
+                          </button>
+                        )}
+                        {onOpenCopilot && (
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-sm"
+                            style={{ fontSize: '0.74rem', padding: '3px 7px', color: 'var(--primary)' }}
+                            onClick={() => onOpenCopilot({ project_id: p.project_id, title: p.project_title, domain: p.project_domain }, `How can I make further progress on "${p.project_title}" in this stage?`)}
+                            title="Discuss in AI Copilot"
+                          >
+                            💬
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => onRemoveProject(p.project_id)}
+                          style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', padding: '2px 4px', fontSize: '0.8rem' }}
+                          title="Remove from workspace"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       ) : (
-        <div className="workspace-grid" style={{ display: 'grid', gap: '20px' }}>
-          {filteredProjects.map((p) => {
-            const isStarted = p.status === 'started' || p.status === 'in_progress';
-            const isCompleted = p.status === 'completed';
+        /* Project Cards Grid */
+        filteredProjects.length === 0 ? (
+          <div
+            className="glass-panel"
+            style={{
+              padding: '48px 24px',
+              textAlign: 'center',
+              borderRadius: '16px',
+              border: '1px dashed var(--border-highlight)'
+            }}
+          >
+            <div style={{ fontSize: '3rem', marginBottom: '14px' }}>🔍</div>
+            <h3 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>
+              No projects match this filter
+            </h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '480px', margin: '0 auto 20px' }}>
+              Switch filter tabs above or explore more projects to start.
+            </p>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => setFilterStatus('all')}
+            >
+              Show All Projects
+            </button>
+          </div>
+        ) : (
+          <div className="workspace-grid" style={{ display: 'grid', gap: '20px' }}>
+            {filteredProjects.map((p) => {
+              const isStarted = p.status === 'started' || p.status === 'in_progress';
+              const isCompleted = p.status === 'completed';
             const tasksCompleted = p.completed_tasks?.length || 0;
 
             return (
@@ -514,7 +836,7 @@ export default function UserWorkspace({
             );
           })}
         </div>
-      )}
+      ))}
     </div>
   );
 }

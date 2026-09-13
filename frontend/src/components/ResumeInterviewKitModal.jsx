@@ -14,7 +14,36 @@ export default function ResumeInterviewKitModal({
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [copiedPitch, setCopiedPitch] = useState(false);
   const [copiedAll, setCopiedAll] = useState(false);
-  const [expandedQuestion, setExpandedQuestion] = useState(0); // expand first question by default
+  const [expandedQuestion, setExpandedQuestion] = useState(0);
+  const [speakingText, setSpeakingText] = useState(null);
+
+  const handleSpeak = (text) => {
+    if (!('speechSynthesis' in window)) {
+      alert('Speech synthesis is not supported in this browser.');
+      return;
+    }
+    if (speakingText === text) {
+      window.speechSynthesis.cancel();
+      setSpeakingText(null);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+    utterance.onend = () => setSpeakingText(null);
+    utterance.onerror = () => setSpeakingText(null);
+    setSpeakingText(text);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []); // expand first question by default
 
   useEffect(() => {
     if (isOpen && project) {
@@ -130,14 +159,25 @@ export default function ResumeInterviewKitModal({
                         30-Second Recruiter Elevator Pitch
                       </strong>
                     </div>
-                    <button
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => handleCopyPitch(kitData.elevator_pitch)}
-                      style={{ fontSize: '0.76rem', padding: '4px 10px' }}
-                    >
-                      {copiedPitch ? '✓ Copied!' : '📋 Copy Pitch'}
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => handleSpeak(kitData.elevator_pitch)}
+                        style={{ fontSize: '0.76rem', padding: '4px 10px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        title="Read aloud using speech synthesis"
+                      >
+                        {speakingText === kitData.elevator_pitch ? '⏹ Stop' : '🔊 Listen'}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => handleCopyPitch(kitData.elevator_pitch)}
+                        style={{ fontSize: '0.76rem', padding: '4px 10px' }}
+                      >
+                        {copiedPitch ? '✓ Copied!' : '📋 Copy Pitch'}
+                      </button>
+                    </div>
                   </div>
                   <p style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.55, margin: 0, fontStyle: 'italic' }}>
                     "{kitData.elevator_pitch}"
@@ -283,8 +323,19 @@ export default function ResumeInterviewKitModal({
                           <div style={{ padding: '0 16px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                             {/* Model Answer */}
                             <div style={{ marginTop: '12px', marginBottom: '12px' }}>
-                              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#34d399', marginBottom: '4px' }}>
-                                ✨ Model 10/10 Answer:
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#34d399' }}>
+                                  ✨ Model 10/10 Answer:
+                                </div>
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary btn-sm"
+                                  onClick={() => handleSpeak(q.model_answer)}
+                                  style={{ fontSize: '0.72rem', padding: '2px 8px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                                  title="Read model answer aloud"
+                                >
+                                  {speakingText === q.model_answer ? '⏹ Stop Audio' : '🔊 Listen'}
+                                </button>
                               </div>
                               <p style={{ fontSize: '0.86rem', color: 'var(--text-primary)', lineHeight: 1.55, margin: 0 }}>
                                 {q.model_answer}
