@@ -25,6 +25,7 @@ import {
 import { PROFILE_PRESETS } from './data/profilePresets';
 import ChatAdvisor from './components/ChatAdvisor';
 import ProjectCopilotChat from './components/ProjectCopilotChat';
+import UnlimitedStudio from './components/UnlimitedStudio';
 
 const DEFAULT_PROFILE = {
   student_id: '',
@@ -653,7 +654,18 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: MY PROJECT WORKSPACE */}
+        {/* TAB 2: UNLIMITED STUDIO & AI ARCHITECT */}
+        {activeTab === 'studio' && (
+          <UnlimitedStudio
+            studentProfile={studentProfile}
+            onProjectSaved={handleCustomProjectSaved}
+            onOpenPrepKit={handleOpenPrepKit}
+            onOpenMockInterview={handleOpenMockInterview}
+            onIdeasGenerated={handleIdeasGenerated}
+          />
+        )}
+
+        {/* TAB 3: MY PROJECT WORKSPACE */}
         {activeTab === 'workspace' && (
           <UserWorkspace
             userProjects={userProjects}

@@ -101,8 +101,11 @@ Output ONLY a JSON object matching this exact schema:
   ]
 }}"""
 
-    models_to_try = ["llama-3.1-8b-instant"]
-    for model in models_to_try:
+    models_to_try = [settings.GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"]
+    seen = set()
+    deduped = [m for m in models_to_try if m and not (m in seen or seen.add(m))]
+
+    for model in deduped:
         try:
             completion = client.chat.completions.create(
                 model=model,
@@ -111,8 +114,8 @@ Output ONLY a JSON object matching this exact schema:
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.3,
-                max_tokens=900,
-                timeout=6.0,
+                max_tokens=850,
+                timeout=8.0,
                 response_format={"type": "json_object"}
             )
             raw = completion.choices[0].message.content.strip()
@@ -130,8 +133,157 @@ Output ONLY a JSON object matching this exact schema:
     return fallback_architect_custom_project(idea_prompt, domain, preferred_tech, timeline_weeks, profile)
 
 
+def _generate_engineering_specs(blueprint: Dict[str, Any]) -> Dict[str, Any]:
+    """Generates structured architecture diagrams, database schemas (SQL DDL), and API contracts."""
+    title = blueprint.get("title", "Applied Engineering System")
+    domain = blueprint.get("domain", "Engineering")
+    langs = blueprint.get("programming_languages", ["Python"]) or ["Python"]
+    primary_lang = langs[0] if langs else "Python"
+    frameworks = blueprint.get("frameworks", ["FastAPI"]) or ["FastAPI"]
+    primary_framework = frameworks[0] if frameworks else "FastAPI"
+    tools = blueprint.get("tools", ["Docker", "Git"]) or ["Docker", "Git"]
+    primary_tool = tools[0] if tools else "Docker"
+
+    arch = {
+        "pattern": f"Decoupled Microservice & Event-Driven {domain} Topology",
+        "diagram": f"""+-------------------------------------------------------------+
+|                     Client / Gateway Layer                  |
+|          (Web Client / Mobile App / External Consumers)     |
++------------------------------+------------------------------+
+                               | HTTPS / WSS / gRPC
+                               v
++-------------------------------------------------------------+
+|               API Gateway & Contract Guard                  |
+|       - Schema Validation Guard ({primary_lang} / Pydantic) |
+|       - JWT Authorization & Token Rate Limiter              |
++------------------------------+------------------------------+
+                               |
+            +------------------+------------------+
+            | Async Ingestion                     | High-Speed Read
+            v                                     v
++-----------------------+             +-----------------------+
+|  Worker Queue Tier    |             |  In-Memory Cache      |
+| (Redis Streams/Celery)|             |     (Redis 7.x)       |
++-----------+-----------+             +-----------+-----------+
+            |                                     |
+            v                                     v
++-------------------------------------------------------------+
+|                Core Processing & Engine Tier                |
+|       - Algorithm & Numerical Pipeline Execution            |
+|       - {primary_framework} Microservice Workers           |
++------------------------------+------------------------------+
+                               |
+                               v
++-------------------------------------------------------------+
+|                 Persistence & Storage Tier                  |
+|       - Relational Data Store: PostgreSQL 16+               |
+|       - Blob & Artifact Store: {primary_tool} Registry      |
++-------------------------------------------------------------+""",
+        "components": [
+            {
+                "name": "Ingestion & Contract Guard",
+                "role": f"Validates incoming payloads with strict type constraints using {primary_lang}.",
+                "tech": primary_framework
+            },
+            {
+                "name": "Async Task Dispatcher",
+                "role": "Offloads heavy algorithmic computation to non-blocking background workers.",
+                "tech": "Redis & Celery"
+            },
+            {
+                "name": "Core Engine & Intelligence",
+                "role": f"Processes domain-specific logic, transformations, and scoring algorithms for {title}.",
+                "tech": f"{primary_lang} + {primary_framework}"
+            },
+            {
+                "name": "Storage & State Layer",
+                "role": "Ensures transactional consistency, temporal indexing, and query speed < 25ms.",
+                "tech": "PostgreSQL 16"
+            }
+        ]
+    }
+
+    slug = "".join(c for c in title.lower() if c.isalnum())[:12] or "project"
+    db_schema = f"""-- Database Schema for {title}
+-- Primary Relational Store: PostgreSQL 16+
+
+CREATE TABLE IF NOT EXISTS {slug}_entities (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    identifier VARCHAR(128) NOT NULL UNIQUE,
+    status VARCHAR(32) NOT NULL DEFAULT 'active',
+    metadata JSONB DEFAULT '{{}}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS {slug}_events (
+    event_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    entity_id UUID REFERENCES {slug}_entities(id) ON DELETE CASCADE,
+    event_type VARCHAR(64) NOT NULL,
+    payload JSONB NOT NULL,
+    confidence_score NUMERIC(5, 4) CHECK (confidence_score >= 0.0 AND confidence_score <= 1.0),
+    latency_ms NUMERIC(8, 2) NOT NULL,
+    recorded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS {slug}_metrics (
+    metric_id BIGSERIAL PRIMARY KEY,
+    time_bucket TIMESTAMP WITH TIME ZONE NOT NULL,
+    throughput_rps INT NOT NULL DEFAULT 0,
+    p95_latency_ms NUMERIC(6, 2) NOT NULL,
+    error_rate NUMERIC(4, 3) DEFAULT 0.000
+);
+
+-- Optimized indices for sub-15ms lookups
+CREATE INDEX IF NOT EXISTS idx_{slug}_entities_status ON {slug}_entities(status);
+CREATE INDEX IF NOT EXISTS idx_{slug}_events_entity_recorded ON {slug}_events(entity_id, recorded_at DESC);
+CREATE INDEX IF NOT EXISTS idx_{slug}_metrics_bucket ON {slug}_metrics(time_bucket DESC);
+"""
+
+    api_contract = [
+        {
+            "method": "POST",
+            "endpoint": f"/api/v1/{slug}/execute",
+            "summary": f"Executes core {title} algorithm on batch or stream payload",
+            "request_payload": '{"payload_id": "string", "features": [0.1, 0.9], "metadata": {}}',
+            "response_payload": '{"status": "SUCCESS", "confidence_score": 0.9421, "latency_ms": 14.8}',
+            "status_code": 200
+        },
+        {
+            "method": "GET",
+            "endpoint": f"/api/v1/{slug}/entities/{{id}}",
+            "summary": "Retrieves entity state, historical timeline, and calculated metrics",
+            "request_payload": "None (Path parameter)",
+            "response_payload": '{"id": "uuid", "identifier": "string", "events_count": 42}',
+            "status_code": 200
+        },
+        {
+            "method": "GET",
+            "endpoint": f"/api/v1/{slug}/metrics/telemetry",
+            "summary": "Returns p95 latency, RPS, and system throughput for observability",
+            "request_payload": "Query: ?window=1h",
+            "response_payload": '{"throughput_rps": 240, "p95_latency_ms": 22.4, "error_rate": 0.001}',
+            "status_code": 200
+        },
+        {
+            "method": "POST",
+            "endpoint": f"/api/v1/{slug}/batch-process",
+            "summary": "Submits an asynchronous batch processing job to the task queue",
+            "request_payload": '{"batch_id": "string", "items": [...], "priority": "high"}',
+            "response_payload": '{"job_id": "uuid", "status": "QUEUED", "estimated_completion_sec": 4.5}',
+            "status_code": 202
+        }
+    ]
+
+    return {
+        "architecture_spec": arch,
+        "database_schema": db_schema,
+        "api_contract": api_contract
+    }
+
+
 def _enrich_blueprint_with_analysis(blueprint: Dict[str, Any], student_skills: List[str], timeline_weeks: float) -> Dict[str, Any]:
-    """Attaches skill gap analysis and weekly roadmap to the architected blueprint."""
+    """Attaches skill gap analysis, weekly roadmap, and engineering specs to the architected blueprint."""
     # Ensure project_id exists
     safe_slug = "".join(c for c in blueprint.get("title", "custom-project").lower() if c.isalnum() or c == " ").strip().replace(" ", "-")[:35]
     blueprint["project_id"] = f"custom_{safe_slug}_{uuid.uuid4().hex[:6]}"
@@ -176,6 +328,10 @@ def _enrich_blueprint_with_analysis(blueprint: Dict[str, Any], student_skills: L
     # Generate adaptive roadmap
     roadmap = RoadmapGenerator.generate_roadmap(student_skills, blueprint, timeline_weeks)
     blueprint["roadmap"] = roadmap
+
+    # Attach engineering architecture, DB schema, and API contracts
+    specs = _generate_engineering_specs(blueprint)
+    blueprint.update(specs)
 
     return blueprint
 

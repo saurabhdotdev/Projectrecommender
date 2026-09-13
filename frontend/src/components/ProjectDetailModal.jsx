@@ -30,6 +30,14 @@ export default function ProjectDetailModal({
   const [feedbackStatus, setFeedbackStatus] = useState("");
   const [feedbackNotes, setFeedbackNotes] = useState("");
 
+  // Live Blueprint Customizer State
+  const [customLang, setCustomLang] = useState('Python');
+  const [customFramework, setCustomFramework] = useState('FastAPI');
+  const [customDb, setCustomDb] = useState('PostgreSQL 16');
+  const [customArchTopology, setCustomArchTopology] = useState('Decoupled Microservices');
+  const [customAddons, setCustomAddons] = useState(['auth', 'docker', 'testing']);
+  const [customizationSuccess, setCustomizationSuccess] = useState(false);
+
   useEffect(() => {
     setDetailedProject(project);
     if (project?.project_id && (!project.programming_languages || project.programming_languages.length === 0)) {
@@ -39,9 +47,24 @@ export default function ProjectDetailModal({
         })
         .catch(err => console.error("Error hydrating project details:", err));
     }
+    setCustomizationSuccess(false);
   }, [project]);
 
   const currentProject = detailedProject || project || {};
+
+  const handleApplyModalCustomization = () => {
+    const updated = {
+      ...currentProject,
+      programming_languages: [customLang],
+      frameworks: [customFramework],
+      tools: Array.from(new Set([...displayTools, customDb.split(' ')[0], ...(customAddons.includes('docker') ? ['Docker'] : [])])),
+      customized_topology: customArchTopology,
+      customized_db: customDb,
+      customized_addons: customAddons
+    };
+    setDetailedProject(updated);
+    setCustomizationSuccess(true);
+  };
 
   // Smart Fallbacks for Tech Stack & Engineering Specs
   const KNOWN_LANGS = ['Python', 'JavaScript', 'TypeScript', 'C++', 'C', 'Java', 'Rust', 'Go', 'SQL', 'R', 'Kotlin', 'Swift', 'Solidity', 'Bash', 'HTML', 'CSS'];
@@ -341,39 +364,60 @@ export default function ProjectDetailModal({
         </div>
 
         {/* Modal Navigation Tabs */}
-        <div style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', padding: '0 24px', background: 'var(--bg-card)' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', padding: '0 24px', background: 'var(--bg-card)', overflowX: 'auto', flexWrap: 'nowrap' }}>
           <button
             className={`nav-tab-btn ${activeModalTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveModalTab('overview')}
-            style={{ borderRadius: 0, borderBottom: activeModalTab === 'overview' ? '2px solid var(--primary)' : 'none' }}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'overview' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
           >
             📋 Overview & Stack
           </button>
           <button
+            className={`nav-tab-btn ${activeModalTab === 'architecture' ? 'active' : ''}`}
+            onClick={() => setActiveModalTab('architecture')}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'architecture' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
+          >
+            🏛️ Architecture & Topology
+          </button>
+          <button
+            className={`nav-tab-btn ${activeModalTab === 'contracts' ? 'active' : ''}`}
+            onClick={() => setActiveModalTab('contracts')}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'contracts' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
+          >
+            🗄️ Database & API Specs
+          </button>
+          <button
+            className={`nav-tab-btn ${activeModalTab === 'customize' ? 'active' : ''}`}
+            onClick={() => setActiveModalTab('customize')}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'customize' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap', color: 'var(--primary)' }}
+          >
+            🛠️ Customize & Fork
+          </button>
+          <button
             className={`nav-tab-btn ${activeModalTab === 'aipitch' ? 'active' : ''}`}
             onClick={() => setActiveModalTab('aipitch')}
-            style={{ borderRadius: 0, borderBottom: activeModalTab === 'aipitch' ? '2px solid var(--primary)' : 'none', color: activeModalTab === 'aipitch' ? 'var(--primary)' : 'inherit' }}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'aipitch' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
           >
-            ✨ AI Career Pitch & Prep
+            ✨ Career Pitch & Prep
           </button>
           <button
             className={`nav-tab-btn ${activeModalTab === 'skillgap' ? 'active' : ''}`}
             onClick={() => setActiveModalTab('skillgap')}
-            style={{ borderRadius: 0, borderBottom: activeModalTab === 'skillgap' ? '2px solid var(--primary)' : 'none' }}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'skillgap' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
           >
-            ⚡ Skill Gaps & Readiness
+            ⚡ Skill Gaps
           </button>
           <button
             className={`nav-tab-btn ${activeModalTab === 'roadmap' ? 'active' : ''}`}
             onClick={() => setActiveModalTab('roadmap')}
-            style={{ borderRadius: 0, borderBottom: activeModalTab === 'roadmap' ? '2px solid var(--primary)' : 'none' }}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'roadmap' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
           >
-            🗺️ Weekly Roadmap
+            🗺️ Sprint Roadmap
           </button>
           <button
             className={`nav-tab-btn ${activeModalTab === 'feedback' ? 'active' : ''}`}
             onClick={() => setActiveModalTab('feedback')}
-            style={{ borderRadius: 0, borderBottom: activeModalTab === 'feedback' ? '2px solid var(--primary)' : 'none' }}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'feedback' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
           >
             ⭐ Log Interaction
           </button>
@@ -489,7 +533,374 @@ export default function ProjectDetailModal({
             </div>
           )}
 
-          {/* TAB 2: AI CAREER PITCH & INTERVIEW PREP */}
+          {/* TAB 2: SYSTEM ARCHITECTURE & TOPOLOGY */}
+          {activeModalTab === 'architecture' && (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+                <div>
+                  <h4 style={{ fontSize: '1rem', color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
+                    🏛️ Decoupled System Architecture & Topology
+                  </h4>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    High-performance microservice boundary design for {currentProject.title}
+                  </span>
+                </div>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => {
+                    const code = currentProject.architecture_spec?.diagram || `+-------------------------------------------------------------+
+|                      Client Layer                           |
+|       (React / Vite Web UI / Mobile App / REST API Client)  |
++------------------------------+------------------------------+
+                               | HTTPS / WSS / gRPC
+                               v
++-------------------------------------------------------------+
+|               API Gateway & Ingress Tier                    |
+|       - Schema Validation Guard (${displayLanguages[0]} / Pydantic) |
+|       - JWT Authentication & Rate Limiter                   |
++------------------------------+------------------------------+
+                               |
+            +------------------+------------------+
+            | Async Ingestion                     | High-Speed Cache
+            v                                     v
++-----------------------+             +-----------------------+
+|  Worker Queue Tier    |             |  In-Memory State Store|
+| (Redis Streams/Celery)|             |     (Redis 7.x)       |
++-----------+-----------+             +-----------+-----------+
+            |                                     |
+            v                                     v
++-------------------------------------------------------------+
+|                Core Processing & Engine Tier                |
+|       - Domain Logic & Computational Algorithm              |
+|       - ${displayFrameworks[0]} Service Workers             |
++------------------------------+------------------------------+
+                               |
+                               v
++-------------------------------------------------------------+
+|                 Persistence & Storage Tier                  |
+|       - Relational Data Store: ${currentProject.customized_db || 'PostgreSQL 16'} |
+|       - Artifact & Model Checkpoints: Object Storage        |
++-------------------------------------------------------------+`;
+                    navigator.clipboard.writeText(code);
+                  }}
+                >
+                  📋 Copy Architecture
+                </button>
+              </div>
+
+              {/* Architecture Diagram */}
+              <div className="copilot-code-block" style={{ margin: '0 0 16px 0' }}>
+                <div className="copilot-code-header">
+                  <span>{currentProject.customized_topology || currentProject.architecture_spec?.pattern || 'Decoupled Microservice Topology'}</span>
+                </div>
+                <pre><code>{currentProject.architecture_spec?.diagram || `+-------------------------------------------------------------+
+|                      Client Layer                           |
+|       (React / Vite Web UI / Mobile App / REST API Client)  |
++------------------------------+------------------------------+
+                               | HTTPS / WSS / gRPC
+                               v
++-------------------------------------------------------------+
+|               API Gateway & Ingress Tier                    |
+|       - Schema Validation Guard (${displayLanguages[0]} / Pydantic) |
+|       - JWT Authentication & Rate Limiter                   |
++------------------------------+------------------------------+
+                               |
+            +------------------+------------------+
+            | Async Ingestion                     | High-Speed Cache
+            v                                     v
++-----------------------+             +-----------------------+
+|  Worker Queue Tier    |             |  In-Memory State Store|
+| (Redis Streams/Celery)|             |     (Redis 7.x)       |
++-----------+-----------+             +-----------+-----------+
+            |                                     |
+            v                                     v
++-------------------------------------------------------------+
+|                Core Processing & Engine Tier                |
+|       - Domain Logic & Computational Algorithm              |
+|       - ${displayFrameworks[0]} Service Workers             |
++------------------------------+------------------------------+
+                               |
+                               v
++-------------------------------------------------------------+
+|                 Persistence & Storage Tier                  |
+|       - Relational Data Store: ${currentProject.customized_db || 'PostgreSQL 16'} |
+|       - Artifact & Model Checkpoints: Object Storage        |
++-------------------------------------------------------------+`}</code></pre>
+              </div>
+
+              {/* Component Responsibilities */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px', marginBottom: '16px' }}>
+                {(currentProject.architecture_spec?.components || [
+                  { name: '1. Ingestion Guard', tech: displayFrameworks[0] || 'FastAPI', role: 'Strict runtime Pydantic schema validation & sanitization.' },
+                  { name: '2. Async Queue', tech: 'Redis Streams / Celery', role: 'Decouples high-volume incoming requests from compute workers.' },
+                  { name: '3. Engine Service', tech: displayLanguages[0] || 'Python', role: `Executes core algorithms for ${currentProject.title}.` },
+                  { name: '4. State Store', tech: currentProject.customized_db || 'PostgreSQL 16', role: 'Guarantees sub-20ms queries with indexed temporal partitions.' }
+                ]).map((comp, idx) => (
+                  <div key={idx} className="studio-component-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{comp.name}</strong>
+                      <span className="badge badge-sm badge-primary">{comp.tech}</span>
+                    </div>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{comp.role}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* System Trade-Offs & Bottlenecks Analysis */}
+              <div style={{ background: 'var(--bg-input)', padding: '14px 18px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <strong style={{ fontSize: '0.82rem', color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>
+                  ⚖️ Engineering Trade-Off Analysis:
+                </strong>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                  Decoupled asynchronous worker queue increases operational complexity slightly, but prevents HTTP connection timeouts and guarantees sub-50ms p95 response time under burst traffic.
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: DATABASE SCHEMAS & API CONTRACTS */}
+          {activeModalTab === 'contracts' && (
+            <div>
+              {/* Relational Database DDL */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', margin: 0 }}>
+                    🗄️ Relational Database Schema (SQL DDL)
+                  </h4>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    style={{ padding: '3px 8px', fontSize: '0.72rem' }}
+                    onClick={() => {
+                      const slug = (currentProject.title || 'project').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12);
+                      const schema = currentProject.database_schema || `-- PostgreSQL 16+ Production Schema for ${currentProject.title}
+CREATE TABLE IF NOT EXISTS ${slug}_records (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    identifier VARCHAR(128) NOT NULL UNIQUE,
+    status VARCHAR(32) NOT NULL DEFAULT 'active',
+    metadata JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS ${slug}_events (
+    event_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    record_id UUID REFERENCES ${slug}_records(id) ON DELETE CASCADE,
+    event_type VARCHAR(64) NOT NULL,
+    payload JSONB NOT NULL,
+    confidence_score NUMERIC(5, 4),
+    latency_ms NUMERIC(8, 2) NOT NULL,
+    recorded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_${slug}_status ON ${slug}_records(status);
+CREATE INDEX IF NOT EXISTS idx_${slug}_recorded ON ${slug}_events(record_id, recorded_at DESC);`;
+                      navigator.clipboard.writeText(schema);
+                    }}
+                  >
+                    📋 Copy DDL
+                  </button>
+                </div>
+                <div className="copilot-code-block" style={{ margin: 0, maxHeight: '200px', overflowY: 'auto' }}>
+                  <pre><code>{currentProject.database_schema || (() => {
+                    const slug = (currentProject.title || 'project').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12);
+                    return `-- PostgreSQL 16+ Production Schema for ${currentProject.title}
+CREATE TABLE IF NOT EXISTS ${slug}_records (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    identifier VARCHAR(128) NOT NULL UNIQUE,
+    status VARCHAR(32) NOT NULL DEFAULT 'active',
+    metadata JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS ${slug}_events (
+    event_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    record_id UUID REFERENCES ${slug}_records(id) ON DELETE CASCADE,
+    event_type VARCHAR(64) NOT NULL,
+    payload JSONB NOT NULL,
+    confidence_score NUMERIC(5, 4),
+    latency_ms NUMERIC(8, 2) NOT NULL,
+    recorded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_${slug}_status ON ${slug}_records(status);
+CREATE INDEX IF NOT EXISTS idx_${slug}_recorded ON ${slug}_events(record_id, recorded_at DESC);`;
+                  })()}</code></pre>
+                </div>
+              </div>
+
+              {/* REST API Contract */}
+              <div>
+                <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', margin: '0 0 10px 0' }}>
+                  🔌 REST / gRPC API Specifications Contract
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {(currentProject.api_contract || [
+                    { method: 'POST', endpoint: `/api/v1/${(currentProject.title || 'project').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10)}/execute`, summary: `Execute core algorithm on stream payload`, status_code: 200 },
+                    { method: 'GET', endpoint: `/api/v1/${(currentProject.title || 'project').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10)}/records/{id}`, summary: 'Fetch entity state & calculated telemetry', status_code: 200 },
+                    { method: 'GET', endpoint: `/api/v1/${(currentProject.title || 'project').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10)}/metrics/live`, summary: 'Prometheus live throughput & p95 latency', status_code: 200 },
+                    { method: 'POST', endpoint: `/api/v1/${(currentProject.title || 'project').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10)}/batch`, summary: 'Submit background asynchronous batch task', status_code: 202 }
+                  ]).map((api, idx) => (
+                    <div key={idx} className="studio-api-card">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <span className={`badge ${api.method === 'POST' ? 'badge-primary' : 'badge-secondary'}`} style={{ fontWeight: 700 }}>
+                          {api.method}
+                        </span>
+                        <code style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                          {api.endpoint}
+                        </code>
+                        <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          Status: {api.status_code}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>{api.summary}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: LIVE CUSTOMIZER & FORK WORKBENCH */}
+          {activeModalTab === 'customize' && (
+            <div>
+              <div style={{ marginBottom: '16px' }}>
+                <h4 style={{ fontSize: '1rem', color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
+                  🛠️ Live Blueprint Customizer & Architecture Forker
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.84rem', margin: 0 }}>
+                  Tailor this project to your desired programming language, backend framework, database, and enterprise features.
+                </p>
+              </div>
+
+              {customizationSuccess && (
+                <div className="studio-status-banner success" style={{ marginBottom: '16px' }}>
+                  <span>✨ Blueprint customized successfully! Tech stack, architecture, and database contracts updated.</span>
+                </div>
+              )}
+
+              {/* Language Selector */}
+              <div style={{ marginBottom: '14px' }}>
+                <label className="form-label">Primary Programming Language</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {['Python', 'TypeScript', 'Go', 'Rust', 'Java', 'C++', 'C#'].map(lang => (
+                    <button
+                      key={lang}
+                      type="button"
+                      className={`studio-tech-chip ${customLang === lang ? 'active' : ''}`}
+                      onClick={() => { setCustomLang(lang); setCustomizationSuccess(false); }}
+                    >
+                      {customLang === lang ? `✓ ${lang}` : lang}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Framework Selector */}
+              <div style={{ marginBottom: '14px' }}>
+                <label className="form-label">Backend / Application Framework</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {['FastAPI', 'Next.js', 'Django', 'Spring Boot', 'Gin (Go)', 'Actix (Rust)', 'Express'].map(fw => (
+                    <button
+                      key={fw}
+                      type="button"
+                      className={`studio-tech-chip ${customFramework === fw ? 'active' : ''}`}
+                      onClick={() => { setCustomFramework(fw); setCustomizationSuccess(false); }}
+                    >
+                      {customFramework === fw ? `✓ ${fw}` : fw}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Database Selector */}
+              <div style={{ marginBottom: '14px' }}>
+                <label className="form-label">Primary Database & Storage Tier</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {['PostgreSQL 16', 'MongoDB', 'Redis', 'Pinecone Vector DB', 'SQLite'].map(db => (
+                    <button
+                      key={db}
+                      type="button"
+                      className={`studio-tech-chip ${customDb === db ? 'active' : ''}`}
+                      onClick={() => { setCustomDb(db); setCustomizationSuccess(false); }}
+                    >
+                      {customDb === db ? `✓ ${db}` : db}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Architecture Topology */}
+              <div style={{ marginBottom: '14px' }}>
+                <label className="form-label">Architecture Topology</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
+                  {['Decoupled Microservices', 'Event-Driven Streaming', 'Clean Hexagonal Monolith', 'Serverless Functions'].map(top => (
+                    <button
+                      key={top}
+                      type="button"
+                      className={`studio-arch-btn ${customArchTopology === top ? 'active' : ''}`}
+                      onClick={() => { setCustomArchTopology(top); setCustomizationSuccess(false); }}
+                    >
+                      <span>{top.includes('Micro') ? '🧩' : top.includes('Stream') ? '⚡' : top.includes('Hex') ? '🏛️' : '☁️'}</span>
+                      <span>{top}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Enterprise Add-ons */}
+              <div style={{ marginBottom: '20px' }}>
+                <label className="form-label">Production Add-ons</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '6px' }}>
+                  {[
+                    { id: 'auth', label: 'JWT Auth & RBAC', icon: '🔐' },
+                    { id: 'payments', label: 'Stripe Payments', icon: '💳' },
+                    { id: 'websockets', label: 'Real-Time WebSockets', icon: '⚡' },
+                    { id: 'rag', label: 'RAG & Vector Search', icon: '🧠' },
+                    { id: 'docker', label: 'Docker Multi-stage', icon: '🐳' },
+                    { id: 'testing', label: 'Pytest Suite (>90%)', icon: '🧪' }
+                  ].map(addon => (
+                    <button
+                      key={addon.id}
+                      type="button"
+                      className={`studio-addon-btn ${customAddons.includes(addon.id) ? 'active' : ''}`}
+                      onClick={() => {
+                        setCustomAddons(prev => prev.includes(addon.id) ? prev.filter(x => x !== addon.id) : [...prev, addon.id]);
+                        setCustomizationSuccess(false);
+                      }}
+                    >
+                      <span>{addon.icon}</span>
+                      <span>{addon.label}</span>
+                      <span style={{ marginLeft: 'auto', opacity: customAddons.includes(addon.id) ? 1 : 0.3 }}>
+                        {customAddons.includes(addon.id) ? '✓' : '+'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Apply Button */}
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  className="btn btn-primary"
+                  style={{ flex: 1, padding: '11px', fontSize: '0.92rem' }}
+                  onClick={handleApplyModalCustomization}
+                >
+                  ⚡ Apply Customization to Blueprint
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    handleApplyModalCustomization();
+                    handleSendFeedback('started');
+                  }}
+                  title="Apply customizations and add to My Workspace"
+                >
+                  🚀 Save Fork to Workspace
+                </button>
+              </div>
+            </div>
+          )}
           {activeModalTab === 'aipitch' && (
             <div>
               {loadingPitch ? (

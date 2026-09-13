@@ -39,6 +39,14 @@ export default function Navbar({
             🎯 Project Advisor
           </button>
           <button
+            id="nav-tab-studio"
+            className={`nav-tab-btn ${activeTab === 'studio' ? 'active' : ''}`}
+            onClick={() => setActiveTab('studio')}
+            title="Architect custom project blueprints & synthesize unlimited ideas"
+          >
+            🛠️ Custom Studio
+          </button>
+          <button
             id="nav-tab-workspace"
             className={`nav-tab-btn ${activeTab === 'workspace' ? 'active' : ''}`}
             onClick={() => setActiveTab('workspace')}
@@ -203,6 +211,14 @@ export default function Navbar({
         >
           <span className="mobile-nav-icon">🎯</span>
           <span className="mobile-nav-label">Advisor</span>
+        </button>
+
+        <button
+          className={`mobile-nav-btn ${activeTab === 'studio' ? 'active' : ''}`}
+          onClick={() => setActiveTab('studio')}
+        >
+          <span className="mobile-nav-icon">🛠️</span>
+          <span className="mobile-nav-label">Studio</span>
         </button>
 
         <button

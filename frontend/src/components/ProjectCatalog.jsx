@@ -159,6 +159,57 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
         </div>
       )}
 
+      {/* 1-Click Instant Domain Generator Strip */}
+      <div className="studio-batch-pills" style={{ marginBottom: '16px' }}>
+        <span style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          ⚡ 1-Click Unlimited Batch Synthesizers (Auto-appends to Library):
+        </span>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '6px' }}>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('Cutting-edge Generative AI & Autonomous LLM Agents')}
+          >
+            🤖 +3 GenAI & LLMs
+          </button>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('High-Throughput Distributed Cloud & Event Streaming')}
+          >
+            ⚡ +3 Distributed Systems
+          </button>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('Zero-Trust Cybersecurity & Kernel Threat Detection')}
+          >
+            🔒 +3 CyberSec
+          </button>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('Autonomous Quadcopter & Edge Robotics SLAM')}
+          >
+            🚗 +3 Robotics
+          </button>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('Ultra-Low Latency FinTech & Algorithmic Trading')}
+          >
+            📈 +3 FinTech & Quant
+          </button>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('Real-Time Computer Vision & Edge AI Analytics')}
+          >
+            👁️ +3 Computer Vision
+          </button>
+        </div>
+      </div>
+
       {/* Filter Bar */}
       <div className="glass-panel" style={{ padding: '16px', marginBottom: '24px', display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
         <input
