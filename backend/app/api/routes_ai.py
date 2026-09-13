@@ -10,7 +10,8 @@ from ..services.groq_service import (
     generate_project_ai_insights,
     generate_resume_interview_kit,
     evaluate_mock_interview_answer,
-    generate_mock_interview_summary
+    generate_mock_interview_summary,
+    chat_project_copilot
 )
 
 router = APIRouter(prefix="", tags=["AI & Advisor"])
@@ -204,3 +205,33 @@ def post_mock_interview_summary(req: MockInterviewSummaryRequest):
     """
     evals = [e.model_dump() for e in req.evaluations]
     return generate_mock_interview_summary(req.project_title, evals)
+
+
+# ── Project Copilot Chat ────────────────────────────────────────────────────
+
+class ProjectCopilotRequest(BaseModel):
+    messages: List[ChatMessageItem]
+    project_context: Optional[Dict[str, Any]] = Field(default=None)
+    student_profile: Optional[Dict[str, Any]] = Field(default=None)
+
+class ProjectCopilotResponse(BaseModel):
+    reply: str
+    suggested_chips: List[str] = Field(default_factory=list)
+    code_snippets: List[str] = Field(default_factory=list)
+    model_used: Optional[str] = ""
+
+@router.post("/ai/project-copilot", response_model=ProjectCopilotResponse)
+def post_project_copilot(req: ProjectCopilotRequest):
+    """
+    Interactive Project Engineering Copilot for the dedicated chat section.
+    Provides architecture guidance, implementation code, debugging help,
+    testing strategies, and interview prep tailored to the student's project.
+    """
+    history = [m.model_dump() for m in req.messages]
+    res = chat_project_copilot(
+        messages=history,
+        project_context=req.project_context,
+        student_profile=req.student_profile
+    )
+    return res
+

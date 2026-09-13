@@ -974,3 +974,339 @@ def fallback_interview_summary(
     }
 
 
+def chat_project_copilot(
+    messages: List[Dict[str, str]],
+    project_context: Optional[Dict[str, Any]] = None,
+    student_profile: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
+    """
+    Interactive Project Engineering Copilot.
+    Provides practical system architecture, implementation code, debugging,
+    testing strategies, and interview talking points tailored to the project.
+    """
+    client = get_groq_client()
+    if not client:
+        return fallback_project_copilot(messages, project_context, student_profile)
+
+    context_str = ""
+    if project_context:
+        langs = ", ".join(project_context.get("programming_languages", []) or ["Python"])
+        frameworks = ", ".join(project_context.get("frameworks", []) or ["FastAPI"])
+        tools = ", ".join(project_context.get("tools", []) or ["Docker", "Git"])
+        skills = ", ".join(project_context.get("required_skills", []) or [])
+        context_str = f"""
+TARGET PROJECT CONTEXT:
+- Title: {project_context.get('title', 'Applied Engineering System')}
+- Domain / Subdomain: {project_context.get('domain', 'Engineering')} / {project_context.get('subdomain', 'General')}
+- Description: {project_context.get('description', '')}
+- Difficulty: {project_context.get('difficulty', 'Intermediate')} | Duration: {project_context.get('estimated_duration', 4)} weeks
+- Tech Stack: Languages: [{langs}] | Frameworks: [{frameworks}] | Tools: [{tools}]
+- Required Skills: [{skills}]
+- Dataset / Benchmark: {project_context.get('dataset_source', 'Verified open-access benchmark')}
+"""
+    else:
+        context_str = "GENERAL CONTEXT: Student is seeking technical guidance on novel project ideas, architecture selection, tech stacks, or engineering implementation."
+
+    student_str = ""
+    if student_profile:
+        st_skills = ", ".join(student_profile.get("skills", []) or [])
+        student_str = f"""
+STUDENT PROFILE:
+- Current Skills: [{st_skills}]
+- Degree & Year: {student_profile.get('degree', 'Engineering')} ({student_profile.get('year', 'Student')})
+- Career Goal: {student_profile.get('career_goal', 'Software / AI Engineer')}
+"""
+
+    system_prompt = f"""You are ProjectForge AI Copilot — a Staff Software Engineer and Senior Technical Mentor pair-programming with an ambitious student.
+{context_str}
+{student_str}
+
+YOUR RESPONSIBILITIES:
+1. Provide actionable, high-quality, practical technical guidance.
+2. When asked for code, write clean, production-ready, copy-pasteable code with type annotations, docstrings, and error handling.
+3. When asked about architecture, outline the decoupled component boundaries, data ingestion, processing, and storage/API layers.
+4. Help debug common traps, explain complex algorithmic concepts simply, and advise on unit tests and benchmarks.
+5. Provide quantifiable metrics for resume articulation and technical interview preparation when asked.
+6. Keep tone encouraging, authoritative, crisp, and pedagogical (like a Staff Engineer pair-programming with a talented junior).
+
+Respond ONLY with a valid JSON object matching this structure:
+{{
+  "reply": "Rich markdown response with headers, bold text, bullet points, and code blocks (```python ... ```)",
+  "suggested_chips": ["Follow-up chip 1", "Follow-up chip 2", "Follow-up chip 3"]
+}}
+"""
+
+    api_messages = [{"role": "system", "content": system_prompt}]
+    for m in messages[-10:]:
+        api_messages.append({"role": m.get("role", "user"), "content": m.get("content", "")})
+
+    models_to_try = [settings.GROQ_MODEL, "qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"]
+    seen_models = set()
+    deduped_models = []
+    for m in models_to_try:
+        if m and m not in seen_models:
+            seen_models.add(m)
+            deduped_models.append(m)
+
+    for model in deduped_models:
+        try:
+            completion = client.chat.completions.create(
+                model=model,
+                messages=api_messages,
+                temperature=0.3,
+                max_tokens=850,
+                response_format={"type": "json_object"}
+            )
+            raw = completion.choices[0].message.content.strip()
+            if raw.startswith("```"):
+                raw = raw.split("```")[1]
+                if raw.startswith("json"):
+                    raw = raw[4:]
+            parsed = json.loads(raw)
+            return {
+                "reply": parsed.get("reply", "Here is the technical architectural breakdown for your project."),
+                "suggested_chips": parsed.get("suggested_chips", ["Show Starter Implementation", "Suggest Unit Tests", "Resume STAR Bullets"]),
+                "code_snippets": [],
+                "model_used": model
+            }
+        except Exception as e:
+            logger.warning(f"Groq copilot model {model} failed: {e}")
+            # Try to recover text if model generated JSON that got cut off
+            err_body = getattr(e, "body", None)
+            if isinstance(err_body, dict):
+                fg = err_body.get("error", {}).get("failed_generation", "")
+                if fg and '"reply":' in fg:
+                    try:
+                        recovered = fg.split('"reply":', 1)[1].strip()
+                        if recovered.startswith('"'):
+                            recovered = recovered[1:]
+                        # Unescape
+                        clean_reply = recovered.replace('\\n', '\n').replace('\\"', '"').replace('\\t', '\t').rstrip('",}\n ')
+                        return {
+                            "reply": clean_reply,
+                            "suggested_chips": ["⚡ Starter Implementation", "🧪 Suggest Unit Tests", "📄 Draft STAR Resume Bullets"],
+                            "code_snippets": [],
+                            "model_used": f"{model}-recovered"
+                        }
+                    except Exception:
+                        pass
+            continue
+
+    return fallback_project_copilot(messages, project_context, student_profile)
+
+
+def fallback_project_copilot(
+    messages: List[Dict[str, str]],
+    project_context: Optional[Dict[str, Any]] = None,
+    student_profile: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
+    """
+    Intelligent local engineering advisor fallback when external LLM is offline.
+    Provides structured technical architecture, implementation boilerplate, and guidance.
+    """
+    last_msg = (messages[-1].get("content", "") if messages else "").lower()
+    
+    title = project_context.get("title", "Engineering Project") if project_context else "Your Engineering Project"
+    domain = project_context.get("domain", "Applied Software Engineering") if project_context else "Software Engineering"
+    langs = project_context.get("programming_languages", ["Python"]) if project_context else ["Python"]
+    frameworks = project_context.get("frameworks", ["FastAPI"]) if project_context else ["FastAPI"]
+    tools = project_context.get("tools", ["Docker", "Git"]) if project_context else ["Docker", "Git"]
+    primary_lang = langs[0] if langs else "Python"
+    primary_framework = frameworks[0] if frameworks else "FastAPI"
+
+    if any(w in last_msg for w in ["architect", "system design", "component", "diagram", "data flow", "structure"]):
+        reply = f"""### 🏗️ System Architecture & Component Design: {title}
+
+Here is the decoupled, production-grade architectural blueprint for **{title}**:
+
+#### 1. Ingestion & Preprocessing Tier
+- **Input Pipeline**: Accepts raw streams or batch data payload via asynchronous REST/gRPC endpoints.
+- **Validation Guard**: Strict runtime schema validation using Pydantic / Zod to reject malformed payloads before inference.
+- **Normalization Engine**: Deduplication, missing-value imputation, and vectorization pipelines.
+
+#### 2. Core Processing & Engine Tier
+- **Worker Pipeline**: Modular execution service powered by `{primary_lang}` and `{primary_framework}`.
+- **State & Cache**: Redis in-memory cache layer to reduce redundant computations and maintain sub-50ms query latency.
+- **Persistence Layer**: Relational/Vector storage with partitioned indices for fast analytical lookups.
+
+#### 3. Verification & Observability
+- **Health & Metrics**: Prometheus instrumentation tracking inference latency (p95/p99) and error rates.
+- **Containerization**: Standardized multi-stage `Dockerfile` with minimal attack surface.
+
+```
+[Client / API Gateway] ──► [Input Schema Guard] ──► [Async Task Queue]
+                                                           │
+                                                           ▼
+[Persistence Store] ◄── [Metrics & Cache] ◄── [Core Processing Engine]
+```
+"""
+        chips = ["⚡ Show Starter Boilerplate", "🧪 Suggest Unit Tests", "📄 Draft STAR Resume Bullets", "🐛 Debug Common Edge Cases"]
+
+    elif any(w in last_msg for w in ["code", "starter", "boilerplate", "implementation", "build", "script", "snippet"]):
+        reply = f"""### ⚡ Starter Implementation Boilerplate: {title}
+
+Here is the clean, modular starter implementation using **{primary_lang}** and **{primary_framework}**:
+
+```python
+# src/main.py — Core Service Implementation
+import time
+import logging
+from typing import Dict, Any, List
+from fastapi import FastAPI, HTTPException, status
+from pydantic import BaseModel, Field
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("{title.lower().replace(' ', '_')[:25]}")
+
+app = FastAPI(
+    title="{title}",
+    description="Production-grade API for {title}",
+    version="1.0.0"
+)
+
+class PipelineInput(BaseModel):
+    payload_id: str = Field(..., description="Unique transaction or sample identifier")
+    features: List[float] = Field(..., description="Normalized feature vector")
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+class PipelineOutput(BaseModel):
+    payload_id: str
+    status: str
+    confidence_score: float
+    latency_ms: float
+
+@app.post("/api/v1/execute", response_model=PipelineOutput, status_code=status.HTTP_200_OK)
+async def execute_pipeline(data: PipelineInput):
+    start_time = time.perf_counter()
+    logger.info(f"Processing payload {{data.payload_id}} with {{len(data.features)}} features")
+    
+    try:
+        # Core Algorithm / Model Execution
+        if not data.features:
+            raise HTTPException(status_code=400, detail="Feature vector cannot be empty.")
+            
+        score = sum(data.features) / max(len(data.features), 1)
+        latency = (time.perf_counter() - start_time) * 1000
+        
+        return PipelineOutput(
+            payload_id=data.payload_id,
+            status="SUCCESS",
+            confidence_score=round(min(1.0, max(0.0, score)), 4),
+            latency_ms=round(latency, 2)
+        )
+    except Exception as e:
+        logger.error(f"Pipeline error: {{e}}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/healthz")
+def healthcheck():
+    return {{"status": "healthy", "service": "{title}", "timestamp": time.time()}}
+```
+
+#### Run Instructions:
+```bash
+pip install -r requirements.txt
+uvicorn src.main:app --reload --port 8000
+```
+"""
+        chips = ["🧪 How to write unit tests for this", "🐛 Common bugs & performance traps", "📦 Dockerfile configuration", "📈 Resume Impact Bullets"]
+
+    elif any(w in last_msg for w in ["test", "verify", "benchmark", "locust", "pytest", "unit test"]):
+        reply = f"""### 🧪 Automated Verification & Benchmarking Suite: {title}
+
+Ensuring your project has a comprehensive test suite is what differentiates junior hobby projects from senior engineering candidates.
+
+#### 1. Unit Test Suite (`tests/test_pipeline.py`):
+```python
+import pytest
+from fastapi.testclient import TestClient
+from src.main import app
+
+client = TestClient(app)
+
+def test_healthcheck():
+    response = client.get("/healthz")
+    assert response.status_code == 200
+    assert response.json()["status"] == "healthy"
+
+def test_execute_pipeline_valid():
+    payload = {{
+        "payload_id": "sample-001",
+        "features": [0.45, 0.82, 0.19, 0.91]
+    }}
+    response = client.post("/api/v1/execute", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "SUCCESS"
+    assert "latency_ms" in data
+    assert 0.0 <= data["confidence_score"] <= 1.0
+
+def test_execute_pipeline_empty_features():
+    response = client.post("/api/v1/execute", json={{"payload_id": "bad", "features": []}})
+    assert response.status_code == 400
+```
+
+#### 2. Run Commands:
+```bash
+# Run pytest with code coverage
+pytest --cov=src tests/ -v
+```
+"""
+        chips = ["⚡ Show Starter Implementation", "🎙️ Technical Interview Questions", "📄 Draft STAR Resume Bullets", "🏗️ System Architecture"]
+
+    elif any(w in last_msg for w in ["resume", "star", "bullet", "cv", "linkedin"]):
+        reply = f"""### 📄 STAR Resume Bullet Points: {title}
+
+Use these high-impact, quantifiable bullet points crafted in the **Google/Amazon STAR framework** (*Situation, Task, Action, Result*):
+
+- **Architected & Deployed {title}**: Engineered a modular `{domain}` processing pipeline using `{primary_lang}`, `{primary_framework}`, and `{tools[0] if tools else 'Docker'}`, delivering sub-65ms end-to-end latency under simulated concurrency.
+- **Engineered Automated Quality Contracts**: Built strict schema validation boundaries and a comprehensive pytest suite achieving >90% test coverage with automated CI/CD integration.
+- **Empirical Performance Benchmarking**: Validated algorithm reliability across heterogeneous benchmarks, resulting in a **15% boost in throughput** and eliminating memory leaks during streaming workloads.
+
+> **Pro Tip**: In interviews, emphasize the *trade-offs* you made (e.g. why you chose `{primary_framework}` over alternatives).
+"""
+        chips = ["🎙️ Practice Interview Questions", "⚡ Show Starter Boilerplate", "🏗️ System Architecture", "🐛 Common Edge Cases"]
+
+    elif any(w in last_msg for w in ["interview", "questions", "mock", "talking point", "q&a"]):
+        reply = f"""### 🎙️ Senior Engineering Interview Talking Points: {title}
+
+When interviewers grill you on **{title}**, they will test system boundaries:
+
+#### 1. System Scalability & Bottlenecks
+- **Question**: *"If input traffic spikes by 100x overnight, where does your service break first?"*
+- **Model Answer**: *"The bottleneck would occur at the synchronous compute pipeline. To resolve this, I would decouple the ingestion endpoint using an event broker like Kafka or RabbitMQ, allowing worker pools to autoscale horizontally while returning immediate 202 Accepted receipts."*
+
+#### 2. Trade-Off Articulation
+- **Question**: *"Why did you choose {primary_framework} instead of a lightweight microframework?"*
+- **Model Answer**: *"I traded slight framework footprint for native async support, automatic OpenAPI contract generation, and built-in type safety via Pydantic, which significantly reduced payload validation bugs."*
+
+#### 3. Error Recovery & Resilience
+- **Question**: *"How does the system handle corrupted or partially missing data payloads?"*
+- **Model Answer**: *"We implement strict boundary validation. Invalid payloads are routed to a Dead-Letter Queue (DLQ) with structured error telemetry rather than throwing unhandled exceptions."*
+"""
+        chips = ["📄 Draft STAR Resume Bullets", "⚡ Show Starter Boilerplate", "🧪 Automated Tests Guide", "🏗️ System Architecture"]
+
+    else:
+        reply = f"""### ⚡ ProjectForge AI Copilot: {title}
+
+I am your technical engineering mentor for **{title}** ({domain}).
+
+Here are 4 high-leverage areas I can help you engineer right now:
+1. **🏗️ System Architecture**: Define component boundaries, data flow, and microservice modularity.
+2. **⚡ Implementation Boilerplate**: Scaffold starter code with `{primary_lang}` and `{primary_framework}`.
+3. **🧪 Testing & Benchmarks**: Write pytest test suites and latency benchmarks.
+4. **📄 Resume & Interview Prep**: Generate STAR resume bullets and model interview answers.
+
+What aspect would you like to build or refine first?
+"""
+        chips = ["🏗️ System Architecture & Data Flow", "⚡ Show Starter Boilerplate", "🧪 Suggest Unit Tests", "📄 Draft STAR Resume Bullets"]
+
+    return {
+        "reply": reply,
+        "suggested_chips": chips,
+        "code_snippets": [],
+        "model_used": "projectforge-rule-copilot"
+    }
+
+
+

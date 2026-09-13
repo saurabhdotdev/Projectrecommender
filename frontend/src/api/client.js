@@ -425,3 +425,23 @@ export async function auditGitHubRepository({ githubUrl, projectId = "", project
   return res.json();
 }
 
+// ── Project Copilot Chat API ────────────────────────────────────────────────
+
+export async function sendProjectCopilotMessage(messages, projectContext = null, studentProfile = null) {
+  const res = await fetch(`${API_BASE}/ai/project-copilot`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages,
+      project_context: projectContext,
+      student_profile: studentProfile
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to communicate with AI Copilot.");
+  }
+  return res.json();
+}
+
+

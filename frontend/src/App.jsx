@@ -24,6 +24,7 @@ import {
 } from './api/client';
 import { PROFILE_PRESETS } from './data/profilePresets';
 import ChatAdvisor from './components/ChatAdvisor';
+import ProjectCopilotChat from './components/ProjectCopilotChat';
 
 const DEFAULT_PROFILE = {
   student_id: '',
@@ -682,7 +683,15 @@ export default function App() {
           />
         )}
 
-        {/* TAB 4: STRATEGY BENCHMARKS */}
+        {/* TAB 4: AI COPILOT CHAT SECTION */}
+        {activeTab === 'copilot' && (
+          <ProjectCopilotChat
+            studentProfile={studentProfile}
+            userProjects={userProjects}
+          />
+        )}
+
+        {/* TAB 5: STRATEGY BENCHMARKS */}
         {activeTab === 'evaluation' && (
           <BenchmarkEvaluation />
         )}

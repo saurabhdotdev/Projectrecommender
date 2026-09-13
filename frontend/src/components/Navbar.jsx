@@ -70,6 +70,14 @@ export default function Navbar({
             📚 Project Library
           </button>
           <button
+            id="nav-tab-copilot"
+            className={`nav-tab-btn ${activeTab === 'copilot' ? 'active' : ''}`}
+            onClick={() => setActiveTab('copilot')}
+            title="AI Engineering Copilot — architecture, code, tests, resume prep"
+          >
+            💬 AI Copilot
+          </button>
+          <button
             id="nav-tab-evaluation"
             className={`nav-tab-btn ${activeTab === 'evaluation' ? 'active' : ''}`}
             onClick={() => setActiveTab('evaluation')}
@@ -216,6 +224,14 @@ export default function Navbar({
         >
           <span className="mobile-nav-icon">📚</span>
           <span className="mobile-nav-label">Library</span>
+        </button>
+
+        <button
+          className={`mobile-nav-btn ${activeTab === 'copilot' ? 'active' : ''}`}
+          onClick={() => setActiveTab('copilot')}
+        >
+          <span className="mobile-nav-icon">💬</span>
+          <span className="mobile-nav-label">Copilot</span>
         </button>
 
         <button
