@@ -59,6 +59,52 @@ export default function LearningRoadmap({
     }
   };
 
+  const handleExportRoadmapMarkdown = () => {
+    const lines = [
+      `# Stepwise Sprint Roadmap: ${project_title || 'Engineering Project'}`,
+      `**Total Duration:** ${total_weeks} Weeks`,
+      `**Execution Progress:** ${completedCount}/${totalTaskCount} tasks completed (${progressPercent}%)`,
+      '',
+      '---',
+      ''
+    ];
+
+    milestones.forEach((m) => {
+      lines.push(`## ${m.phase || `Week ${m.week_number}`}: ${m.title}`);
+      lines.push(`**Focus:** ${m.focus}`);
+      if (m.target_files && m.target_files.length > 0) {
+        lines.push(`**Target Files:** \`${m.target_files.join('`, `')}\``);
+      }
+      if (m.command_snippet) {
+        lines.push(`\`\`\`bash\n$ ${m.command_snippet}\n\`\`\``);
+      }
+      lines.push('### Weekly Execution Checklist:');
+      (m.tasks || []).forEach((t, idx) => {
+        const isDone = !!completedMap[`w${m.week_number}-t${idx}`];
+        lines.push(`- [${isDone ? 'x' : ' '}] ${t}`);
+      });
+      if (m.acceptance_criteria && m.acceptance_criteria.length > 0) {
+        lines.push('### Milestone Definition of Done:');
+        m.acceptance_criteria.forEach((crit) => {
+          lines.push(`- [ ] ${crit}`);
+        });
+      }
+      lines.push(`**Key Deliverable:** ${m.deliverables}`);
+      lines.push('');
+    });
+
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const safeTitle = (project_title || 'project').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `ProjectForge-Sprint-Roadmap-${safeTitle}.md`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div id="learning-roadmap-view">
       {/* Header with Progress Bar */}
@@ -76,6 +122,15 @@ export default function LearningRoadmap({
           </div>
 
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={handleExportRoadmapMarkdown}
+              title="Download formatted stepwise Markdown sprint roadmap"
+              style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+            >
+              📥 Export Sprint (.md)
+            </button>
             {onDownloadScaffold && projectId && (
               <button
                 type="button"
@@ -182,12 +237,19 @@ export default function LearningRoadmap({
                   border: isMilestoneDone ? '1px solid rgba(16, 185, 129, 0.4)' : undefined
                 }}
               >
+                {/* Phase Badge & Header */}
+                {m.phase && (
+                  <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>
+                    {m.phase}
+                  </div>
+                )}
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     <span className="badge badge-primary" style={{ fontSize: '0.72rem' }}>
                       WEEK {m.week_number}
                     </span>
-                    <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>
+                    <strong style={{ fontSize: '1.02rem', color: 'var(--text-primary)' }}>
                       {m.title}
                     </strong>
                     {isMilestoneDone && (
@@ -207,9 +269,53 @@ export default function LearningRoadmap({
                   )}
                 </div>
 
-                <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginBottom: '12px', fontStyle: 'italic' }}>
+                <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginBottom: '10px', fontStyle: 'italic' }}>
                   Focus: {m.focus}
                 </p>
+
+                {/* Target Files to Create */}
+                {m.target_files && m.target_files.length > 0 && (
+                  <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                      📁 Files to Build:
+                    </span>
+                    {m.target_files.map((file, fIdx) => (
+                      <span
+                        key={fIdx}
+                        className="badge"
+                        style={{
+                          background: 'var(--bg-input)',
+                          border: '1px solid var(--border-color)',
+                          color: 'var(--text-primary)',
+                          fontFamily: 'monospace',
+                          fontSize: '0.72rem',
+                          padding: '2px 8px'
+                        }}
+                      >
+                        📄 {file}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Command Snippet */}
+                {m.command_snippet && (
+                  <div style={{ marginBottom: '12px' }}>
+                    <div className="copilot-code-block" style={{ margin: 0 }}>
+                      <div className="copilot-code-header" style={{ padding: '4px 10px', fontSize: '0.7rem' }}>
+                        <span>Terminal Execution Command</span>
+                        <button
+                          className="copilot-copy-btn"
+                          style={{ padding: '2px 6px', fontSize: '0.68rem' }}
+                          onClick={() => navigator.clipboard.writeText(m.command_snippet)}
+                        >
+                          📋 Copy
+                        </button>
+                      </div>
+                      <pre style={{ padding: '8px 12px', fontSize: '0.78rem' }}><code>$ {m.command_snippet}</code></pre>
+                    </div>
+                  </div>
+                )}
 
                 {/* Tasks List with interactive checkoffs */}
                 <div style={{ marginBottom: '12px' }}>
@@ -255,6 +361,20 @@ export default function LearningRoadmap({
                     })}
                   </div>
                 </div>
+
+                {/* Acceptance Criteria / Definition of Done */}
+                {m.acceptance_criteria && m.acceptance_criteria.length > 0 && (
+                  <div style={{ background: 'rgba(56, 128, 105, 0.06)', border: '1px solid rgba(56, 128, 105, 0.2)', borderRadius: '6px', padding: '10px 12px', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary)', display: 'block', marginBottom: '4px' }}>
+                      🎯 Milestone Definition of Done:
+                    </span>
+                    <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                      {m.acceptance_criteria.map((crit, cIdx) => (
+                        <li key={cIdx}>{crit}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Deliverables Box */}
                 <div style={{ background: 'var(--bg-input)', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '8px' }}>

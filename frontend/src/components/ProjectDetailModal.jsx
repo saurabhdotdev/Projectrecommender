@@ -509,6 +509,61 @@ export default function ProjectDetailModal({
                 </div>
               )}
 
+              {/* Recommended Repository Structure */}
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                  📁 Production Repository Scaffold & Architecture Layout
+                </h4>
+                <div className="copilot-code-block" style={{ margin: 0 }}>
+                  <div className="copilot-code-header">
+                    <span>Target Git Repository File Tree</span>
+                  </div>
+                  <pre style={{ fontSize: '0.8rem', padding: '12px 16px' }}><code>{`├── src/
+│   ├── api/
+│   │   ├── routes.py          # REST endpoint handlers & OpenAPI contracts
+│   │   └── middleware.py      # JWT authentication guard & rate limiting
+│   ├── engine/
+│   │   ├── core.py            # Core domain algorithms & scoring logic
+│   │   └── pipeline.py        # Asynchronous ingestion & data transformers
+│   ├── schemas/
+│   │   └── models.py          # Strict Pydantic runtime schema contracts
+│   └── main.py                # ASGI application bootstrap & lifecycle
+├── tests/
+│   ├── test_engine.py         # Deterministic algorithmic unit tests
+│   ├── test_api.py            # End-to-end HTTP integration tests
+│   └── locustfile.py          # Stress test & concurrent throughput fixture
+├── Dockerfile                 # Multi-stage lightweight distroless build
+├── docker-compose.yml         # PostgreSQL 16 + Redis 7 + App multi-container setup
+├── requirements.txt           # Pinned production dependencies
+└── README.md                  # System architecture, benchmarks & runbook`}</code></pre>
+                </div>
+              </div>
+
+              {/* Target SLAs & Performance Metrics */}
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                  🎯 Target Production SLAs & Benchmark Criteria
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px' }}>
+                  <div className="studio-component-card" style={{ padding: '10px' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>TARGET P95 LATENCY</span>
+                    <strong style={{ fontSize: '1rem', color: 'var(--primary)' }}>&lt; 45ms</strong>
+                  </div>
+                  <div className="studio-component-card" style={{ padding: '10px' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>THROUGHPUT CAPACITY</span>
+                    <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>150 - 300 RPS</strong>
+                  </div>
+                  <div className="studio-component-card" style={{ padding: '10px' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>AUTOMATED TEST COVERAGE</span>
+                    <strong style={{ fontSize: '1rem', color: 'var(--accent)' }}>&gt; 85% Branch</strong>
+                  </div>
+                  <div className="studio-component-card" style={{ padding: '10px' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>CONTAINER FOOTPRINT</span>
+                    <strong style={{ fontSize: '1rem', color: '#34d399' }}>&lt; 180MB Distroless</strong>
+                  </div>
+                </div>
+              </div>
+
               {/* Career Impact Scores */}
               <div style={{ display: 'flex', gap: '20px', padding: '16px', background: 'rgba(99, 102, 241, 0.06)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
                 <div>
