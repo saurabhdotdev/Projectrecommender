@@ -1,0 +1,476 @@
+[
+  {
+    "skill_name": "Python",
+    "category": "Programming Languages",
+    "project_count": 224,
+    "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Docker",
+    "category": "DevOps",
+    "project_count": 127,
+    "base_learning_hours": 20,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Pandas",
+    "category": "Data Science",
+    "project_count": 95,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "Machine Learning",
+    "category": "Machine Learning",
+    "project_count": 72,
+    "base_learning_hours": 40,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "FastAPI",
+    "category": "Backend",
+    "project_count": 70,
+    "base_learning_hours": 18,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "JavaScript",
+    "category": "Programming Languages",
+    "project_count": 70,
+    "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "React",
+    "category": "Frontend",
+    "project_count": 58,
+    "base_learning_hours": 30,
+    "prerequisites": [
+      "JavaScript"
+    ]
+  },
+  {
+    "skill_name": "Linux",
+    "category": "Systems",
+    "project_count": 55,
+    "base_learning_hours": 20,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "SQL",
+    "category": "Programming Languages",
+    "project_count": 51,
+    "base_learning_hours": 20,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Deep Learning",
+    "category": "Machine Learning",
+    "project_count": 39,
+    "base_learning_hours": 45,
+    "prerequisites": [
+      "Machine Learning"
+    ]
+  },
+  {
+    "skill_name": "PyTorch",
+    "category": "Machine Learning",
+    "project_count": 36,
+    "base_learning_hours": 40,
+    "prerequisites": [
+      "Deep Learning"
+    ]
+  },
+  {
+    "skill_name": "OpenCV",
+    "category": "Computer Vision",
+    "project_count": 35,
+    "base_learning_hours": 25,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "Time Series Analysis",
+    "category": "Data Science",
+    "project_count": 35,
+    "base_learning_hours": 25,
+    "prerequisites": [
+      "Pandas",
+      "Scikit-Learn"
+    ]
+  },
+  {
+    "skill_name": "Data Visualization",
+    "category": "Data Science",
+    "project_count": 34,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "HTML/CSS",
+    "category": "Frontend",
+    "project_count": 33,
+    "base_learning_hours": 15,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Computer Vision",
+    "category": "AI",
+    "project_count": 26,
+    "base_learning_hours": 40,
+    "prerequisites": [
+      "Deep Learning"
+    ]
+  },
+  {
+    "skill_name": "Natural Language Processing",
+    "category": "AI",
+    "project_count": 24,
+    "base_learning_hours": 35,
+    "prerequisites": [
+      "Machine Learning"
+    ]
+  },
+  {
+    "skill_name": "Scikit-Learn",
+    "category": "Machine Learning",
+    "project_count": 23,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "Python",
+      "Pandas"
+    ]
+  },
+  {
+    "skill_name": "Node.js",
+    "category": "Backend",
+    "project_count": 22,
+    "base_learning_hours": 25,
+    "prerequisites": [
+      "JavaScript"
+    ]
+  },
+  {
+    "skill_name": "Solidity",
+    "category": "Programming Languages",
+    "project_count": 21,
+    "base_learning_hours": 30,
+    "prerequisites": [
+      "JavaScript"
+    ]
+  },
+  {
+    "skill_name": "Network Security",
+    "category": "Cybersecurity",
+    "project_count": 20,
+    "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Arduino / ESP32",
+    "category": "IoT",
+    "project_count": 20,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "C++"
+    ]
+  },
+  {
+    "skill_name": "Transformers",
+    "category": "AI",
+    "project_count": 19,
+    "base_learning_hours": 30,
+    "prerequisites": [
+      "PyTorch"
+    ]
+  },
+  {
+    "skill_name": "PostgreSQL",
+    "category": "Database",
+    "project_count": 19,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "SQL"
+    ]
+  },
+  {
+    "skill_name": "CI/CD",
+    "category": "DevOps",
+    "project_count": 19,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Git"
+    ]
+  },
+  {
+    "skill_name": "Cryptography",
+    "category": "Cybersecurity",
+    "project_count": 19,
+    "base_learning_hours": 35,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Web3.js / Ethers.js",
+    "category": "Blockchain",
+    "project_count": 19,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "JavaScript",
+      "Solidity"
+    ]
+  },
+  {
+    "skill_name": "REST APIs",
+    "category": "Backend",
+    "project_count": 19,
+    "base_learning_hours": 12,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Kubernetes",
+    "category": "DevOps",
+    "project_count": 18,
+    "base_learning_hours": 40,
+    "prerequisites": [
+      "Docker"
+    ]
+  },
+  {
+    "skill_name": "MQTT",
+    "category": "IoT",
+    "project_count": 18,
+    "base_learning_hours": 12,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Feature Engineering",
+    "category": "Machine Learning",
+    "project_count": 17,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Pandas"
+    ]
+  },
+  {
+    "skill_name": "Matplotlib & Seaborn",
+    "category": "Data Science",
+    "project_count": 17,
+    "base_learning_hours": 12,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "Git",
+    "category": "DevOps",
+    "project_count": 17,
+    "base_learning_hours": 10,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Plotly",
+    "category": "Data Science",
+    "project_count": 17,
+    "base_learning_hours": 12,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "C++",
+    "category": "Programming Languages",
+    "project_count": 17,
+    "base_learning_hours": 50,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Express.js",
+    "category": "Backend",
+    "project_count": 17,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Node.js"
+    ]
+  },
+  {
+    "skill_name": "React Native",
+    "category": "Mobile",
+    "project_count": 17,
+    "base_learning_hours": 25,
+    "prerequisites": [
+      "React"
+    ]
+  },
+  {
+    "skill_name": "Hugging Face",
+    "category": "AI",
+    "project_count": 16,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "Natural Language Processing",
+      "PyTorch"
+    ]
+  },
+  {
+    "skill_name": "ROS (Robot Operating System)",
+    "category": "Robotics",
+    "project_count": 16,
+    "base_learning_hours": 45,
+    "prerequisites": [
+      "C++",
+      "Python",
+      "Linux"
+    ]
+  },
+  {
+    "skill_name": "Wireshark",
+    "category": "Cybersecurity",
+    "project_count": 15,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Network Security"
+    ]
+  },
+  {
+    "skill_name": "Model Evaluation & Interpretability",
+    "category": "Machine Learning",
+    "project_count": 14,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Scikit-Learn"
+    ]
+  },
+  {
+    "skill_name": "NumPy",
+    "category": "Data Science",
+    "project_count": 9,
+    "base_learning_hours": 10,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "Large Language Models",
+    "category": "AI",
+    "project_count": 5,
+    "base_learning_hours": 30,
+    "prerequisites": [
+      "Transformers"
+    ]
+  },
+  {
+    "skill_name": "TypeScript",
+    "category": "Programming Languages",
+    "project_count": 5,
+    "base_learning_hours": 25,
+    "prerequisites": [
+      "JavaScript"
+    ]
+  },
+  {
+    "skill_name": "Go",
+    "category": "Programming Languages",
+    "project_count": 5,
+    "base_learning_hours": 25,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "LangChain",
+    "category": "AI",
+    "project_count": 4,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "Large Language Models",
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "WebSockets",
+    "category": "Backend",
+    "project_count": 3,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "REST APIs"
+    ]
+  },
+  {
+    "skill_name": "Vector Databases",
+    "category": "Database",
+    "project_count": 2,
+    "base_learning_hours": 15,
+    "prerequisites": [
+      "Python"
+    ]
+  },
+  {
+    "skill_name": "AWS",
+    "category": "Cloud",
+    "project_count": 2,
+    "base_learning_hours": 35,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Flutter",
+    "category": "Mobile",
+    "project_count": 2,
+    "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Redis",
+    "category": "Database",
+    "project_count": 1,
+    "base_learning_hours": 12,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Tailwind CSS",
+    "category": "Frontend",
+    "project_count": 1,
+    "base_learning_hours": 10,
+    "prerequisites": [
+      "HTML/CSS"
+    ]
+  },
+  {
+    "skill_name": "MongoDB",
+    "category": "Database",
+    "project_count": 1,
+    "base_learning_hours": 15,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Penetration Testing",
+    "category": "Cybersecurity",
+    "project_count": 1,
+    "base_learning_hours": 45,
+    "prerequisites": [
+      "Network Security",
+      "Linux"
+    ]
+  },
+  {
+    "skill_name": "GCP",
+    "category": "Cloud",
+    "project_count": 1,
+    "base_learning_hours": 35,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Swift",
+    "category": "Programming Languages",
+    "project_count": 1,
+    "base_learning_hours": 35,
+    "prerequisites": []
+  }
+]

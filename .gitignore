@@ -1,0 +1,28 @@
+# Environment & Secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Node / Frontend
+node_modules/
+dist/
+.vite/
+
+# DB
+*.db
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db

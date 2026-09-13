@@ -1,0 +1,253 @@
+import io
+import zipfile
+from typing import Dict, Any, List
+from ..engine.roadmap_generator import RoadmapGenerator
+
+PYTHON_LIB_MAPPING = {
+    "python": "python>=3.10",
+    "scikit-learn": "scikit-learn>=1.3.0",
+    "machine learning": "scikit-learn>=1.3.0\npandas>=2.0.0\nnumpy>=1.24.0",
+    "deep learning": "torch>=2.1.0\ntorchvision>=0.16.0",
+    "pytorch": "torch>=2.1.0\ntorchvision>=0.16.0",
+    "tensorflow": "tensorflow>=2.14.0",
+    "pandas": "pandas>=2.0.0",
+    "numpy": "numpy>=1.24.0",
+    "fastapi": "fastapi>=0.110.0\nuvicorn>=0.28.0",
+    "flask": "flask>=3.0.0",
+    "opencv": "opencv-python>=4.8.0",
+    "computer vision": "opencv-python>=4.8.0\nPillow>=10.0.0",
+    "nlp": "nltk>=3.8.1\nspacy>=3.7.0",
+    "natural language processing": "nltk>=3.8.1\ntransformers>=4.35.0",
+    "transformers": "transformers>=4.35.0\ntorch>=2.1.0",
+    "docker": "# Docker engine required locally",
+    "sql": "sqlalchemy>=2.0.0",
+    "postgresql": "psycopg2-binary>=2.9.9\nsqlalchemy>=2.0.0",
+    "streamlit": "streamlit>=1.30.0",
+    "matplotlib": "matplotlib>=3.8.0",
+    "seaborn": "seaborn>=0.13.0"
+}
+
+def generate_project_scaffold_zip(project: Dict[str, Any], student_skills: List[str] = None) -> io.BytesIO:
+    """Generates an in-memory zip archive containing a fully scaffolded project workspace."""
+    buffer = io.BytesIO()
+    
+    title = project.get("title", "ProjectForge Project")
+    domain = project.get("domain", "Engineering")
+    subdomain = project.get("subdomain", "Core Technology")
+    difficulty = project.get("difficulty", "Intermediate")
+    duration = float(project.get("estimated_duration", 4.0))
+    required_skills = project.get("required_skills", [])
+    frameworks = project.get("frameworks", [])
+    tools = project.get("tools", [])
+    learning_outcomes = project.get("learning_outcomes", [])
+    
+    # Generate weekly roadmap
+    skills_for_roadmap = student_skills or ["Python"]
+    roadmap_data = RoadmapGenerator.generate_roadmap(skills_for_roadmap, project, duration)
+    milestones = roadmap_data.get("milestones", [])
+    
+    # Compute requirements
+    requirements_set = set(["pytest>=8.0.0", "python-dotenv>=1.0.0"])
+    all_tech = [s.lower() for s in required_skills + frameworks + tools]
+    for tech in all_tech:
+        for key, val in PYTHON_LIB_MAPPING.items():
+            if key in tech:
+                for line in val.split("\n"):
+                    if not line.startswith("#"):
+                        requirements_set.add(line.strip())
+
+    requirements_content = "\n".join(sorted(requirements_set)) + "\n"
+
+    # Build README.md
+    readme_lines = [
+        f"# {title}",
+        "",
+        f"> **Domain**: {domain} ({subdomain}) | **Difficulty**: {difficulty} | **Target Duration**: {duration} Weeks",
+        "",
+        "## 📖 Project Overview",
+        project.get("description", "A production-grade engineering portfolio project."),
+        "",
+        "## 🛠️ Tech Stack & Requirements",
+        f"- **Core Skills**: {', '.join(required_skills) if required_skills else 'Python'}",
+        f"- **Frameworks & Libraries**: {', '.join(frameworks) if frameworks else 'Standard Scientific Stack'}",
+        f"- **Tools & Infrastructure**: {', '.join(tools) if tools else 'Git, Docker'}",
+        "",
+        "## 🚀 Quickstart & Setup",
+        "```bash",
+        "# 1. Create and activate a virtual environment",
+        "python -m venv venv",
+        "source venv/bin/activate  # On Windows: .\\venv\\Scripts\\activate",
+        "",
+        "# 2. Install dependencies",
+        "pip install -r requirements.txt",
+        "",
+        "# 3. Run the application",
+        "python src/main.py",
+        "",
+        "# 4. Run automated test suite",
+        "pytest tests/",
+        "```",
+        "",
+        "## 📅 Week-by-Week Milestone Roadmap",
+        ""
+    ]
+
+    for m in milestones:
+        readme_lines.append(f"### Week {m.get('week_number')}: {m.get('title')}")
+        readme_lines.append(f"**Focus**: {m.get('focus')}")
+        readme_lines.append("")
+        readme_lines.append("**Key Tasks & Deliverables**:")
+        for t in m.get("tasks", []):
+            readme_lines.append(f"- [ ] {t}")
+        readme_lines.append(f"**Expected Deliverable**: `{m.get('deliverables')}`")
+        readme_lines.append("")
+
+    if learning_outcomes:
+        readme_lines.append("## 🎓 Learning Outcomes")
+        for o in learning_outcomes:
+            readme_lines.append(f"- {o}")
+        readme_lines.append("")
+
+    readme_content = "\n".join(readme_lines)
+
+    # .gitignore
+    gitignore_content = """# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Distribution / Packaging
+build/
+dist/
+*.egg-info/
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+"""
+
+    # src/main.py
+    main_py_content = f'''"""
+{title}
+Domain: {domain} | Difficulty: {difficulty}
+Generated by ProjectForge AI Advisor
+"""
+
+import os
+import sys
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+)
+logger = logging.getLogger("{title.lower().replace(' ', '_')[:30]}")
+
+def initialize_project():
+    """Initializes runtime components and environment configuration."""
+    logger.info("Initializing {title} workspace...")
+    return {{"status": "initialized", "domain": "{domain}"}}
+
+def execute_pipeline():
+    """Core domain pipeline execution."""
+    logger.info("Running core pipeline modules for {domain}...")
+    # TODO: Implement Week 1 foundation tasks
+    return True
+
+def main():
+    logger.info("Starting {title}")
+    config = initialize_project()
+    success = execute_pipeline()
+    if success:
+        logger.info("Execution complete successfully.")
+    else:
+        logger.warning("Pipeline encountered execution warnings.")
+
+if __name__ == "__main__":
+    main()
+'''
+
+    # src/utils.py
+    utils_py_content = '''"""
+Shared utility helper functions.
+"""
+
+def load_data_file(filepath: str):
+    """Safely loads project assets or synthetic datasets."""
+    import os
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Asset file not found: {filepath}")
+    with open(filepath, "r", encoding="utf-8") as f:
+        return f.read()
+
+def calculate_metrics(y_true, y_pred):
+    """Placeholder utility for domain evaluation."""
+    return {"status": "computed", "count": len(y_true) if hasattr(y_true, "__len__") else 0}
+'''
+
+    # tests/test_core.py
+    test_core_content = f'''"""
+Unit tests for {title}
+"""
+
+import unittest
+from src.main import initialize_project, execute_pipeline
+
+class TestProjectCore(unittest.TestCase):
+    def test_initialization(self):
+        result = initialize_project()
+        self.assertEqual(result["status"], "initialized")
+        self.assertEqual(result["domain"], "{domain}")
+
+    def test_pipeline_execution(self):
+        success = execute_pipeline()
+        self.assertTrue(success)
+
+if __name__ == "__main__":
+    unittest.main()
+'''
+
+    # docs/architecture.md
+    architecture_content = f"""# System Architecture & Specifications
+
+## Project: {title}
+- **Domain**: {domain}
+- **Subdomain**: {subdomain}
+- **Prerequisites**: {', '.join(project.get('prerequisites', []))}
+
+## System Components
+1. **Data Ingestion / Input Layer**: Captures domain inputs, datasets, or real-time sensor/API streams.
+2. **Core Processing Engine**: Implements the primary algorithms ({', '.join(required_skills)}).
+3. **Evaluation & Metric Verification**: Benchmarks latency, accuracy, and operational constraints.
+4. **Presentation / API Interface**: Exposes results via REST endpoint, dashboard, or CLI.
+"""
+
+    safe_folder = "projectforge-" + "".join(c for c in title.lower() if c.isalnum() or c == " ").strip().replace(" ", "-")[:35]
+
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(f"{safe_folder}/README.md", readme_content)
+        zf.writestr(f"{safe_folder}/requirements.txt", requirements_content)
+        zf.writestr(f"{safe_folder}/.gitignore", gitignore_content)
+        zf.writestr(f"{safe_folder}/src/__init__.py", "")
+        zf.writestr(f"{safe_folder}/src/main.py", main_py_content)
+        zf.writestr(f"{safe_folder}/src/utils.py", utils_py_content)
+        zf.writestr(f"{safe_folder}/tests/__init__.py", "")
+        zf.writestr(f"{safe_folder}/tests/test_core.py", test_core_content)
+        zf.writestr(f"{safe_folder}/docs/architecture.md", architecture_content)
+
+    buffer.seek(0)
+    return buffer
