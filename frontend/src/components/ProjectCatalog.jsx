@@ -207,19 +207,28 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
           >
             👁️ +3 Computer Vision
           </button>
+          <button
+            className="studio-batch-pill"
+            disabled={generating}
+            onClick={() => handleCatalogSynthesize('Embedded Systems, Firmware & Robotics Hardware')}
+          >
+            ⚡ +3 Hardware & Embedded
+          </button>
         </div>
       </div>
 
       {/* Quick Domain Filter Chips */}
       <div className="idea-category-pills" style={{ marginBottom: '14px' }}>
         {[
-          { label: '🌟 All Blueprints (312+)', value: '' },
+          { label: '🌟 All Blueprints (419+)', value: '' },
+          { label: '⚡ Embedded & Hardware', value: 'Embedded Systems & Hardware' },
+          { label: '🚗 Robotics & SLAM', value: 'Robotics & Autonomous Systems' },
+          { label: '📡 IoT & Smart Hardware', value: 'Internet of Things (IoT)' },
           { label: '🤖 Machine Learning', value: 'Machine Learning' },
           { label: '⚡ Cloud & DevOps', value: 'Cloud & DevOps' },
           { label: '🔒 Cybersecurity', value: 'Cybersecurity' },
           { label: '📈 FinTech & Quant', value: 'FinTech' },
           { label: '👁️ Computer Vision', value: 'Computer Vision' },
-          { label: '🚗 Robotics', value: 'Robotics' },
           { label: '🧬 HealthTech', value: 'HealthTech' },
           { label: '🌐 Web Dev', value: 'Web Development' },
           { label: '⛓️ Blockchain', value: 'Blockchain' }
@@ -242,7 +251,7 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
         <input
           className="form-input"
           style={{ flex: 2, minWidth: '220px' }}
-          placeholder="🔍 Search titles, topics, algorithms (e.g. readmission, SLAM, fraud, RAG)..."
+          placeholder="🔍 Search titles, topics, algorithms (e.g. readmission, SLAM, FreeRTOS, BMS, FPGA)..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -253,7 +262,10 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
           value={domainFilter}
           onChange={(e) => setDomainFilter(e.target.value)}
         >
-          <option value="">All 16 Domains</option>
+          <option value="">All 17 Engineering Domains</option>
+          <option value="Embedded Systems & Hardware">⚡ Embedded Systems & Hardware</option>
+          <option value="Robotics & Autonomous Systems">🚗 Robotics & Autonomous Systems</option>
+          <option value="Internet of Things (IoT)">📡 Internet of Things (IoT)</option>
           <option value="HealthTech">HealthTech & BioInformatics</option>
           <option value="Machine Learning">Machine Learning</option>
           <option value="Artificial Intelligence">Artificial Intelligence</option>
@@ -264,8 +276,6 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
           <option value="FinTech">FinTech & Quant</option>
           <option value="Cloud & DevOps">Cloud & DevOps</option>
           <option value="Blockchain">Blockchain & Web3</option>
-          <option value="Robotics">Robotics & Autonomous Systems</option>
-          <option value="Internet of Things">Internet of Things (IoT)</option>
           <option value="Climate">Climate & Sustainability</option>
           <option value="Data Science">Data Science & Analytics</option>
           <option value="Mobile Development">Mobile Development</option>

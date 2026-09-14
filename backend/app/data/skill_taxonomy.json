@@ -2,7 +2,7 @@
   {
     "skill_name": "Python",
     "category": "Programming Languages",
-    "project_count": 224,
+    "project_count": 251,
     "base_learning_hours": 30,
     "prerequisites": []
   },
@@ -11,6 +11,13 @@
     "category": "DevOps",
     "project_count": 127,
     "base_learning_hours": 20,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Sensors & Actuators",
+    "category": "Hardware",
+    "project_count": 98,
+    "base_learning_hours": 15,
     "prerequisites": []
   },
   {
@@ -23,9 +30,16 @@
     ]
   },
   {
+    "skill_name": "Linux",
+    "category": "Systems",
+    "project_count": 77,
+    "base_learning_hours": 20,
+    "prerequisites": []
+  },
+  {
     "skill_name": "Machine Learning",
     "category": "Machine Learning",
-    "project_count": 72,
+    "project_count": 75,
     "base_learning_hours": 40,
     "prerequisites": [
       "Python"
@@ -48,6 +62,15 @@
     "prerequisites": []
   },
   {
+    "skill_name": "Embedded C",
+    "category": "Hardware",
+    "project_count": 62,
+    "base_learning_hours": 35,
+    "prerequisites": [
+      "C++"
+    ]
+  },
+  {
     "skill_name": "React",
     "category": "Frontend",
     "project_count": 58,
@@ -57,11 +80,13 @@
     ]
   },
   {
-    "skill_name": "Linux",
-    "category": "Systems",
+    "skill_name": "OpenCV",
+    "category": "Computer Vision",
     "project_count": 55,
-    "base_learning_hours": 20,
-    "prerequisites": []
+    "base_learning_hours": 25,
+    "prerequisites": [
+      "Python"
+    ]
   },
   {
     "skill_name": "SQL",
@@ -71,13 +96,52 @@
     "prerequisites": []
   },
   {
+    "skill_name": "Arduino / ESP32",
+    "category": "IoT",
+    "project_count": 50,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "C++"
+    ]
+  },
+  {
+    "skill_name": "Computer Vision",
+    "category": "AI",
+    "project_count": 47,
+    "base_learning_hours": 40,
+    "prerequisites": [
+      "Deep Learning"
+    ]
+  },
+  {
+    "skill_name": "PCB Design (KiCad)",
+    "category": "Hardware",
+    "project_count": 45,
+    "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
     "skill_name": "Deep Learning",
     "category": "Machine Learning",
-    "project_count": 39,
+    "project_count": 40,
     "base_learning_hours": 45,
     "prerequisites": [
       "Machine Learning"
     ]
+  },
+  {
+    "skill_name": "C++",
+    "category": "Programming Languages",
+    "project_count": 38,
+    "base_learning_hours": 50,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "MQTT",
+    "category": "IoT",
+    "project_count": 37,
+    "base_learning_hours": 12,
+    "prerequisites": []
   },
   {
     "skill_name": "PyTorch",
@@ -86,15 +150,6 @@
     "base_learning_hours": 40,
     "prerequisites": [
       "Deep Learning"
-    ]
-  },
-  {
-    "skill_name": "OpenCV",
-    "category": "Computer Vision",
-    "project_count": 35,
-    "base_learning_hours": 25,
-    "prerequisites": [
-      "Python"
     ]
   },
   {
@@ -124,12 +179,28 @@
     "prerequisites": []
   },
   {
-    "skill_name": "Computer Vision",
-    "category": "AI",
-    "project_count": 26,
+    "skill_name": "STM32 / ARM Cortex",
+    "category": "Hardware",
+    "project_count": 31,
     "base_learning_hours": 40,
     "prerequisites": [
-      "Deep Learning"
+      "Embedded C"
+    ]
+  },
+  {
+    "skill_name": "I2C / SPI / UART",
+    "category": "Hardware",
+    "project_count": 31,
+    "base_learning_hours": 15,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "BLDC Motor Control",
+    "category": "Hardware",
+    "project_count": 26,
+    "base_learning_hours": 35,
+    "prerequisites": [
+      "Embedded C"
     ]
   },
   {
@@ -152,12 +223,37 @@
     ]
   },
   {
+    "skill_name": "Network Security",
+    "category": "Cybersecurity",
+    "project_count": 23,
+    "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "LoRaWAN",
+    "category": "IoT",
+    "project_count": 23,
+    "base_learning_hours": 20,
+    "prerequisites": []
+  },
+  {
     "skill_name": "Node.js",
     "category": "Backend",
     "project_count": 22,
     "base_learning_hours": 25,
     "prerequisites": [
       "JavaScript"
+    ]
+  },
+  {
+    "skill_name": "ROS2",
+    "category": "Robotics",
+    "project_count": 22,
+    "base_learning_hours": 45,
+    "prerequisites": [
+      "C++",
+      "Python",
+      "Linux"
     ]
   },
   {
@@ -170,19 +266,20 @@
     ]
   },
   {
-    "skill_name": "Network Security",
+    "skill_name": "Cryptography",
     "category": "Cybersecurity",
-    "project_count": 20,
-    "base_learning_hours": 30,
+    "project_count": 21,
+    "base_learning_hours": 35,
     "prerequisites": []
   },
   {
-    "skill_name": "Arduino / ESP32",
-    "category": "IoT",
-    "project_count": 20,
-    "base_learning_hours": 20,
+    "skill_name": "Raspberry Pi",
+    "category": "Hardware",
+    "project_count": 21,
+    "base_learning_hours": 15,
     "prerequisites": [
-      "C++"
+      "Linux",
+      "Python"
     ]
   },
   {
@@ -213,13 +310,6 @@
     ]
   },
   {
-    "skill_name": "Cryptography",
-    "category": "Cybersecurity",
-    "project_count": 19,
-    "base_learning_hours": 35,
-    "prerequisites": []
-  },
-  {
     "skill_name": "Web3.js / Ethers.js",
     "category": "Blockchain",
     "project_count": 19,
@@ -237,6 +327,15 @@
     "prerequisites": []
   },
   {
+    "skill_name": "FreeRTOS",
+    "category": "Hardware",
+    "project_count": 19,
+    "base_learning_hours": 30,
+    "prerequisites": [
+      "Embedded C"
+    ]
+  },
+  {
     "skill_name": "Kubernetes",
     "category": "DevOps",
     "project_count": 18,
@@ -244,13 +343,6 @@
     "prerequisites": [
       "Docker"
     ]
-  },
-  {
-    "skill_name": "MQTT",
-    "category": "IoT",
-    "project_count": 18,
-    "base_learning_hours": 12,
-    "prerequisites": []
   },
   {
     "skill_name": "Feature Engineering",
@@ -285,13 +377,6 @@
     "prerequisites": [
       "Python"
     ]
-  },
-  {
-    "skill_name": "C++",
-    "category": "Programming Languages",
-    "project_count": 17,
-    "base_learning_hours": 50,
-    "prerequisites": []
   },
   {
     "skill_name": "Express.js",
@@ -360,6 +445,39 @@
     ]
   },
   {
+    "skill_name": "BLE (Bluetooth Low Energy)",
+    "category": "IoT",
+    "project_count": 8,
+    "base_learning_hours": 25,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "CAN Bus",
+    "category": "Hardware",
+    "project_count": 8,
+    "base_learning_hours": 20,
+    "prerequisites": [
+      "Embedded C"
+    ]
+  },
+  {
+    "skill_name": "TinyML",
+    "category": "Hardware",
+    "project_count": 7,
+    "base_learning_hours": 35,
+    "prerequisites": [
+      "Machine Learning",
+      "Embedded C"
+    ]
+  },
+  {
+    "skill_name": "FPGA / Verilog",
+    "category": "Hardware",
+    "project_count": 7,
+    "base_learning_hours": 55,
+    "prerequisites": []
+  },
+  {
     "skill_name": "Large Language Models",
     "category": "AI",
     "project_count": 5,
@@ -424,6 +542,13 @@
     "category": "Mobile",
     "project_count": 2,
     "base_learning_hours": 30,
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Microcontrollers",
+    "category": "Hardware",
+    "project_count": 2,
+    "base_learning_hours": 25,
     "prerequisites": []
   },
   {

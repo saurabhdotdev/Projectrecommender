@@ -9,7 +9,9 @@ const COMMON_SKILLS = [
   "Docker", "Kubernetes", "Linux", "Git", "PostgreSQL", "Time Series Analysis",
   // Electronics / Hardware / VLSI
   "Verilog", "VHDL", "SystemVerilog", "FPGA Design", "VLSI Design", "Cadence Virtuoso",
-  "Embedded C", "Arduino", "Raspberry Pi", "RTOS", "PCB Design", "KiCad", "Altium Designer",
+  "Embedded C", "STM32 / ARM Cortex", "FreeRTOS", "RTOS", "Arduino", "Raspberry Pi",
+  "PCB Design", "KiCad", "Altium Designer", "CAN Bus", "LoRaWAN", "TinyML",
+  "Sensors & Actuators", "I2C / SPI / UART", "BLDC Motor Control", "BLE",
   "Signal Processing", "MATLAB Simulink", "LabVIEW", "ROS (Robot Operating System)",
   // Mechanical / Civil / Chemical
   "AutoCAD", "SolidWorks", "CATIA", "ANSYS", "FEA (Finite Element Analysis)",

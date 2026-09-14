@@ -131,5 +131,33 @@ export const PROFILE_PRESETS = [
       preferred_difficulty: "Advanced",
       past_projects: ["Autonomous LiDAR SLAM Rover", "Real-Time Object Tracking Pipeline"]
     }
+  },
+  {
+    id: "embedded_hardware_engineer",
+    name: "Embedded Systems & Hardware",
+    subtitle: "Embedded C • STM32 • FreeRTOS • KiCad • CAN Bus",
+    code: "EMBED-HW",
+    profile: {
+      student_id: "embed_hw_track_06",
+      degree: "Electrical & Computer Engineering",
+      year: "Final Year",
+      skills: ["Embedded C", "STM32 / ARM Cortex", "FreeRTOS", "PCB Design (KiCad)", "Sensors & Actuators", "I2C / SPI / UART"],
+      skill_proficiency: {
+        "Embedded C": "Advanced",
+        "STM32 / ARM Cortex": "Advanced",
+        "FreeRTOS": "Intermediate",
+        "PCB Design (KiCad)": "Intermediate",
+        "Sensors & Actuators": "Advanced",
+        "I2C / SPI / UART": "Advanced"
+      },
+      interests: ["Embedded Systems & Hardware", "Internet of Things (IoT)", "Robotics & Autonomous Systems"],
+      experience_level: "Advanced",
+      available_time_weeks: 5.0,
+      career_goal: "Embedded Systems & Firmware Engineer",
+      preferred_language: "Embedded C",
+      preferred_technologies: ["STM32 / ARM Cortex", "FreeRTOS", "PCB Design (KiCad)"],
+      preferred_difficulty: "Advanced",
+      past_projects: ["Bare-Metal Audio Synthesizer with DMA", "CAN Bus Telemetry Logger"]
+    }
   }
 ];

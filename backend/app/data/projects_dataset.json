@@ -16076,5 +16076,5789 @@
       "Implement real-world algorithms with ROS (Robot Operating System), C++, Python",
       "Demonstrate working software with end-to-end testing and documentation"
     ]
+  },
+  {
+    "project_id": "proj-hw-001",
+    "title": "STM32 Real-Time Digital Audio Synthesizer with DMA & I2S DAC",
+    "description": "Develop a polyphonic wavetable digital audio synthesizer on STM32 ARM Cortex-M4 using direct memory access (DMA), circular buffers, timer interrupts, and an external I2S stereo DAC with real-time envelope filtering.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Digital Signal & Audio Processing",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.35,
+      "STM32 / ARM Cortex": 0.3,
+      "I2C / SPI / UART": 0.15,
+      "Sensors & Actuators": 0.1,
+      "PCB Design (KiCad)": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "CMSIS",
+      "STM32CubeHAL"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "C pointers and bitwise registers",
+      "Nyquist sampling theorem and DAC theory"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Wavetable audio samples and MIDI 1.0 byte streams",
+    "project_type": "Firmware & DSP Hardware",
+    "career_paths": [
+      "Embedded Firmware Engineer",
+      "Audio Hardware Developer",
+      "DSP Systems Engineer"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Zero-jitter audio streaming with double-buffered DMA",
+      "Wavetable interpolation math on ARM Cortex FPU",
+      "Rotary encoder interrupt handling and OLED UI"
+    ]
+  },
+  {
+    "project_id": "proj-hw-002",
+    "title": "Multitasking FreeRTOS Drone Telemetry & Blackbox Flight Recorder",
+    "description": "Preemptive real-time flight logger orchestrating 6 concurrent FreeRTOS tasks (IMU fusion, GPS NMEA parsing, barometric altitude, SD card FATFS logging, battery monitoring, and telemetry radio link).",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Real-Time Operating Systems (RTOS)",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "FreeRTOS",
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "FreeRTOS": 0.35,
+      "Embedded C": 0.25,
+      "STM32 / ARM Cortex": 0.2,
+      "I2C / SPI / UART": 0.1,
+      "Sensors & Actuators": 0.1
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS",
+      "FatFS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "Git",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Task scheduling, mutexes, semaphores and queues in RTOS",
+      "SPI bus timing"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "Real-world quadcopter IMU/GPS flight logs",
+    "project_type": "Mission-Critical Firmware",
+    "career_paths": [
+      "Embedded RTOS Engineer",
+      "Avionics Firmware Developer",
+      "Robotics Systems Engineer"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Task priority management and stack overflow detection",
+      "High-speed SPI SD card logging without blocking sensor tasks",
+      "Thread-safe inter-task communication with FreeRTOS queues"
+    ]
+  },
+  {
+    "project_id": "proj-hw-003",
+    "title": "Precision Dual-Axis S-Curve Stepper Motor Controller on STM32",
+    "description": "Bare-metal motion controller generating smooth 3rd-order S-curve acceleration and deceleration profiles to eliminate mechanical jerk on CNC stages, using hardware timer output compare and encoder feedback.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Precision Motion Control",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "BLDC Motor Control",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.35,
+      "STM32 / ARM Cortex": 0.3,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "Bare-Metal Register CMSIS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "Kinematics equations of motion",
+      "Microcontroller hardware timer prescalers"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": false,
+    "dataset_source": "G-Code linear and arc trajectory command streams",
+    "project_type": "Mechatronics Firmware",
+    "career_paths": [
+      "Motion Control Engineer",
+      "Robotics Mechatronics Developer",
+      "Embedded Engineer"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "S-curve jerk-limited velocity profile math",
+      "Sub-microsecond timer reload interrupt scheduling",
+      "Quadrature optical encoder decoding with hardware timer modes"
+    ]
+  },
+  {
+    "project_id": "proj-hw-004",
+    "title": "Custom USB 2.0 High-Speed Digital Oscilloscope & Logic Analyzer",
+    "description": "Dual-channel 40 MSPS oscilloscope frontend with high-speed analog multiplexers, fast ADC, STM32 USB-HID/CDC streaming, and a Python graphical interface with FFT frequency spectrum display.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Test & Measurement Instruments",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "PCB Design (KiCad)",
+      "Python",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "STM32 / ARM Cortex": 0.3,
+      "Embedded C": 0.25,
+      "PCB Design (KiCad)": 0.25,
+      "Python": 0.1,
+      "Sensors & Actuators": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "PyQt / DearPyGui",
+      "NumPy"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "Op-amp analog frontend signal conditioning",
+      "USB descriptor protocols"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "Synthetic and laboratory calibration waveforms",
+    "project_type": "Hardware Instrument & Tool",
+    "career_paths": [
+      "Hardware Design Engineer",
+      "Instrumentation Engineer",
+      "Embedded Systems Developer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Analog frontend impedance matching and AC/DC coupling",
+      "USB CDC bulk endpoint transfer optimization",
+      "Digital triggering (rising/falling edge and pulse-width)"
+    ]
+  },
+  {
+    "project_id": "proj-hw-005",
+    "title": "Ultra-Low-Power Environmental Sensor Node with Energy Harvesting",
+    "description": "Autonomous outdoor environmental monitor powered by an indoor light solar cell and supercapacitor, achieving sub-20uA deep-sleep current on an nRF52/ESP32-C3 with BLE beacon broadcasts.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Ultra-Low-Power Systems",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "BLE (Bluetooth Low Energy)",
+      "Arduino / ESP32",
+      "PCB Design (KiCad)",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "BLE (Bluetooth Low Energy)": 0.25,
+      "Arduino / ESP32": 0.2,
+      "PCB Design (KiCad)": 0.15,
+      "Sensors & Actuators": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "ESP-IDF / Nordic SDK"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "Microcontroller sleep modes and power budgeting",
+      "Supercapacitor discharge characteristics"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Microclimate barometric pressure, temp, humidity telemetry",
+    "project_type": "Green Electronics & IoT",
+    "career_paths": [
+      "IoT Hardware Engineer",
+      "Low-Power Firmware Engineer",
+      "Embedded Systems Engineer"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Power profiling and sleep-wake duty cycling",
+      "Harvesting circuit impedance matching with MPPT",
+      "Non-volatile memory logging across power brownouts"
+    ]
+  },
+  {
+    "project_id": "proj-hw-006",
+    "title": "Autonomous Warehouse AMR with 2D LiDAR SLAM & ROS 2 Nav2",
+    "description": "Build an Autonomous Mobile Robot (AMR) using ROS 2 Humble, RPLiDAR A1, wheel quadrature encoders, and EKF sensor fusion, computing 2D occupancy grid maps and executing collision-free trajectory planning.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Autonomous Mobile Robotics (AMR)",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "Python",
+      "Linux",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "ROS2": 0.35,
+      "C++": 0.25,
+      "Linux": 0.15,
+      "Sensors & Actuators": 0.15,
+      "Python": 0.1
+    },
+    "programming_languages": [
+      "C++",
+      "Python"
+    ],
+    "frameworks": [
+      "ROS 2 Humble",
+      "Nav2",
+      "Cartographer SLAM"
+    ],
+    "tools": [
+      "Linux",
+      "Git",
+      "Raspberry Pi"
+    ],
+    "prerequisites": [
+      "Robot kinematics, coordinate transforms (TF2)",
+      "ROS 2 publisher/subscriber paradigms"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "LiDAR scan bag files and wheel odometry logs",
+    "project_type": "Robotics Systems",
+    "career_paths": [
+      "Robotics Software Engineer",
+      "SLAM & Navigation Specialist",
+      "Autonomous Vehicle Engineer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "ROS 2 Navigation2 stack tuning and costmap inflation",
+      "Sensor fusion with robot_localization package",
+      "Differential drive PID motor velocity regulation"
+    ]
+  },
+  {
+    "project_id": "proj-hw-007",
+    "title": "Six-DOF Robotic Manipulator with Computer Vision Pick & Place",
+    "description": "Articulated 6-axis robotic arm with inverse kinematics solver, custom end-effector gripper, and an overhead RGB-D camera running OpenCV to segment, orient, and sort parts into designated bins.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Industrial Robotics & Manipulation",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "C++",
+      "ROS2",
+      "OpenCV",
+      "BLDC Motor Control",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "ROS2": 0.3,
+      "C++": 0.25,
+      "OpenCV": 0.2,
+      "BLDC Motor Control": 0.15,
+      "Sensors & Actuators": 0.1
+    },
+    "programming_languages": [
+      "C++",
+      "Python"
+    ],
+    "frameworks": [
+      "MoveIt 2",
+      "OpenCV",
+      "ROS 2"
+    ],
+    "tools": [
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "Denavit-Hartenberg (D-H) kinematics parameters",
+      "Camera intrinsic calibration and homography"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "RGB-D tabletop part dataset and grasping coordinates",
+    "project_type": "Industrial Automation & Robotics",
+    "career_paths": [
+      "Robotics Manipulation Engineer",
+      "Automation Engineer",
+      "Mechatronics Engineer"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "MoveIt 2 motion planning and obstacle collision avoidance",
+      "Closed-loop inverse kinematics with Jacobian solvers",
+      "Eye-to-hand camera calibration and grasp pose detection"
+    ]
+  },
+  {
+    "project_id": "proj-hw-008",
+    "title": "Self-Balancing Inverted Pendulum Robot with Kalman Filter & LQR",
+    "description": "Two-wheeled balancing transporter robot using MPU-6050 6-axis IMU, complementary and Kalman filtering, and Linear Quadratic Regulator (LQR) state-space feedback control for disturbance rejection.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Control Theory & Dynamics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "BLDC Motor Control",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "STM32 / ARM Cortex": 0.25,
+      "BLDC Motor Control": 0.25,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "CMSIS-DSP",
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "State-space representation and matrix algebra",
+      "Rotational dynamics"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": false,
+    "dataset_source": "IMU tilt telemetry and motor PWM control logs",
+    "project_type": "Dynamic Control Systems",
+    "career_paths": [
+      "Control Systems Engineer",
+      "Robotics Mechatronics Developer",
+      "Firmware Engineer"
+    ],
+    "resume_value": 9.3,
+    "originality_score": 8.9,
+    "learning_outcomes": [
+      "6-axis IMU gyro bias drift cancellation with Kalman filter",
+      "State feedback gain matrix computation via pole placement and LQR",
+      "High-frequency motor PWM deadband compensation"
+    ]
+  },
+  {
+    "project_id": "proj-hw-009",
+    "title": "Autonomous Quadcopter Flight Controller with Optical Flow Hover",
+    "description": "Custom flight controller firmware running on STM32F4/H7 with cascaded PID attitude control, downward optical flow velocity estimation, and ultrasonic altitude hold for GPS-denied indoor hovering.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Aerial Robotics & UAVs",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "I2C / SPI / UART"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.35,
+      "STM32 / ARM Cortex": 0.3,
+      "Sensors & Actuators": 0.15,
+      "PCB Design (KiCad)": 0.1,
+      "I2C / SPI / UART": 0.1
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "Bare-Metal Real-Time Architecture"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "Quadcopter flight dynamics and quaternion attitude kinematics",
+      "PID rate & angle loops"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "Attitude rates and gyro telemetry logs",
+    "project_type": "Aerospace & Drone Engineering",
+    "career_paths": [
+      "UAV Firmware Engineer",
+      "Flight Control Systems Engineer",
+      "Robotics Hardware Engineer"
+    ],
+    "resume_value": 9.9,
+    "originality_score": 9.6,
+    "learning_outcomes": [
+      "Quaternion rotation math and complementary attitude filtering",
+      "Cascaded inner-rate and outer-angle PID controllers",
+      "DShot / OneShot electronic speed controller (ESC) protocol generation"
+    ]
+  },
+  {
+    "project_id": "proj-hw-010",
+    "title": "Quadruped 12-DOF Walking Robot with Gait Synthesis & Kinematics",
+    "description": "Miniature quadruped robotic dog with 12 high-torque metal gear servos, inverse kinematics gait engine generating trot and crawl gaits, and IMU body pitch/roll leveling.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Legged Robotics & Biomechanics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "C++",
+      "Embedded C",
+      "ROS2",
+      "Sensors & Actuators",
+      "BLDC Motor Control"
+    ],
+    "skill_importance": {
+      "C++": 0.3,
+      "ROS2": 0.25,
+      "Sensors & Actuators": 0.2,
+      "Embedded C": 0.15,
+      "BLDC Motor Control": 0.1
+    },
+    "programming_languages": [
+      "C++",
+      "Python"
+    ],
+    "frameworks": [
+      "ROS 2",
+      "Eigen3"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "Leg kinematics and 3D coordinate geometry",
+      "B\u00e9zier curve foot trajectories"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "Quadruped foot contact forces and servo angle profiles",
+    "project_type": "Legged Robotics",
+    "career_paths": [
+      "Legged Robotics Specialist",
+      "Robotics Mechatronics Engineer",
+      "Simulation Engineer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "3-DOF leg inverse kinematics derivation",
+      "B\u00e9zier foot-swing curve trajectory generation",
+      "Dynamic center-of-mass balance adjustments on uneven terrain"
+    ]
+  },
+  {
+    "project_id": "proj-hw-011",
+    "title": "Industrial CNC Motor Vibration Fault Detector with TinyML on ESP32",
+    "description": "Deploy a quantized 1D Convolutional Neural Network on an ESP32-S3 microcontroller to detect motor bearing micro-fractures and misalignment in real time from a 3-axis high-speed accelerometer.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "TinyML & Predictive Maintenance",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "TinyML",
+      "Embedded C",
+      "Arduino / ESP32",
+      "Machine Learning",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "TinyML": 0.35,
+      "Embedded C": 0.25,
+      "Arduino / ESP32": 0.2,
+      "Sensors & Actuators": 0.1,
+      "Machine Learning": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "TensorFlow Lite for Microcontrollers",
+      "Edge Impulse"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "FFT spectral feature extraction",
+      "Neural network 8-bit integer quantization (INT8)"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Case Western Reserve University (CWRU) Bearing Vibration Dataset",
+    "project_type": "Edge AI & Smart Sensor",
+    "career_paths": [
+      "TinyML Engineer",
+      "Edge AI Systems Developer",
+      "Industrial IoT Engineer"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "Real-time FFT and spectrogram feature pipelines in firmware",
+      "TFLite Micro tensor arena memory management (<60KB RAM)",
+      "Anomaly detection with autoencoders on MCU"
+    ]
+  },
+  {
+    "project_id": "proj-hw-012",
+    "title": "Offline Voice Keyword Spotter with Audio MFCCs on ARM Cortex-M4",
+    "description": "Zero-cloud edge voice activation node on STM32 executing continuous Mel-Frequency Cepstral Coefficients (MFCC) feature extraction and a quantized depthwise separable CNN to recognize wake words.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Edge Voice AI",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "TinyML",
+      "STM32 / ARM Cortex",
+      "Embedded C",
+      "Machine Learning",
+      "I2C / SPI / UART"
+    ],
+    "skill_importance": {
+      "TinyML": 0.3,
+      "STM32 / ARM Cortex": 0.3,
+      "Embedded C": 0.2,
+      "Machine Learning": 0.1,
+      "I2C / SPI / UART": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "CMSIS-NN",
+      "TensorFlow Lite Micro"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "Audio signal processing and filterbanks",
+      "CNN model architecture"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Google Speech Commands v2 Dataset",
+    "project_type": "Edge Audio Intelligence",
+    "career_paths": [
+      "TinyML Engineer",
+      "Embedded Audio Engineer",
+      "AI Hardware Developer"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "DMA PDM microphone streaming to PCM audio buffers",
+      "CMSIS-NN optimized convolution kernels on ARM Cortex-M",
+      "Acoustic noise rejection and false-positive suppression"
+    ]
+  },
+  {
+    "project_id": "proj-hw-013",
+    "title": "Edge AI Vision Inspection Sorter on NVIDIA Jetson Nano",
+    "description": "Real-time industrial conveyer belt quality control system on Jetson Nano using TensorRT-accelerated YOLO to detect cosmetic surface defects on manufactured parts at 30 FPS.",
+    "domain": "Computer Vision",
+    "subdomain": "Edge AI & Industrial Vision",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Python",
+      "Computer Vision",
+      "OpenCV",
+      "Deep Learning",
+      "Raspberry Pi"
+    ],
+    "skill_importance": {
+      "Computer Vision": 0.3,
+      "OpenCV": 0.25,
+      "Deep Learning": 0.2,
+      "Python": 0.15,
+      "Raspberry Pi": 0.1
+    },
+    "programming_languages": [
+      "Python",
+      "C++"
+    ],
+    "frameworks": [
+      "PyTorch",
+      "TensorRT",
+      "OpenCV"
+    ],
+    "tools": [
+      "Linux",
+      "Docker",
+      "Git"
+    ],
+    "prerequisites": [
+      "Convolutional object detection",
+      "TensorRT model serialization and optimization"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Kaggle NEU Surface Defect Database / Industrial Screw Dataset",
+    "project_type": "Edge Vision & Quality Assurance",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Edge AI Specialist",
+      "Automation Systems Engineer"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "TensorRT FP16 model conversion and GPU memory streaming",
+      "GStreamer pipeline hardware video decoding",
+      "Industrial relay triggering upon defect classification"
+    ]
+  },
+  {
+    "project_id": "proj-hw-014",
+    "title": "Smart Helmet with Edge AI Driver Drowsiness & Crash Detection",
+    "description": "Wearable smart helmet combining ESP32-CAM eye-closure detection with an IMU 16G impact sensor to sound immediate audible alerts and broadcast GPS coordinates over LTE upon crash impact.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Smart Safety Wearables",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "TinyML",
+      "Sensors & Actuators",
+      "Computer Vision",
+      "BLE (Bluetooth Low Energy)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.3,
+      "TinyML": 0.25,
+      "Sensors & Actuators": 0.2,
+      "BLE (Bluetooth Low Energy)": 0.15,
+      "Computer Vision": 0.1
+    },
+    "programming_languages": [
+      "C++",
+      "Embedded C"
+    ],
+    "frameworks": [
+      "ESP-WHO",
+      "TFLite Micro"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Eye aspect ratio (EAR) algorithms",
+      "Accelerometer impact thresholds"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Synthetic collision G-force logs and driver eye aspect dataset",
+    "project_type": "IoT Safety Hardware",
+    "career_paths": [
+      "IoT Wearables Engineer",
+      "Embedded Hardware Developer",
+      "Safety Systems Engineer"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Deploying lightweight face landmark nets on ESP32-CAM",
+      "Crash signature discrimination from ordinary head movements",
+      "Cellular modem AT command automation for emergency SMS"
+    ]
+  },
+  {
+    "project_id": "proj-hw-015",
+    "title": "Automotive CAN Bus Telemetry Logger & Real-Time ECU Simulator",
+    "description": "Hardware tool using dual isolated MCP2515 CAN transceivers and STM32 to sniff, decode, and log standard OBD-II and custom high-speed CAN frames (engine RPM, coolant temp, steering angle) to an SD card.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Automotive Electronics & Telematics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "CAN Bus",
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "CAN Bus": 0.35,
+      "Embedded C": 0.25,
+      "STM32 / ARM Cortex": 0.2,
+      "PCB Design (KiCad)": 0.1,
+      "I2C / SPI / UART": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "SocketCAN",
+      "cantools DBC parser"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "CAN 2.0B differential signaling and arbitration ID priority",
+      "DBC database files"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "OpenGarages Vehicle CAN traffic dump files",
+    "project_type": "Automotive Hardware",
+    "career_paths": [
+      "Automotive Embedded Engineer",
+      "Telematics Firmware Developer",
+      "ECU Calibration Engineer"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "DBC file parsing and automatic signal extraction",
+      "Hardware acceptance mask filtering in CAN controller",
+      "Galvanic isolation and transient voltage suppression (TVS)"
+    ]
+  },
+  {
+    "project_id": "proj-hw-016",
+    "title": "Smart Battery Management System (BMS) with Active Cell Balancing",
+    "description": "Lithium-ion 4S battery protection board featuring high-accuracy millivolt cell voltage monitoring, shunted active balancing, dual NTC thermal cutoff, and I2C/CAN status broadcast to host systems.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Electric Vehicles & Energy Storage",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "PCB Design (KiCad)",
+      "STM32 / ARM Cortex",
+      "CAN Bus",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "PCB Design (KiCad)": 0.3,
+      "Embedded C": 0.25,
+      "STM32 / ARM Cortex": 0.2,
+      "Sensors & Actuators": 0.15,
+      "CAN Bus": 0.1
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "Custom Bare-Metal Drivers"
+    ],
+    "tools": [
+      "PCB Design (KiCad)",
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "Lithium-ion electrochemical safety limits",
+      "High-side MOSFET gate driving"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "NASA Lithium-ion Battery Charge/Discharge Degradation Dataset",
+    "project_type": "Power Electronics & Hardware Design",
+    "career_paths": [
+      "BMS Hardware Engineer",
+      "EV Powertrain Engineer",
+      "Hardware Design Engineer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Designing safe multi-cell balancing topology in KiCad",
+      "Coulomb counting state-of-charge (SoC) estimation algorithms",
+      "Overcurrent and short-circuit hardware analog comparator trips"
+    ]
+  },
+  {
+    "project_id": "proj-hw-017",
+    "title": "Automotive Electronic Throttle Control (Drive-by-Wire) Fail-Safe Unit",
+    "description": "Safety-critical throttle actuator controller utilizing dual redundant Hall-effect pedal sensors, cross-plausibility checking, and an H-bridge motor driver with ISO 26262 functional safety architecture.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Functional Safety & Control",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "CAN Bus",
+      "BLDC Motor Control",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "STM32 / ARM Cortex": 0.25,
+      "Sensors & Actuators": 0.2,
+      "BLDC Motor Control": 0.15,
+      "CAN Bus": 0.1
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "MISRA C Coding Standards"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "Functional safety integrity levels (ASIL B/C)",
+      "Dual-channel sensor plausibility"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Automotive pedal position and throttle plate angle logs",
+    "project_type": "Safety-Critical Automotive",
+    "career_paths": [
+      "Functional Safety Engineer",
+      "Automotive Systems Engineer",
+      "Powertrain Embedded Engineer"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Dual analog sensor signal correlation and disagreement shutdown",
+      "Watchdog window supervisor and safe-state relay decoupling",
+      "PID throttle blade position tracking under aerodynamic loading"
+    ]
+  },
+  {
+    "project_id": "proj-hw-018",
+    "title": "RISC-V 32-bit (RV32I) Pipelined Soft-Core Processor on FPGA",
+    "description": "Design a 5-stage pipelined 32-bit RISC-V processor in Verilog with hazard detection, data forwarding, branch prediction, and memory bus controller, verified on Xilinx Artix-7 FPGA running compiled C programs.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Computer Architecture & FPGA",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "FPGA / Verilog",
+      "Embedded C",
+      "Microcontrollers",
+      "Linux"
+    ],
+    "skill_importance": {
+      "FPGA / Verilog": 0.45,
+      "Embedded C": 0.25,
+      "Microcontrollers": 0.15,
+      "Linux": 0.15
+    },
+    "programming_languages": [
+      "Verilog",
+      "Embedded C"
+    ],
+    "frameworks": [
+      "Xilinx Vivado",
+      "RISC-V GNU Toolchain"
+    ],
+    "tools": [
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "Digital logic design, registers, ALU, multiplexers",
+      "RISC-V ISA instruction encoding"
+    ],
+    "estimated_duration": 6.0,
+    "dataset_available": false,
+    "dataset_source": "RISC-V architectural compliance test suites",
+    "project_type": "VLSI & Digital Hardware",
+    "career_paths": [
+      "Digital Design Engineer",
+      "FPGA Engineer",
+      "ASIC Verification Engineer"
+    ],
+    "resume_value": 9.9,
+    "originality_score": 9.7,
+    "learning_outcomes": [
+      "5-stage pipeline data forwarding and load-use stall logic",
+      "Synthesis, timing closure, and resource utilization on FPGA",
+      "Bootstrapping GCC bare-metal C applications onto custom hardware"
+    ]
+  },
+  {
+    "project_id": "proj-hw-019",
+    "title": "Hardware-Accelerated AES-256 Encryption Engine on FPGA",
+    "description": "Synthesize a high-throughput pipelined AES-256 cryptographic co-processor in Verilog supporting SubBytes, ShiftRows, MixColumns, and AddRoundKey transformations with AXI4-Stream interface for Gbps encryption.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Hardware Cryptography & Acceleration",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "FPGA / Verilog",
+      "Cryptography",
+      "I2C / SPI / UART",
+      "Linux"
+    ],
+    "skill_importance": {
+      "FPGA / Verilog": 0.4,
+      "Cryptography": 0.3,
+      "I2C / SPI / UART": 0.15,
+      "Linux": 0.15
+    },
+    "programming_languages": [
+      "Verilog",
+      "C++"
+    ],
+    "frameworks": [
+      "Xilinx Vivado",
+      "Verilator"
+    ],
+    "tools": [
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "AES Galois Field GF(2^8) math",
+      "Synchronous pipelined digital architecture"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "NIST Cryptographic Algorithm Validation Program (CAVP) test vectors",
+    "project_type": "Digital Hardware & Security",
+    "career_paths": [
+      "FPGA Cryptography Engineer",
+      "Hardware Security Engineer",
+      "Digital ASIC Engineer"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Pipelining cryptographic rounds for multi-Gbps throughput",
+      "AXI4-Stream master/slave handshake protocol implementation",
+      "Testbench generation with Verilator and Python cocotb"
+    ]
+  },
+  {
+    "project_id": "proj-hw-020",
+    "title": "Real-Time 1024-Point FFT Spectrum Analyzer on FPGA with VGA Output",
+    "description": "Construct an FPGA hardware audio spectrum visualizer computing Radix-2 1024-point Fast Fourier Transforms in parallel hardware and rendering a 60 FPS 640x480 RGB VGA waterfall display.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Digital Signal Processing & Display",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "FPGA / Verilog",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "FPGA / Verilog": 0.45,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Verilog",
+      "C++"
+    ],
+    "frameworks": [
+      "Vivado / Quartus"
+    ],
+    "tools": [
+      "Git",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Fast Fourier Transform butterfly stages",
+      "VGA horizontal/vertical sync timing"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Sampled audio audio tones and multi-frequency test chirps",
+    "project_type": "FPGA DSP Hardware",
+    "career_paths": [
+      "FPGA DSP Engineer",
+      "Digital Hardware Engineer",
+      "Radar & Signal Processing Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Radix-2 butterfly block RAM pipelining",
+      "VGA pixel generator state machines and color lookup tables",
+      "Fixed-point Q15 arithmetic error budget management"
+    ]
+  },
+  {
+    "project_id": "proj-hw-021",
+    "title": "Wearable 3-Lead ECG Arrhythmia Monitor with BLE Streaming",
+    "description": "Custom analog frontend PCB using instrumentation amplifiers, driven-right-leg (DRL) circuitry, active notch filtering, and an nRF52/ESP32 running Pan-Tompkins QRS wave detection with Bluetooth LE telemetry.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Biomedical Instrumentation",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "PCB Design (KiCad)",
+      "Embedded C",
+      "BLE (Bluetooth Low Energy)",
+      "Sensors & Actuators",
+      "Arduino / ESP32"
+    ],
+    "skill_importance": {
+      "PCB Design (KiCad)": 0.3,
+      "Embedded C": 0.25,
+      "BLE (Bluetooth Low Energy)": 0.2,
+      "Sensors & Actuators": 0.15,
+      "Arduino / ESP32": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "Nordic nRF Connect SDK / ESP-IDF"
+    ],
+    "tools": [
+      "PCB Design (KiCad)",
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Bio-potential signal characteristics and 50/60Hz noise rejection",
+      "Op-amp active bandpass filters"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "PhysioNet MIT-BIH Arrhythmia Database",
+    "project_type": "Medical Device & Wearable",
+    "career_paths": [
+      "Biomedical Hardware Engineer",
+      "Medical Device Firmware Engineer",
+      "HealthTech Developer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "High CMRR instrumentation amplifier design (>100dB)",
+      "Pan-Tompkins QRS real-time detection in firmware",
+      "BLE GATT standard Heart Rate & Raw Waveform Service"
+    ]
+  },
+  {
+    "project_id": "proj-hw-022",
+    "title": "EMG-Controlled 5-Finger Bionic Prosthetic Hand",
+    "description": "Dual-channel surface electromyography (sEMG) sensor armband conditioning forearm muscle contractions to drive an anatomically articulated 3D-printed bionic hand via servo position feedback.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Bionics & Neural Interfaces",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "Sensors & Actuators",
+      "BLDC Motor Control",
+      "Arduino / ESP32",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Sensors & Actuators": 0.25,
+      "Embedded C": 0.25,
+      "BLDC Motor Control": 0.2,
+      "Arduino / ESP32": 0.15,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "FreeRTOS / Arduino"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "sEMG signal rectification and envelope detection",
+      "Multi-servo kinematic actuation"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "Ninapro Bionic Hand Surface EMG Gesture Database",
+    "project_type": "Prosthetics & Bionics",
+    "career_paths": [
+      "Bionics Engineer",
+      "Prosthetic Robotics Developer",
+      "Biomedical Systems Engineer"
+    ],
+    "resume_value": 9.9,
+    "originality_score": 9.7,
+    "learning_outcomes": [
+      "Analog sEMG differential amplification and baseline drift removal",
+      "Continuous gesture pattern discrimination thresholding",
+      "Mechanical tendon routing and current-limiting grip control"
+    ]
+  },
+  {
+    "project_id": "proj-hw-023",
+    "title": "Non-Invasive Pulse Oximeter & Arterial Stiffness Estimator",
+    "description": "Dual-wavelength (660nm Red and 940nm IR) photoplethysmography (PPG) optical sensor measuring blood oxygen saturation (SpO2), heart rate variability (HRV), and pulse transit time (PTT).",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Optical Biosensing",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "Sensors & Actuators",
+      "I2C / SPI / UART",
+      "Arduino / ESP32",
+      "Python"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "Sensors & Actuators": 0.25,
+      "I2C / SPI / UART": 0.2,
+      "Arduino / ESP32": 0.15,
+      "Python": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "NumPy",
+      "SciPy"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Beer-Lambert law of optical absorption",
+      "AC/DC ratio calculation for PPG"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "MIMIC-II Pulse Oximeter & Arterial Blood Pressure Database",
+    "project_type": "Biomedical Sensing",
+    "career_paths": [
+      "Biosensor Engineer",
+      "Wearable Systems Developer",
+      "Embedded Health Engineer"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.9,
+    "learning_outcomes": [
+      "Optical sensor ambient light cancellation techniques",
+      "Ratio of ratios (R) calculation for SpO2 calibration curve",
+      "Heart rate variability (SDNN, RMSSD) time-domain calculation"
+    ]
+  },
+  {
+    "project_id": "proj-hw-024",
+    "title": "Synchronous Buck MPPT Solar Charge Controller with ESP32 Web UI",
+    "description": "High-efficiency (96%+) 20A Maximum Power Point Tracking (MPPT) solar charger using Perturb & Observe algorithm, synchronous MOSFET buck converter, and ESP32 energy telemetry dashboard.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Power Electronics & Clean Energy",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "PCB Design (KiCad)",
+      "Embedded C",
+      "Arduino / ESP32",
+      "Sensors & Actuators",
+      "I2C / SPI / UART"
+    ],
+    "skill_importance": {
+      "PCB Design (KiCad)": 0.35,
+      "Embedded C": 0.25,
+      "Arduino / ESP32": 0.2,
+      "Sensors & Actuators": 0.1,
+      "I2C / SPI / UART": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "ESP-IDF"
+    ],
+    "tools": [
+      "PCB Design (KiCad)",
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Switch-mode power supply (SMPS) design",
+      "High-frequency inductor and MOSFET selection"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "NREL Solar PV IV-Curve and Irradiance Telemetry Logs",
+    "project_type": "Power Electronics & Energy",
+    "career_paths": [
+      "Power Electronics Engineer",
+      "Solar Systems Hardware Engineer",
+      "Hardware Design Engineer"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "High-current PCB power plane routing and thermal relief",
+      "Synchronous PWM dead-time generation to prevent shoot-through",
+      "Perturb & Observe MPPT efficiency under rapid cloud shading"
+    ]
+  },
+  {
+    "project_id": "proj-hw-025",
+    "title": "Smart IoT Energy Sub-Meter with Split-Core CT Sensors & LoRa",
+    "description": "DIN-rail electrical sub-meter measuring true RMS voltage, active/reactive power, power factor, and harmonics via ADE7758 IC, transmitting daily kilowatt-hour logs across 5 km over LoRaWAN.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Smart Grid & Utilities",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "LoRaWAN",
+      "Embedded C",
+      "Arduino / ESP32",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "LoRaWAN": 0.3,
+      "Embedded C": 0.25,
+      "Sensors & Actuators": 0.2,
+      "Arduino / ESP32": 0.15,
+      "PCB Design (KiCad)": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "LMIC / ChirpStack"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "AC power triangle (kW, kVAR, kVA) and phase angle",
+      "LoRa modulation spreading factors"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "UCI Individual Household Electric Power Consumption Dataset",
+    "project_type": "Smart Grid Hardware",
+    "career_paths": [
+      "Smart Grid Hardware Engineer",
+      "IoT Solutions Architect",
+      "Power Systems Developer"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Galvanic high-voltage isolation techniques (creepage & clearance)",
+      "True RMS and power factor integration math",
+      "Adaptive data rate (ADR) LoRaWAN uplink packaging"
+    ]
+  },
+  {
+    "project_id": "proj-hw-026",
+    "title": "Long-Range LoRaWAN Wildfire Early Warning & Soil Moisture Mesh",
+    "description": "Multi-hop wireless mesh network deploying low-power solar nodes in remote forests measuring VOC gas, infrared thermal canopy radiation, and soil moisture to pinpoint wildfire ignitions.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Environmental Sensor Networks",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "LoRaWAN",
+      "Embedded C",
+      "Sensors & Actuators",
+      "Arduino / ESP32",
+      "Python"
+    ],
+    "skill_importance": {
+      "LoRaWAN": 0.35,
+      "Embedded C": 0.25,
+      "Sensors & Actuators": 0.2,
+      "Arduino / ESP32": 0.1,
+      "Python": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "The Things Network (TTN)",
+      "ChirpStack"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "RF link budget and Fresnel zone clearance",
+      "Sub-GHz ISM band rules"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Kaggle Forest Fire Weather Index (FWI) Dataset",
+    "project_type": "Environmental IoT Hardware",
+    "career_paths": [
+      "IoT Wireless Engineer",
+      "RF Systems Developer",
+      "Environmental Tech Engineer"
+    ],
+    "resume_value": 9.3,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Multi-hop mesh forwarding algorithms for sub-GHz radio",
+      "Sensor low-power wake-up on thermal threshold interrupt",
+      "TTN / ChirpStack payload decoder and webhook ingestion"
+    ]
+  },
+  {
+    "project_id": "proj-hw-027",
+    "title": "Sub-1GHz Frequency Hopping Remote Control for Autonomous Surface Vessels",
+    "description": "Ruggedized 915 MHz frequency-hopping spread spectrum (FHSS) transceiver link with packet error correction, low-latency joystick control, and return telemetry for marine autonomous boats.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "RF & Wireless Systems",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "STM32 / ARM Cortex": 0.25,
+      "I2C / SPI / UART": 0.2,
+      "PCB Design (KiCad)": 0.15,
+      "Sensors & Actuators": 0.1
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "SX1276 / CC1101 Radio Drivers"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "PCB Design (KiCad)",
+      "Git"
+    ],
+    "prerequisites": [
+      "RF link budget and pseudo-random frequency hopping sequences",
+      "CRC error detection"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "RSSI, SNR, and packet loss logs under marine multipath conditions",
+    "project_type": "RF Hardware & Telecommunications",
+    "career_paths": [
+      "RF Systems Engineer",
+      "Marine Robotics Engineer",
+      "Embedded Wireless Developer"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Frequency hopping synchronization and frame alignment",
+      "Handling multipath fading and water reflection interference",
+      "Antenna impedance matching and 50-ohm RF trace design"
+    ]
+  },
+  {
+    "project_id": "proj-hw-028",
+    "title": "BLE Beacon Indoor Positioning & Asset Tracking System",
+    "description": "Triangulate moving inventory tags within warehouse facilities using Bluetooth Low Energy RSSI trilateration and an Extended Kalman Filter, achieving sub-1.5m indoor localization.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Indoor Positioning & RTLS",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "BLE (Bluetooth Low Energy)",
+      "Python",
+      "Arduino / ESP32",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "BLE (Bluetooth Low Energy)": 0.35,
+      "Python": 0.25,
+      "Arduino / ESP32": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "C++",
+      "Python"
+    ],
+    "frameworks": [
+      "FastAPI",
+      "NumPy"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Log-distance path loss models",
+      "Trilateration non-linear least squares"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "UCI BLE RSSI Indoor Localization Dataset",
+    "project_type": "Indoor Positioning Systems",
+    "career_paths": [
+      "Indoor Localization Specialist",
+      "IoT Systems Developer",
+      "Logistics Tech Engineer"
+    ],
+    "resume_value": 8.9,
+    "originality_score": 8.7,
+    "learning_outcomes": [
+      "RSSI distance modeling and multipath noise mitigation",
+      "Least-squares coordinate estimation from multiple anchor points",
+      "Real-time 2D facility floorplan visualization in Python"
+    ]
+  },
+  {
+    "project_id": "proj-hw-029",
+    "title": "Industrial Isolated Modbus RTU to MQTT IIoT Gateway",
+    "description": "Galvanically isolated RS-485 Modbus gateway polling legacy PLC registers and streaming JSON payloads to AWS IoT Core over Ethernet/Wi-Fi with mutual TLS security.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Industrial IoT & SCADA",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "MQTT",
+      "Embedded C",
+      "Arduino / ESP32",
+      "I2C / SPI / UART",
+      "Network Security"
+    ],
+    "skill_importance": {
+      "MQTT": 0.3,
+      "Embedded C": 0.25,
+      "Arduino / ESP32": 0.2,
+      "I2C / SPI / UART": 0.15,
+      "Network Security": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "ESP-IDF / FreeRTOS"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Modbus function codes (03, 04, 06, 16)",
+      "RS-485 termination & differential signalling"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Industrial SCADA Modbus register dumps and telemetry",
+    "project_type": "Industrial IoT Infrastructure",
+    "career_paths": [
+      "IIoT Systems Engineer",
+      "Automation Hardware Developer",
+      "SCADA Integration Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Galvanic optoisolator & DC-DC isolated power design",
+      "Modbus CRC-16 calculation and exception handling",
+      "Mutual TLS certificate authentication on embedded microcontroller"
+    ]
+  },
+  {
+    "project_id": "proj-hw-030",
+    "title": "Automated Pneumatic Bottle-Filling & Capping Machine Controller",
+    "description": "Microcontroller-driven sequence controller orchestrating pneumatic cylinders, peristaltic liquid dosing pumps, inductive proximity sensors, and an emergency stop circuit with an industrial HMI screen.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Industrial Automation & Mechatronics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "Sensors & Actuators",
+      "BLDC Motor Control",
+      "Arduino / ESP32"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "Sensors & Actuators": 0.3,
+      "BLDC Motor Control": 0.2,
+      "Arduino / ESP32": 0.2
+    },
+    "programming_languages": [
+      "Embedded C",
+      "C++"
+    ],
+    "frameworks": [
+      "State Machine Architecture"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "Git"
+    ],
+    "prerequisites": [
+      "Finite State Machine (FSM) sequence control",
+      "Pneumatic 5/2 solenoid valve operation"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": false,
+    "dataset_source": "Sensor actuation sequence timings and throughput logs",
+    "project_type": "Automation & Mechatronics",
+    "career_paths": [
+      "Automation Engineer",
+      "Mechatronics Hardware Developer",
+      "Controls Engineer"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Hierarchical Finite State Machine implementation in C",
+      "Debouncing industrial 24V sensors with optocouplers",
+      "Fail-safe hardware interlocking and emergency stop latching"
+    ]
+  },
+  {
+    "project_id": "proj-hw-031",
+    "title": "Hardware Hacking Toolkit: JTAG / SWD / SPI EEPROM Dumper",
+    "description": "Multi-protocol hardware security exploration tool built with RP2040 Programmable I/O (PIO) to sniff unknown pinouts, dump firmware from flash chips, and inject glitches for security auditing.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Hardware Security & Firmware Analysis",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "Microcontrollers",
+      "I2C / SPI / UART",
+      "Network Security",
+      "Python"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.3,
+      "I2C / SPI / UART": 0.25,
+      "Microcontrollers": 0.2,
+      "Network Security": 0.15,
+      "Python": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "RP2040 PIO ASM"
+    ],
+    "tools": [
+      "Microcontrollers",
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "JTAG TAP state machine and boundary scan",
+      "SPI flash read/write commands"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Raw binary firmware dumps and JTAG scan traces",
+    "project_type": "Hardware Security Tool",
+    "career_paths": [
+      "Hardware Security Researcher",
+      "Embedded Penetration Tester",
+      "Firmware Reverse Engineer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.6,
+    "learning_outcomes": [
+      "RP2040 Programmable I/O state machine assembly",
+      "Automated JTAG pinout enumeration and IDCODE retrieval",
+      "Firmware extraction, entropy analysis, and secret extraction"
+    ]
+  },
+  {
+    "project_id": "proj-hw-032",
+    "title": "CAN Bus Intrusion Detection System (IDS) on Automotive Microcontroller",
+    "description": "In-vehicle security module sniffing high-speed vehicle CAN traffic, tracking message inter-arrival frequencies and Hamming distance changes to block spoofing and replay attacks in under 5ms.",
+    "domain": "Cybersecurity",
+    "subdomain": "Automotive Cybersecurity",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "CAN Bus",
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "Network Security",
+      "Machine Learning"
+    ],
+    "skill_importance": {
+      "CAN Bus": 0.35,
+      "Embedded C": 0.25,
+      "STM32 / ARM Cortex": 0.2,
+      "Network Security": 0.1,
+      "Machine Learning": 0.1
+    },
+    "programming_languages": [
+      "Embedded C",
+      "Python"
+    ],
+    "frameworks": [
+      "Bare-metal High-Performance CAN"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "Automotive CAN frame structure",
+      "Statistical anomaly detection thresholds"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Car-Hacking Dataset for Intrusion Detection (HCRL Korea)",
+    "project_type": "Automotive Cyber Defense",
+    "career_paths": [
+      "Automotive Cybersecurity Engineer",
+      "Embedded Security Specialist",
+      "Vehicle Network Developer"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Inter-arrival timing statistical profiling for CAN frames",
+      "Preventing denial-of-service bus floods with hardware filters",
+      "Cryptographic authentication tags for critical CAN command frames"
+    ]
+  },
+  {
+    "project_id": "proj-hw-033",
+    "title": "Secure Hardware Token (FIDO2 / U2F) with Cryptographic Co-Processor",
+    "description": "USB Type-A/C hardware security authenticator with ATECC608A secure element, capacitive touch verification, and WebAuthn protocol compliance for phishing-resistant multi-factor authentication.",
+    "domain": "Cybersecurity",
+    "subdomain": "Hardware Cryptography & Tokens",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Cryptography",
+      "Embedded C",
+      "I2C / SPI / UART",
+      "PCB Design (KiCad)",
+      "STM32 / ARM Cortex"
+    ],
+    "skill_importance": {
+      "Cryptography": 0.3,
+      "Embedded C": 0.25,
+      "PCB Design (KiCad)": 0.2,
+      "STM32 / ARM Cortex": 0.15,
+      "I2C / SPI / UART": 0.1
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "TinyUSB",
+      "CryptoAuthLib"
+    ],
+    "tools": [
+      "PCB Design (KiCad)",
+      "STM32 / ARM Cortex",
+      "Git"
+    ],
+    "prerequisites": [
+      "Public-key cryptography (ECDSA P-256)",
+      "USB Human Interface Device (HID) class"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "FIDO2 / WebAuthn test suite challenges and signatures",
+    "project_type": "Hardware Security Device",
+    "career_paths": [
+      "Hardware Security Engineer",
+      "Cryptographic Systems Developer",
+      "Embedded Firmware Engineer"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Interfacing hardware secure element over I2C with encrypted sessions",
+      "FIDO2 CTAP2 authenticator protocol state machine",
+      "Capacitive touch presence verification circuit design"
+    ]
+  },
+  {
+    "project_id": "proj-hw-034",
+    "title": "Smart Agricultural Crop Health Drone with Multispectral Sensing",
+    "description": "Autonomous mapping UAV carrying a customized dual-camera payload (Normalized Difference Vegetation Index - NDVI) with embedded GPS geotagging to generate crop vigor heatmaps for precision farming.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Precision Agriculture & Drone Mapping",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Python",
+      "Computer Vision",
+      "ROS2",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Computer Vision": 0.3,
+      "ROS2": 0.25,
+      "Raspberry Pi": 0.2,
+      "Python": 0.15,
+      "Sensors & Actuators": 0.1
+    },
+    "programming_languages": [
+      "Python",
+      "C++"
+    ],
+    "frameworks": [
+      "OpenCV",
+      "QGroundControl / MAVLink"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "NDVI spectral reflectance formula",
+      "MAVLink UAV telemetry protocol"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open multispectral crop aerial drone survey imagery",
+    "project_type": "AgriTech Robotics",
+    "career_paths": [
+      "AgriTech Robotics Engineer",
+      "UAV Applications Developer",
+      "Computer Vision Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "Multispectral camera image alignment and NDVI calculation",
+      "MAVLink waypoint mission execution via drone companion computer",
+      "Automated orthomosaic stitching and crop stress zone identification"
+    ]
+  },
+  {
+    "project_id": "proj-hw-035",
+    "title": "Autonomous Underwater ROV with Video Feed & Depth Holding",
+    "description": "Tethered underwater inspection vehicle with 4 brushless thrusters, depth pressure sensor PID loop, 1080p low-latency video streamer on Raspberry Pi, and surface control joystick interface.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Marine Robotics & ROVs",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "BLDC Motor Control",
+      "Raspberry Pi",
+      "Python",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "BLDC Motor Control": 0.3,
+      "Sensors & Actuators": 0.25,
+      "Raspberry Pi": 0.2,
+      "Python": 0.15,
+      "Linux": 0.1
+    },
+    "programming_languages": [
+      "Python",
+      "C++"
+    ],
+    "frameworks": [
+      "GStreamer",
+      "PyQt"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Linux",
+      "Git"
+    ],
+    "prerequisites": [
+      "Hydrostatic pressure math and depth calculation",
+      "H-bridge / ESC motor thrust vectors"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Waterproof depth and attitude telemetry logs",
+    "project_type": "Marine Robotics",
+    "career_paths": [
+      "Marine Robotics Engineer",
+      "Subsea Systems Developer",
+      "Robotics Mechatronics Engineer"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Waterproof enclosure seal design and thermal dissipation",
+      "Closed-loop depth holding PID loop with MS5837 pressure sensor",
+      "Ethernet tether video streaming with low-latency H.264 RTP"
+    ]
+  },
+  {
+    "project_id": "proj-hw-313",
+    "title": "Embedded Systems & Hardware: Real-Time Sensor Fusion & State Estimation Node",
+    "description": "Combines multi-axis IMU, magnetometer, and barometer using Extended Kalman Filter for sub-millisecond 6-DOF orientation. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "State Estimation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for State Estimation",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-314",
+    "title": "Embedded Systems & Hardware: Ultra-Low-Power Event-Driven Sensor Beacon",
+    "description": "Sub-15uA deep-sleep autonomous sensor harvesting solar energy and waking via comparator threshold interrupts. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Low-Power Firmware",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.6,
+    "originality_score": 8.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Low-Power Firmware",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-315",
+    "title": "Embedded Systems & Hardware: Closed-Loop PID Actuation & Motor Controller",
+    "description": "High-frequency closed-loop position and velocity regulation with optical quadrature encoder feedback. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Motion Control",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Motion Control",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-316",
+    "title": "Embedded Systems & Hardware: Edge TinyML Anomaly & Fault Sentinel",
+    "description": "On-device quantized neural model continuously screening acoustic vibrations for early mechanical degradation. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "TinyML / Edge AI",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "TinyML"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.14,
+      "STM32 / ARM Cortex": 0.14,
+      "FreeRTOS": 0.14,
+      "I2C / SPI / UART": 0.14,
+      "Sensors & Actuators": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "TinyML": 0.16
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS",
+      "TinyML"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for TinyML / Edge AI",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-317",
+    "title": "Embedded Systems & Hardware: Autonomous SLAM & Obstacle Avoidance Rover",
+    "description": "Indoor mobile platform integrating planar 2D LiDAR, wheel odometry, and dynamic obstacle routing. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Autonomous Vehicles",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Autonomous Vehicles",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-318",
+    "title": "Embedded Systems & Hardware: Isolated Industrial Modbus & Fieldbus Gateway",
+    "description": "Optoisolated RS-485 to MQTT network bridge ensuring industrial ground loop immunity and fault isolation. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Industrial Automation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Industrial Automation",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-319",
+    "title": "Embedded Systems & Hardware: High-Speed DMA Data Acquisition & Signal Analyzer",
+    "description": "Continuous multi-channel ADC sampling over high-speed SPI with circular DMA buffers and USB bulk streaming. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Instrumentation",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Instrumentation",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-320",
+    "title": "Embedded Systems & Hardware: Long-Range LoRaWAN Mesh Telemetry Harvester",
+    "description": "Multi-hop wireless mesh telemetry harvester routing environmental sensor readings over 10+ kilometers. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Wireless Sensor Networks",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "LoRaWAN"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "LoRaWAN": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "LoRaWAN"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.9,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Wireless Sensor Networks",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-321",
+    "title": "Embedded Systems & Hardware: Secure Boot & Cryptographic Hardware Sentinel",
+    "description": "Hardware root-of-trust authenticating firmware signatures via SHA-256 and ECC before boot execution. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Hardware Security",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Hardware Security",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-322",
+    "title": "Embedded Systems & Hardware: Synchronous MPPT Energy Harvester & Battery Guard",
+    "description": "High-efficiency DC-DC buck converter dynamically tracking peak solar power point with overcharge cutoffs. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Power Electronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Power Electronics",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-323",
+    "title": "Embedded Systems & Hardware: Multi-Axis Inverse Kinematics Motion Controller",
+    "description": "Computes Cartesian coordinate transformations into joint angles with smooth acceleration profiles. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Mechatronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Mechatronics",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-324",
+    "title": "Embedded Systems & Hardware: Bio-Potential Signal Conditioning & Telemetry Node",
+    "description": "Ultra-low-noise instrumentation amplifier circuit capturing microvolt bio-signals with active noise cancellation. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Biomedical Engineering",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.3,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Biomedical Engineering",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-325",
+    "title": "Embedded Systems & Hardware: Real-Time CAN Bus Automotive Telemetry Logger",
+    "description": "Sniffs automotive differential CAN frames, decoding standard OBD-II metrics and logging to flash. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Automotive Electronics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "CAN Bus"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "CAN Bus": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "CAN Bus"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.7,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Automotive Electronics",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-326",
+    "title": "Embedded Systems & Hardware: Hardware-Accelerated FPGA Coprocessor Pipeline",
+    "description": "Synthesizes parallel digital computation pipelines in Verilog to achieve sub-microsecond algorithmic latency. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "VLSI & FPGA",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "FPGA / Verilog"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.14,
+      "STM32 / ARM Cortex": 0.14,
+      "FreeRTOS": 0.14,
+      "I2C / SPI / UART": 0.14,
+      "Sensors & Actuators": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "FPGA / Verilog": 0.16
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for VLSI & FPGA",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-327",
+    "title": "Embedded Systems & Hardware: Wireless BLE Mesh Environmental Perception Network",
+    "description": "Decentralized Bluetooth Low Energy mesh routing sensor packets across dozens of interconnected nodes. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "IoT & Connectivity",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "BLE (Bluetooth Low Energy)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "BLE (Bluetooth Low Energy)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for IoT & Connectivity",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-328",
+    "title": "Embedded Systems & Hardware: Embedded Vision Barcode & Part Inspection Sorter",
+    "description": "Compact edge camera module running lightweight computer vision to classify and sort inventory items. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Embedded Vision",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Embedded Vision",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-329",
+    "title": "Embedded Systems & Hardware: Automated Watchdog & Fault Recovery Controller",
+    "description": "Hardware supervisor circuit monitoring heartbeat signals and safely power-cycling stalled sub-systems. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "Reliability & Safety",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.2,
+      "STM32 / ARM Cortex": 0.2,
+      "FreeRTOS": 0.2,
+      "I2C / SPI / UART": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 2.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.5,
+    "originality_score": 8.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Reliability & Safety",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-330",
+    "title": "Embedded Systems & Hardware: Sub-GHz Frequency Hopping Remote Telemetry Link",
+    "description": "Robust wireless data connection with pseudo-random channel hopping to survive industrial interference. Designed with production-grade engineering principles for real-world embedded systems & hardware applications.",
+    "domain": "Embedded Systems & Hardware",
+    "subdomain": "RF Systems",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Embedded C",
+      "STM32 / ARM Cortex",
+      "FreeRTOS",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Embedded C": 0.17,
+      "STM32 / ARM Cortex": 0.17,
+      "FreeRTOS": 0.17,
+      "I2C / SPI / UART": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "FreeRTOS"
+    ],
+    "tools": [
+      "STM32 / ARM Cortex",
+      "I2C / SPI / UART",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Embedded Systems & Hardware",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Embedded Systems & Hardware Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for RF Systems",
+      "Write robust firmware and driver code using Embedded C, STM32 / ARM Cortex, FreeRTOS",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-331",
+    "title": "Robotics & Autonomous Systems: Real-Time Sensor Fusion & State Estimation Node",
+    "description": "Combines multi-axis IMU, magnetometer, and barometer using Extended Kalman Filter for sub-millisecond 6-DOF orientation. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "State Estimation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for State Estimation",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-332",
+    "title": "Robotics & Autonomous Systems: Ultra-Low-Power Event-Driven Sensor Beacon",
+    "description": "Sub-15uA deep-sleep autonomous sensor harvesting solar energy and waking via comparator threshold interrupts. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Low-Power Firmware",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.6,
+    "originality_score": 8.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Low-Power Firmware",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-333",
+    "title": "Robotics & Autonomous Systems: Closed-Loop PID Actuation & Motor Controller",
+    "description": "High-frequency closed-loop position and velocity regulation with optical quadrature encoder feedback. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Motion Control",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Motion Control",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-334",
+    "title": "Robotics & Autonomous Systems: Edge TinyML Anomaly & Fault Sentinel",
+    "description": "On-device quantized neural model continuously screening acoustic vibrations for early mechanical degradation. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "TinyML / Edge AI",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)",
+      "TinyML"
+    ],
+    "skill_importance": {
+      "ROS2": 0.14,
+      "C++": 0.14,
+      "BLDC Motor Control": 0.14,
+      "Sensors & Actuators": 0.14,
+      "Linux": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "TinyML": 0.16
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2",
+      "TinyML"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for TinyML / Edge AI",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-335",
+    "title": "Robotics & Autonomous Systems: Autonomous SLAM & Obstacle Avoidance Rover",
+    "description": "Indoor mobile platform integrating planar 2D LiDAR, wheel odometry, and dynamic obstacle routing. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Autonomous Vehicles",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Autonomous Vehicles",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-336",
+    "title": "Robotics & Autonomous Systems: Isolated Industrial Modbus & Fieldbus Gateway",
+    "description": "Optoisolated RS-485 to MQTT network bridge ensuring industrial ground loop immunity and fault isolation. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Industrial Automation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Industrial Automation",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-337",
+    "title": "Robotics & Autonomous Systems: High-Speed DMA Data Acquisition & Signal Analyzer",
+    "description": "Continuous multi-channel ADC sampling over high-speed SPI with circular DMA buffers and USB bulk streaming. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Instrumentation",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Instrumentation",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-338",
+    "title": "Robotics & Autonomous Systems: Long-Range LoRaWAN Mesh Telemetry Harvester",
+    "description": "Multi-hop wireless mesh telemetry harvester routing environmental sensor readings over 10+ kilometers. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Wireless Sensor Networks",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "LoRaWAN"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "LoRaWAN": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "LoRaWAN"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.9,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Wireless Sensor Networks",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-339",
+    "title": "Robotics & Autonomous Systems: Secure Boot & Cryptographic Hardware Sentinel",
+    "description": "Hardware root-of-trust authenticating firmware signatures via SHA-256 and ECC before boot execution. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Hardware Security",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Hardware Security",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-340",
+    "title": "Robotics & Autonomous Systems: Synchronous MPPT Energy Harvester & Battery Guard",
+    "description": "High-efficiency DC-DC buck converter dynamically tracking peak solar power point with overcharge cutoffs. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Power Electronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Power Electronics",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-341",
+    "title": "Robotics & Autonomous Systems: Multi-Axis Inverse Kinematics Motion Controller",
+    "description": "Computes Cartesian coordinate transformations into joint angles with smooth acceleration profiles. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Mechatronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Mechatronics",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-342",
+    "title": "Robotics & Autonomous Systems: Bio-Potential Signal Conditioning & Telemetry Node",
+    "description": "Ultra-low-noise instrumentation amplifier circuit capturing microvolt bio-signals with active noise cancellation. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Biomedical Engineering",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.3,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Biomedical Engineering",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-343",
+    "title": "Robotics & Autonomous Systems: Real-Time CAN Bus Automotive Telemetry Logger",
+    "description": "Sniffs automotive differential CAN frames, decoding standard OBD-II metrics and logging to flash. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Automotive Electronics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "CAN Bus"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "CAN Bus": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "CAN Bus"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.7,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Automotive Electronics",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-344",
+    "title": "Robotics & Autonomous Systems: Hardware-Accelerated FPGA Coprocessor Pipeline",
+    "description": "Synthesizes parallel digital computation pipelines in Verilog to achieve sub-microsecond algorithmic latency. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "VLSI & FPGA",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)",
+      "FPGA / Verilog"
+    ],
+    "skill_importance": {
+      "ROS2": 0.14,
+      "C++": 0.14,
+      "BLDC Motor Control": 0.14,
+      "Sensors & Actuators": 0.14,
+      "Linux": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "FPGA / Verilog": 0.16
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for VLSI & FPGA",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-345",
+    "title": "Robotics & Autonomous Systems: Wireless BLE Mesh Environmental Perception Network",
+    "description": "Decentralized Bluetooth Low Energy mesh routing sensor packets across dozens of interconnected nodes. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "IoT & Connectivity",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "BLE (Bluetooth Low Energy)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "BLE (Bluetooth Low Energy)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for IoT & Connectivity",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-346",
+    "title": "Robotics & Autonomous Systems: Embedded Vision Barcode & Part Inspection Sorter",
+    "description": "Compact edge camera module running lightweight computer vision to classify and sort inventory items. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Embedded Vision",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Embedded Vision",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-347",
+    "title": "Robotics & Autonomous Systems: Automated Watchdog & Fault Recovery Controller",
+    "description": "Hardware supervisor circuit monitoring heartbeat signals and safely power-cycling stalled sub-systems. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "Reliability & Safety",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "skill_importance": {
+      "ROS2": 0.2,
+      "C++": 0.2,
+      "BLDC Motor Control": 0.2,
+      "Sensors & Actuators": 0.2,
+      "Linux": 0.2
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 2.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.5,
+    "originality_score": 8.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Reliability & Safety",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-348",
+    "title": "Robotics & Autonomous Systems: Sub-GHz Frequency Hopping Remote Telemetry Link",
+    "description": "Robust wireless data connection with pseudo-random channel hopping to survive industrial interference. Designed with production-grade engineering principles for real-world robotics & autonomous systems applications.",
+    "domain": "Robotics & Autonomous Systems",
+    "subdomain": "RF Systems",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "ROS2",
+      "C++",
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "ROS2": 0.17,
+      "C++": 0.17,
+      "BLDC Motor Control": 0.17,
+      "Sensors & Actuators": 0.17,
+      "Linux": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "C++"
+    ],
+    "frameworks": [
+      "ROS2"
+    ],
+    "tools": [
+      "BLDC Motor Control",
+      "Sensors & Actuators",
+      "Linux",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of C++"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Robotics & Autonomous Systems",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Robotics & Autonomous Systems Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for RF Systems",
+      "Write robust firmware and driver code using ROS2, C++, BLDC Motor Control",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-349",
+    "title": "Internet of Things (IoT): Real-Time Sensor Fusion & State Estimation Node",
+    "description": "Combines multi-axis IMU, magnetometer, and barometer using Extended Kalman Filter for sub-millisecond 6-DOF orientation. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "State Estimation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for State Estimation",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-350",
+    "title": "Internet of Things (IoT): Ultra-Low-Power Event-Driven Sensor Beacon",
+    "description": "Sub-15uA deep-sleep autonomous sensor harvesting solar energy and waking via comparator threshold interrupts. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Low-Power Firmware",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.6,
+    "originality_score": 8.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Low-Power Firmware",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-351",
+    "title": "Internet of Things (IoT): Closed-Loop PID Actuation & Motor Controller",
+    "description": "High-frequency closed-loop position and velocity regulation with optical quadrature encoder feedback. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Motion Control",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Motion Control",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-352",
+    "title": "Internet of Things (IoT): Edge TinyML Anomaly & Fault Sentinel",
+    "description": "On-device quantized neural model continuously screening acoustic vibrations for early mechanical degradation. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "TinyML / Edge AI",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "TinyML"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.14,
+      "LoRaWAN": 0.14,
+      "MQTT": 0.14,
+      "Embedded C": 0.14,
+      "Sensors & Actuators": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "TinyML": 0.16
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [
+      "TinyML"
+    ],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for TinyML / Edge AI",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-353",
+    "title": "Internet of Things (IoT): Autonomous SLAM & Obstacle Avoidance Rover",
+    "description": "Indoor mobile platform integrating planar 2D LiDAR, wheel odometry, and dynamic obstacle routing. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Autonomous Vehicles",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Autonomous Vehicles",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-354",
+    "title": "Internet of Things (IoT): Isolated Industrial Modbus & Fieldbus Gateway",
+    "description": "Optoisolated RS-485 to MQTT network bridge ensuring industrial ground loop immunity and fault isolation. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Industrial Automation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Industrial Automation",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-355",
+    "title": "Internet of Things (IoT): High-Speed DMA Data Acquisition & Signal Analyzer",
+    "description": "Continuous multi-channel ADC sampling over high-speed SPI with circular DMA buffers and USB bulk streaming. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Instrumentation",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Instrumentation",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-356",
+    "title": "Internet of Things (IoT): Long-Range LoRaWAN Mesh Telemetry Harvester",
+    "description": "Multi-hop wireless mesh telemetry harvester routing environmental sensor readings over 10+ kilometers. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Wireless Sensor Networks",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.9,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Wireless Sensor Networks",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-357",
+    "title": "Internet of Things (IoT): Secure Boot & Cryptographic Hardware Sentinel",
+    "description": "Hardware root-of-trust authenticating firmware signatures via SHA-256 and ECC before boot execution. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Hardware Security",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Hardware Security",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-358",
+    "title": "Internet of Things (IoT): Synchronous MPPT Energy Harvester & Battery Guard",
+    "description": "High-efficiency DC-DC buck converter dynamically tracking peak solar power point with overcharge cutoffs. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Power Electronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Power Electronics",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-359",
+    "title": "Internet of Things (IoT): Multi-Axis Inverse Kinematics Motion Controller",
+    "description": "Computes Cartesian coordinate transformations into joint angles with smooth acceleration profiles. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Mechatronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Mechatronics",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-360",
+    "title": "Internet of Things (IoT): Bio-Potential Signal Conditioning & Telemetry Node",
+    "description": "Ultra-low-noise instrumentation amplifier circuit capturing microvolt bio-signals with active noise cancellation. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Biomedical Engineering",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.3,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Biomedical Engineering",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-361",
+    "title": "Internet of Things (IoT): Real-Time CAN Bus Automotive Telemetry Logger",
+    "description": "Sniffs automotive differential CAN frames, decoding standard OBD-II metrics and logging to flash. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Automotive Electronics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "CAN Bus"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "CAN Bus": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "CAN Bus"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.7,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Automotive Electronics",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-362",
+    "title": "Internet of Things (IoT): Hardware-Accelerated FPGA Coprocessor Pipeline",
+    "description": "Synthesizes parallel digital computation pipelines in Verilog to achieve sub-microsecond algorithmic latency. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "VLSI & FPGA",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "FPGA / Verilog"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.14,
+      "LoRaWAN": 0.14,
+      "MQTT": 0.14,
+      "Embedded C": 0.14,
+      "Sensors & Actuators": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "FPGA / Verilog": 0.16
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for VLSI & FPGA",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-363",
+    "title": "Internet of Things (IoT): Wireless BLE Mesh Environmental Perception Network",
+    "description": "Decentralized Bluetooth Low Energy mesh routing sensor packets across dozens of interconnected nodes. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "IoT & Connectivity",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "BLE (Bluetooth Low Energy)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "BLE (Bluetooth Low Energy)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for IoT & Connectivity",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-364",
+    "title": "Internet of Things (IoT): Embedded Vision Barcode & Part Inspection Sorter",
+    "description": "Compact edge camera module running lightweight computer vision to classify and sort inventory items. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Embedded Vision",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Embedded Vision",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-365",
+    "title": "Internet of Things (IoT): Automated Watchdog & Fault Recovery Controller",
+    "description": "Hardware supervisor circuit monitoring heartbeat signals and safely power-cycling stalled sub-systems. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "Reliability & Safety",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.2,
+      "LoRaWAN": 0.2,
+      "MQTT": 0.2,
+      "Embedded C": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 2.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.5,
+    "originality_score": 8.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Reliability & Safety",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-366",
+    "title": "Internet of Things (IoT): Sub-GHz Frequency Hopping Remote Telemetry Link",
+    "description": "Robust wireless data connection with pseudo-random channel hopping to survive industrial interference. Designed with production-grade engineering principles for real-world internet of things (iot) applications.",
+    "domain": "Internet of Things (IoT)",
+    "subdomain": "RF Systems",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "MQTT",
+      "Embedded C",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "Arduino / ESP32": 0.17,
+      "LoRaWAN": 0.17,
+      "MQTT": 0.17,
+      "Embedded C": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Embedded C"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Arduino / ESP32",
+      "LoRaWAN",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Embedded C"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": false,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Internet of Things (IoT)",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Internet of Things (IoT) Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for RF Systems",
+      "Write robust firmware and driver code using Arduino / ESP32, LoRaWAN, MQTT",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-367",
+    "title": "Computer Vision: Real-Time Sensor Fusion & State Estimation Node",
+    "description": "Combines multi-axis IMU, magnetometer, and barometer using Extended Kalman Filter for sub-millisecond 6-DOF orientation. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "State Estimation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for State Estimation",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-368",
+    "title": "Computer Vision: Ultra-Low-Power Event-Driven Sensor Beacon",
+    "description": "Sub-15uA deep-sleep autonomous sensor harvesting solar energy and waking via comparator threshold interrupts. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Low-Power Firmware",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.6,
+    "originality_score": 8.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Low-Power Firmware",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-369",
+    "title": "Computer Vision: Closed-Loop PID Actuation & Motor Controller",
+    "description": "High-frequency closed-loop position and velocity regulation with optical quadrature encoder feedback. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Motion Control",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Motion Control",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-370",
+    "title": "Computer Vision: Edge TinyML Anomaly & Fault Sentinel",
+    "description": "On-device quantized neural model continuously screening acoustic vibrations for early mechanical degradation. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "TinyML / Edge AI",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "TinyML"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.14,
+      "Python": 0.14,
+      "Computer Vision": 0.14,
+      "Raspberry Pi": 0.14,
+      "Sensors & Actuators": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "TinyML": 0.16
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV",
+      "TinyML"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for TinyML / Edge AI",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-371",
+    "title": "Computer Vision: Autonomous SLAM & Obstacle Avoidance Rover",
+    "description": "Indoor mobile platform integrating planar 2D LiDAR, wheel odometry, and dynamic obstacle routing. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Autonomous Vehicles",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.7,
+    "originality_score": 9.4,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Autonomous Vehicles",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-372",
+    "title": "Computer Vision: Isolated Industrial Modbus & Fieldbus Gateway",
+    "description": "Optoisolated RS-485 to MQTT network bridge ensuring industrial ground loop immunity and fault isolation. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Industrial Automation",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Industrial Automation",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-373",
+    "title": "Computer Vision: High-Speed DMA Data Acquisition & Signal Analyzer",
+    "description": "Continuous multi-channel ADC sampling over high-speed SPI with circular DMA buffers and USB bulk streaming. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Instrumentation",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Instrumentation",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-374",
+    "title": "Computer Vision: Long-Range LoRaWAN Mesh Telemetry Harvester",
+    "description": "Multi-hop wireless mesh telemetry harvester routing environmental sensor readings over 10+ kilometers. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Wireless Sensor Networks",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "LoRaWAN"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "LoRaWAN": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "LoRaWAN"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.9,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Wireless Sensor Networks",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-375",
+    "title": "Computer Vision: Secure Boot & Cryptographic Hardware Sentinel",
+    "description": "Hardware root-of-trust authenticating firmware signatures via SHA-256 and ECC before boot execution. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Hardware Security",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.6,
+    "originality_score": 9.3,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Hardware Security",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-376",
+    "title": "Computer Vision: Synchronous MPPT Energy Harvester & Battery Guard",
+    "description": "High-efficiency DC-DC buck converter dynamically tracking peak solar power point with overcharge cutoffs. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Power Electronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 5.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.5,
+    "originality_score": 9.2,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Power Electronics",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-377",
+    "title": "Computer Vision: Multi-Axis Inverse Kinematics Motion Controller",
+    "description": "Computes Cartesian coordinate transformations into joint angles with smooth acceleration profiles. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Mechatronics",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Mechatronics",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-378",
+    "title": "Computer Vision: Bio-Potential Signal Conditioning & Telemetry Node",
+    "description": "Ultra-low-noise instrumentation amplifier circuit capturing microvolt bio-signals with active noise cancellation. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Biomedical Engineering",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.0,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.3,
+    "originality_score": 9.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Biomedical Engineering",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-379",
+    "title": "Computer Vision: Real-Time CAN Bus Automotive Telemetry Logger",
+    "description": "Sniffs automotive differential CAN frames, decoding standard OBD-II metrics and logging to flash. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Automotive Electronics",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "CAN Bus"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "CAN Bus": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "CAN Bus"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.2,
+    "originality_score": 8.7,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Automotive Electronics",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-380",
+    "title": "Computer Vision: Hardware-Accelerated FPGA Coprocessor Pipeline",
+    "description": "Synthesizes parallel digital computation pipelines in Verilog to achieve sub-microsecond algorithmic latency. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "VLSI & FPGA",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)",
+      "FPGA / Verilog"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.14,
+      "Python": 0.14,
+      "Computer Vision": 0.14,
+      "Raspberry Pi": 0.14,
+      "Sensors & Actuators": 0.14,
+      "PCB Design (KiCad)": 0.14,
+      "FPGA / Verilog": 0.16
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 5.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.8,
+    "originality_score": 9.5,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for VLSI & FPGA",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-381",
+    "title": "Computer Vision: Wireless BLE Mesh Environmental Perception Network",
+    "description": "Decentralized Bluetooth Low Energy mesh routing sensor packets across dozens of interconnected nodes. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "IoT & Connectivity",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "BLE (Bluetooth Low Energy)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "BLE (Bluetooth Low Energy)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.0,
+    "originality_score": 8.6,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for IoT & Connectivity",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-382",
+    "title": "Computer Vision: Embedded Vision Barcode & Part Inspection Sorter",
+    "description": "Compact edge camera module running lightweight computer vision to classify and sort inventory items. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Embedded Vision",
+    "difficulty": "Intermediate",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 3.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Intermediate Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.1,
+    "originality_score": 8.8,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Embedded Vision",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-383",
+    "title": "Computer Vision: Automated Watchdog & Fault Recovery Controller",
+    "description": "Hardware supervisor circuit monitoring heartbeat signals and safely power-cycling stalled sub-systems. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "Reliability & Safety",
+    "difficulty": "Beginner",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.2,
+      "Python": 0.2,
+      "Computer Vision": 0.2,
+      "Raspberry Pi": 0.2,
+      "Sensors & Actuators": 0.2
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 2.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Beginner Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 8.5,
+    "originality_score": 8.0,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for Reliability & Safety",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
+  },
+  {
+    "project_id": "proj-hw-384",
+    "title": "Computer Vision: Sub-GHz Frequency Hopping Remote Telemetry Link",
+    "description": "Robust wireless data connection with pseudo-random channel hopping to survive industrial interference. Designed with production-grade engineering principles for real-world computer vision applications.",
+    "domain": "Computer Vision",
+    "subdomain": "RF Systems",
+    "difficulty": "Advanced",
+    "required_skills": [
+      "OpenCV",
+      "Python",
+      "Computer Vision",
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "skill_importance": {
+      "OpenCV": 0.17,
+      "Python": 0.17,
+      "Computer Vision": 0.17,
+      "Raspberry Pi": 0.17,
+      "Sensors & Actuators": 0.17,
+      "PCB Design (KiCad)": 0.15
+    },
+    "programming_languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "OpenCV"
+    ],
+    "tools": [
+      "Raspberry Pi",
+      "Sensors & Actuators",
+      "PCB Design (KiCad)"
+    ],
+    "prerequisites": [
+      "Basic circuit theory & electronics",
+      "Working knowledge of Python"
+    ],
+    "estimated_duration": 4.5,
+    "dataset_available": true,
+    "dataset_source": "Open hardware reference repository and sensor telemetry logs for Computer Vision",
+    "project_type": "Advanced Hardware Project",
+    "career_paths": [
+      "Computer Vision Engineer",
+      "Embedded Systems Developer",
+      "Robotics Hardware Specialist"
+    ],
+    "resume_value": 9.4,
+    "originality_score": 9.1,
+    "learning_outcomes": [
+      "Design and construct operational hardware circuits for RF Systems",
+      "Write robust firmware and driver code using OpenCV, Python, Computer Vision",
+      "Perform oscilloscope / logic analyzer verification and document hardware test results"
+    ]
   }
 ]

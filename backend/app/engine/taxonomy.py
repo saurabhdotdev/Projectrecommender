@@ -24,7 +24,8 @@ VALID_DOMAINS = [
     "HealthTech & BioInformatics",
     "EdTech",
     "Climate & Sustainability",
-    "Robotics & Autonomous Systems"
+    "Robotics & Autonomous Systems",
+    "Embedded Systems & Hardware"
 ]
 
 VALID_DIFFICULTIES = ["Beginner", "Intermediate", "Advanced"]
@@ -121,6 +122,25 @@ SKILL_TAXONOMY_REGISTRY: Dict[str, Dict] = {
     "React Native": {"category": "Mobile", "base_learning_hours": 25, "prereqs": ["React"]},
     "Flutter": {"category": "Mobile", "base_learning_hours": 30, "prereqs": []},
     "Web3.js / Ethers.js": {"category": "Blockchain", "base_learning_hours": 20, "prereqs": ["JavaScript", "Solidity"]},
+
+    # Embedded Systems, Hardware & Advanced IoT
+    "Embedded C": {"category": "Hardware", "base_learning_hours": 35, "prereqs": ["C++"]},
+    "FreeRTOS": {"category": "Hardware", "base_learning_hours": 30, "prereqs": ["Embedded C"]},
+    "STM32 / ARM Cortex": {"category": "Hardware", "base_learning_hours": 40, "prereqs": ["Embedded C"]},
+    "Raspberry Pi": {"category": "Hardware", "base_learning_hours": 15, "prereqs": ["Linux", "Python"]},
+    "ROS2": {"category": "Robotics", "base_learning_hours": 45, "prereqs": ["C++", "Python", "Linux"]},
+    "TinyML": {"category": "Hardware", "base_learning_hours": 35, "prereqs": ["Machine Learning", "Embedded C"]},
+    "FPGA / Verilog": {"category": "Hardware", "base_learning_hours": 55, "prereqs": []},
+    "VHDL": {"category": "Hardware", "base_learning_hours": 50, "prereqs": []},
+    "PCB Design (KiCad)": {"category": "Hardware", "base_learning_hours": 30, "prereqs": []},
+    "CAN Bus": {"category": "Hardware", "base_learning_hours": 20, "prereqs": ["Embedded C"]},
+    "LoRaWAN": {"category": "IoT", "base_learning_hours": 20, "prereqs": []},
+    "Sensors & Actuators": {"category": "Hardware", "base_learning_hours": 15, "prereqs": []},
+    "I2C / SPI / UART": {"category": "Hardware", "base_learning_hours": 15, "prereqs": []},
+    "BLDC Motor Control": {"category": "Hardware", "base_learning_hours": 35, "prereqs": ["Embedded C"]},
+    "BLE (Bluetooth Low Energy)": {"category": "IoT", "base_learning_hours": 25, "prereqs": []},
+    "Zigbee": {"category": "IoT", "base_learning_hours": 20, "prereqs": []},
+    "Microcontrollers": {"category": "Hardware", "base_learning_hours": 25, "prereqs": []},
 }
 
 # Alias mapping for skill name normalization
@@ -307,6 +327,56 @@ SKILL_ALIASES: Dict[str, str] = {
     "web3": "Web3.js / Ethers.js",
     "web3.js": "Web3.js / Ethers.js",
     "ethers": "Web3.js / Ethers.js",
+
+    # Hardware, Embedded & Robotics aliases
+    "embedded c": "Embedded C",
+    "bare metal c": "Embedded C",
+    "bare metal": "Embedded C",
+    "arm": "STM32 / ARM Cortex",
+    "cortex": "STM32 / ARM Cortex",
+    "arm cortex": "STM32 / ARM Cortex",
+    "stm32": "STM32 / ARM Cortex",
+    "freertos": "FreeRTOS",
+    "rtos": "FreeRTOS",
+    "real-time operating system": "FreeRTOS",
+    "ros2": "ROS2",
+    "ros 2": "ROS2",
+    "tinyml": "TinyML",
+    "edge ai": "TinyML",
+    "tflite micro": "TinyML",
+    "verilog": "FPGA / Verilog",
+    "systemverilog": "FPGA / Verilog",
+    "fpga": "FPGA / Verilog",
+    "vhdl": "VHDL",
+    "pcb": "PCB Design (KiCad)",
+    "pcb design": "PCB Design (KiCad)",
+    "kicad": "PCB Design (KiCad)",
+    "altium": "PCB Design (KiCad)",
+    "can": "CAN Bus",
+    "can bus": "CAN Bus",
+    "canbus": "CAN Bus",
+    "obd2": "CAN Bus",
+    "obd-ii": "CAN Bus",
+    "lora": "LoRaWAN",
+    "lorawan": "LoRaWAN",
+    "raspberry pi": "Raspberry Pi",
+    "raspberry-pi": "Raspberry Pi",
+    "rpi": "Raspberry Pi",
+    "ble": "BLE (Bluetooth Low Energy)",
+    "bluetooth": "BLE (Bluetooth Low Energy)",
+    "bluetooth low energy": "BLE (Bluetooth Low Energy)",
+    "zigbee": "Zigbee",
+    "bldc": "BLDC Motor Control",
+    "motor control": "BLDC Motor Control",
+    "uart": "I2C / SPI / UART",
+    "spi": "I2C / SPI / UART",
+    "i2c": "I2C / SPI / UART",
+    "sensors": "Sensors & Actuators",
+    "actuators": "Sensors & Actuators",
+    "sensors and actuators": "Sensors & Actuators",
+    "microcontroller": "Microcontrollers",
+    "microcontrollers": "Microcontrollers",
+    "mcu": "Microcontrollers",
 }
 
 

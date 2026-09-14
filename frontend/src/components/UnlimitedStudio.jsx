@@ -13,11 +13,12 @@ const DOMAIN_OPTIONS = [
   'FinTech & Quantitative Engineering',
   'HealthTech & Medical AI',
   'Internet of Things (IoT) & Embedded',
+  'Embedded Systems & Hardware',
   'Web3 & Decentralized Systems'
 ];
 
 const POPULAR_TECH = [
-  'Python', 'FastAPI', 'PyTorch', 'Docker', 'React', 'TypeScript', 'Go', 'Rust', 'PostgreSQL', 'Redis', 'Kafka', 'Kubernetes', 'Next.js', 'LangChain', 'OpenCV', 'ROS2'
+  'Python', 'FastAPI', 'PyTorch', 'Docker', 'React', 'TypeScript', 'Go', 'Rust', 'PostgreSQL', 'Redis', 'Kafka', 'Kubernetes', 'Next.js', 'LangChain', 'OpenCV', 'ROS2', 'Embedded C', 'ESP32', 'STM32', 'FreeRTOS', 'KiCad', 'FPGA'
 ];
 
 const ARCHITECTURE_STYLES = [
@@ -144,6 +145,15 @@ const INSPIRATION_TEMPLATES = [
     domain: 'Robotics & Autonomous Systems',
     category: 'robotics',
     tech: ['Python', 'C++', 'MQTT', 'Docker']
+  },
+  {
+    icon: '⚡',
+    shortTitle: 'Bare-Metal Flight Controller',
+    title: 'Bare-Metal STM32 Flight Controller with FreeRTOS & DMA',
+    prompt: 'Hard real-time drone flight controller on STM32 ARM Cortex-M4 using FreeRTOS, 1kHz PID cascaded loop, DMA-driven SPI IMU sampling, complementary sensor fusion, and blackbox flash logging.',
+    domain: 'Embedded Systems & Hardware',
+    category: 'embedded',
+    tech: ['Embedded C', 'STM32 / ARM Cortex', 'FreeRTOS', 'KiCad']
   }
 ];
 

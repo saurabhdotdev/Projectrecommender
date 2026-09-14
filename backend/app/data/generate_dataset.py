@@ -733,6 +733,15 @@ def generate_all_projects() -> List[Dict]:
             })
             idx += 1
 
+    # Integrate Comprehensive Hardware & Embedded Systems Catalog (107+ projects)
+    try:
+        from .hardware_projects import generate_hardware_projects
+    except ImportError:
+        from hardware_projects import generate_hardware_projects
+
+    hw_projects = generate_hardware_projects(start_idx=idx)
+    projects.extend(hw_projects)
+
     return projects
 
 if __name__ == "__main__":
@@ -742,3 +751,4 @@ if __name__ == "__main__":
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(generated, f, indent=2)
     print(f"Generated {len(generated)} projects successfully at {out_file}")
+
