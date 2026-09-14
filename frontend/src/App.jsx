@@ -120,7 +120,7 @@ export default function App() {
   const [mockInterviewProject, setMockInterviewProject] = useState(null);
   const [mockInterviewQuestions, setMockInterviewQuestions] = useState(null);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
-  const [auditRepoUrl, setAuditRepoUrl] = useState('https://github.com/saurabhdotdev/DocMindAi');
+  const [auditRepoUrl, setAuditRepoUrl] = useState('');
   const [auditProjectTitle, setAuditProjectTitle] = useState('');
   const [auditProjectId, setAuditProjectId] = useState('');
   const [copilotProject, setCopilotProject] = useState(null);
@@ -590,8 +590,8 @@ export default function App() {
     setMockInterviewQuestions(questions);
   };
 
-  const handleOpenGitHubAudit = (repoUrl = 'https://github.com/saurabhdotdev/DocMindAi', project = null) => {
-    setAuditRepoUrl(repoUrl || 'https://github.com/saurabhdotdev/DocMindAi');
+  const handleOpenGitHubAudit = (repoUrl = '', project = null) => {
+    setAuditRepoUrl(repoUrl || '');
     setAuditProjectTitle(project?.title || '');
     setAuditProjectId(project?.project_id || '');
     setIsAuditModalOpen(true);

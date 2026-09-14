@@ -128,7 +128,7 @@ export default function Navbar({
             <button
               id="btn-nav-github-audit"
               className="btn btn-secondary btn-sm nav-action-btn"
-              onClick={() => onOpenGitHubAudit('https://github.com/saurabhdotdev/DocMindAi')}
+              onClick={() => onOpenGitHubAudit('')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -138,7 +138,7 @@ export default function Navbar({
                 background: 'rgba(59, 130, 246, 0.12)',
                 color: 'var(--primary)'
               }}
-              title="Audit GitHub Repository Code Quality & Production Readiness (@saurabhdotdev)"
+              title="Audit GitHub Repository Code Quality & Production Readiness"
             >
               <span>⚡</span>
               <span className="btn-label-desktop">Code Auditor</span>

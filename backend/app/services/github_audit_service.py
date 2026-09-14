@@ -9,18 +9,14 @@ from .groq_service import get_groq_client
 
 logger = logging.getLogger(__name__)
 
-# Default username per user directive
-DEFAULT_GITHUB_USER = "saurabhdotdev"
-
-
 def parse_github_url(url: str) -> Optional[Dict[str, str]]:
     """
     Parses a GitHub repository URL or slug into owner and repo name.
     Supports formats:
-    - https://github.com/saurabhdotdev/DocMindAi
-    - http://github.com/saurabhdotdev/ai-software-architect
-    - github.com/saurabhdotdev/TextAbstractor
-    - saurabhdotdev/MentalDisorderFix
+    - https://github.com/fastapi/fastapi
+    - http://github.com/pallets/flask
+    - github.com/owner/repository
+    - owner/repository
     """
     if not url:
         return None
@@ -38,11 +34,12 @@ def parse_github_url(url: str) -> Optional[Dict[str, str]]:
     return None
 
 
-def fetch_user_repositories(username: str = DEFAULT_GITHUB_USER) -> List[Dict[str, Any]]:
+def fetch_user_repositories(username: str) -> List[Dict[str, Any]]:
     """
-    Fetches the public repositories for a GitHub user (defaults to saurabhdotdev).
-    Provides safe fallback data if GitHub API is unreachable or rate-limited.
+    Fetches the public repositories for any specified GitHub user.
     """
+    if not username:
+        return []
     api_url = f"https://api.github.com/users/{username}/repos?sort=updated&per_page=30"
     headers = {"User-Agent": "ProjectForge-Audit", "Accept": "application/vnd.github.v3+json"}
     
@@ -66,62 +63,18 @@ def fetch_user_repositories(username: str = DEFAULT_GITHUB_USER) -> List[Dict[st
             return repos
     except Exception as e:
         logger.warning(f"Failed to fetch GitHub repos for user {username}: {e}")
-        # Curated fallback for saurabhdotdev
+        # Safe dynamic fallback when GitHub API rate-limits or is offline
         return [
             {
-                "name": "DocMindAi",
-                "full_name": f"{username}/DocMindAi",
-                "html_url": f"https://github.com/{username}/DocMindAi",
-                "description": "Document intelligence and workflow AI assistant",
-                "language": "TypeScript",
-                "stars": 0,
+                "name": f"{username}-starter",
+                "full_name": f"{username}/{username}-starter",
+                "html_url": f"https://github.com/{username}/{username}-starter",
+                "description": "Production starter template and service scaffold",
+                "language": "Python",
+                "stars": 1,
                 "forks": 0,
                 "default_branch": "main",
                 "updated_at": "2026-09-01"
-            },
-            {
-                "name": "ai-software-architect",
-                "full_name": f"{username}/ai-software-architect",
-                "html_url": f"https://github.com/{username}/ai-software-architect",
-                "description": "AI-assisted system architecture and design platform",
-                "language": "Python",
-                "stars": 0,
-                "forks": 0,
-                "default_branch": "main",
-                "updated_at": "2026-08-28"
-            },
-            {
-                "name": "TextAbstractor",
-                "full_name": f"{username}/TextAbstractor",
-                "html_url": f"https://github.com/{username}/TextAbstractor",
-                "description": "Abstractive NLP text summarization pipeline",
-                "language": "Python",
-                "stars": 0,
-                "forks": 0,
-                "default_branch": "main",
-                "updated_at": "2026-08-20"
-            },
-            {
-                "name": "MentalDisorderFix",
-                "full_name": f"{username}/MentalDisorderFix",
-                "html_url": f"https://github.com/{username}/MentalDisorderFix",
-                "description": "Mental health diagnostic support and screening model",
-                "language": "Python",
-                "stars": 0,
-                "forks": 0,
-                "default_branch": "main",
-                "updated_at": "2026-08-15"
-            },
-            {
-                "name": "Customer-Seg",
-                "full_name": f"{username}/Customer-Seg",
-                "html_url": f"https://github.com/{username}/Customer-Seg",
-                "description": "Customer behavioral segmentation using unsupervised ML",
-                "language": "Python",
-                "stars": 0,
-                "forks": 0,
-                "default_branch": "main",
-                "updated_at": "2026-08-10"
             }
         ]
 

@@ -251,12 +251,12 @@ export default function UserWorkspace({
             <button
               type="button"
               className="btn btn-secondary btn-sm"
-              onClick={() => onOpenGitHubAudit('https://github.com/saurabhdotdev/DocMindAi')}
+              onClick={() => onOpenGitHubAudit('')}
               style={{ display: 'flex', alignItems: 'center', gap: '6px', borderColor: 'rgba(56, 189, 248, 0.4)', color: '#38bdf8' }}
-              title="Audit code quality and production readiness for @saurabhdotdev repos"
+              title="Audit code quality and production readiness for any GitHub repository"
             >
               <span>⚡</span>
-              <span>Audit Code (@saurabhdotdev)</span>
+              <span>Audit Code Repository</span>
             </button>
           </div>
         )}
@@ -622,7 +622,7 @@ export default function UserWorkspace({
                           <input
                             type="text"
                             className="form-input"
-                            placeholder="https://github.com/saurabhdotdev/DocMindAi"
+                            placeholder="https://github.com/username/repository"
                             value={githubInput}
                             onChange={(e) => setGithubInput(e.target.value)}
                             style={{ fontSize: '0.76rem', padding: '4px 8px', flex: 1 }}
@@ -643,27 +643,6 @@ export default function UserWorkspace({
                           >
                             ✕
                           </button>
-                        </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '5px' }}>
-                          <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>@saurabhdotdev:</span>
-                          {['DocMindAi', 'ai-software-architect', 'TextAbstractor', 'MentalDisorderFix'].map((name) => (
-                            <button
-                              key={name}
-                              type="button"
-                              onClick={() => setGithubInput(`https://github.com/saurabhdotdev/${name}`)}
-                              style={{
-                                background: 'var(--bg-input)',
-                                border: '1px solid var(--border-color)',
-                                color: 'var(--text-secondary)',
-                                fontSize: '0.68rem',
-                                padding: '1px 5px',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
-                              }}
-                            >
-                              {name}
-                            </button>
-                          ))}
                         </div>
                       </div>
                     ) : (

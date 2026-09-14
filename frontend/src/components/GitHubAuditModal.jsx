@@ -8,35 +8,34 @@ export default function GitHubAuditModal({
   projectTitle = '',
   projectId = ''
 }) {
-  const [repoUrl, setRepoUrl] = useState(initialRepoUrl || 'https://github.com/saurabhdotdev/DocMindAi');
+  const [repoUrl, setRepoUrl] = useState(initialRepoUrl || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [auditData, setAuditData] = useState(null);
 
   // User repositories for quick-selection
+  const [targetUsername, setTargetUsername] = useState('');
   const [userRepos, setUserRepos] = useState([]);
   const [loadingRepos, setLoadingRepos] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      loadUserRepos();
       if (initialRepoUrl) {
         setRepoUrl(initialRepoUrl);
         handleRunAudit(initialRepoUrl);
-      } else {
-        setRepoUrl('https://github.com/saurabhdotdev/DocMindAi');
-        handleRunAudit('https://github.com/saurabhdotdev/DocMindAi');
       }
     } else {
       setError(null);
     }
   }, [isOpen, initialRepoUrl]);
 
-  const loadUserRepos = async () => {
+  const handleFetchUserRepos = async (uname) => {
+    const userToFetch = (uname || targetUsername).trim();
+    if (!userToFetch) return;
     setLoadingRepos(true);
     try {
-      const repos = await fetchUserGitHubRepos('saurabhdotdev');
-      setUserRepos(repos);
+      const repos = await fetchUserGitHubRepos(userToFetch);
+      setUserRepos(repos || []);
     } catch (e) {
       console.warn('Could not load user repos:', e);
     } finally {
@@ -188,11 +187,11 @@ export default function GitHubAuditModal({
         <div style={{ overflowY: 'auto', flex: 1, paddingRight: '4px' }}>
           {/* Target Repo Input Bar */}
           <div style={{ marginBottom: '16px' }}>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
               <input
                 type="text"
                 className="form-input"
-                placeholder="https://github.com/saurabhdotdev/DocMindAi"
+                placeholder="https://github.com/owner/repository"
                 value={repoUrl}
                 onChange={(e) => setRepoUrl(e.target.value)}
                 style={{ flex: 1, fontSize: '0.88rem' }}
@@ -208,26 +207,25 @@ export default function GitHubAuditModal({
               </button>
             </div>
 
-            {/* Quick-Pick @saurabhdotdev repos */}
-            <div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span>📁 Select from <strong>@saurabhdotdev</strong> repositories:</span>
-                {loadingRepos && <span style={{ fontSize: '0.72rem' }}>(fetching...)</span>}
+            {/* Quick Benchmark Reference Repos */}
+            <div style={{ marginBottom: '12px' }}>
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                💡 Popular Open-Source Benchmarks:
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {(userRepos.length > 0 ? userRepos : [
-                  { name: 'DocMindAi', html_url: 'https://github.com/saurabhdotdev/DocMindAi', language: 'TypeScript' },
-                  { name: 'ai-software-architect', html_url: 'https://github.com/saurabhdotdev/ai-software-architect', language: 'Python' },
-                  { name: 'TextAbstractor', html_url: 'https://github.com/saurabhdotdev/TextAbstractor', language: 'Python' },
-                  { name: 'MentalDisorderFix', html_url: 'https://github.com/saurabhdotdev/MentalDisorderFix', language: 'Python' },
-                  { name: 'Customer-Seg', html_url: 'https://github.com/saurabhdotdev/Customer-Seg', language: 'Python' }
-                ]).slice(0, 7).map((r) => {
+                {[
+                  { name: 'fastapi', url: 'https://github.com/fastapi/fastapi', lang: 'Python' },
+                  { name: 'transformers', url: 'https://github.com/huggingface/transformers', lang: 'Python' },
+                  { name: 'langchain', url: 'https://github.com/langchain-ai/langchain', lang: 'Python' },
+                  { name: 'flask', url: 'https://github.com/pallets/flask', lang: 'Python' },
+                  { name: 'next.js', url: 'https://github.com/vercel/next.js', lang: 'TypeScript' }
+                ].map((r) => {
                   const isCurrent = repoUrl.toLowerCase().includes(r.name.toLowerCase());
                   return (
                     <button
                       key={r.name}
                       type="button"
-                      onClick={() => handleSelectRepo(r.html_url)}
+                      onClick={() => handleSelectRepo(r.url)}
                       style={{
                         background: isCurrent ? 'rgba(56, 189, 248, 0.2)' : 'var(--bg-input)',
                         border: isCurrent ? '1px solid #38bdf8' : '1px solid var(--border-color)',
@@ -242,17 +240,86 @@ export default function GitHubAuditModal({
                       }}
                     >
                       <span>📦 {r.name}</span>
-                      {r.language && <span style={{ fontSize: '0.7rem', opacity: 0.7 }}>({r.language})</span>}
+                      <span style={{ fontSize: '0.7rem', opacity: 0.7 }}>({r.lang})</span>
                     </button>
                   );
                 })}
               </div>
+            </div>
+
+            {/* Lookup Any User Repos */}
+            <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '10px 12px', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+                  🔍 Fetch public repos for user:
+                </span>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="e.g. torvalds, octocat"
+                  value={targetUsername}
+                  onChange={(e) => setTargetUsername(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleFetchUserRepos(); }}
+                  style={{ fontSize: '0.78rem', padding: '3px 8px', flex: 1, maxWidth: '220px' }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => handleFetchUserRepos()}
+                  disabled={loadingRepos || !targetUsername.trim()}
+                  style={{ fontSize: '0.74rem', padding: '4px 10px' }}
+                >
+                  {loadingRepos ? 'Fetching...' : 'Load Repos'}
+                </button>
+              </div>
+
+              {userRepos.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+                  {userRepos.slice(0, 10).map((r) => (
+                    <button
+                      key={r.name}
+                      type="button"
+                      onClick={() => handleSelectRepo(r.html_url)}
+                      style={{
+                        background: 'var(--bg-input)',
+                        border: '1px solid var(--border-color)',
+                        color: 'var(--text-secondary)',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        fontSize: '0.74rem',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {r.name} {r.language && `(${r.language})`}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
           {error && (
             <div style={{ padding: '12px 16px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid var(--danger)', borderRadius: '10px', color: 'var(--danger)', fontSize: '0.86rem', marginBottom: '16px' }}>
               ⚠️ {error}
+            </div>
+          )}
+
+          {!auditData && !loading && !error && (
+            <div
+              style={{
+                padding: '40px 20px',
+                textAlign: 'center',
+                border: '1px dashed var(--border-color)',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.02)',
+                marginTop: '12px'
+              }}
+            >
+              <div style={{ fontSize: '2.5rem', marginBottom: '10px' }}>🔍</div>
+              <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Ready to Audit Any GitHub Repository</h4>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem', maxWidth: '460px', margin: '0 auto' }}>
+                Paste any public GitHub repository URL above or click one of the open-source benchmarks to run an instant Staff-Engineer code review, SLA verification, and production readiness audit.
+              </p>
             </div>
           )}
 

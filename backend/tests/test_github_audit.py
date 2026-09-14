@@ -29,24 +29,24 @@ class TestGitHubAudit(unittest.TestCase):
 
     def test_parse_github_url(self):
         """Test URL parsing for various valid and edge-case formats."""
-        res1 = parse_github_url("https://github.com/saurabhdotdev/DocMindAi")
+        res1 = parse_github_url("https://github.com/fastapi/fastapi")
         self.assertIsNotNone(res1)
-        self.assertEqual(res1["owner"], "saurabhdotdev")
-        self.assertEqual(res1["repo"], "DocMindAi")
+        self.assertEqual(res1["owner"], "fastapi")
+        self.assertEqual(res1["repo"], "fastapi")
 
-        res2 = parse_github_url("github.com/saurabhdotdev/ai-software-architect.git")
+        res2 = parse_github_url("github.com/pallets/flask.git")
         self.assertIsNotNone(res2)
-        self.assertEqual(res2["owner"], "saurabhdotdev")
-        self.assertEqual(res2["repo"], "ai-software-architect")
+        self.assertEqual(res2["owner"], "pallets")
+        self.assertEqual(res2["repo"], "flask")
 
-        res3 = parse_github_url("saurabhdotdev/TextAbstractor")
+        res3 = parse_github_url("octocat/Hello-World")
         self.assertIsNotNone(res3)
-        self.assertEqual(res3["owner"], "saurabhdotdev")
-        self.assertEqual(res3["repo"], "TextAbstractor")
+        self.assertEqual(res3["owner"], "octocat")
+        self.assertEqual(res3["repo"], "Hello-World")
 
     def test_fetch_user_repositories(self):
-        """Test fetching repositories for saurabhdotdev."""
-        repos = fetch_user_repositories("saurabhdotdev")
+        """Test fetching repositories for any user."""
+        repos = fetch_user_repositories("octocat")
         self.assertIsInstance(repos, list)
         self.assertGreater(len(repos), 0)
         first = repos[0]
@@ -56,7 +56,7 @@ class TestGitHubAudit(unittest.TestCase):
 
     def test_audit_github_repository_structure(self):
         """Test auditing a repo returns comprehensive scores, letter grade, and PR blueprints."""
-        res = audit_github_repository("https://github.com/saurabhdotdev/DocMindAi")
+        res = audit_github_repository("https://github.com/fastapi/fastapi")
         self.assertIn("overall_score", res)
         self.assertTrue(1 <= res["overall_score"] <= 100)
         self.assertIn("letter_grade", res)
@@ -71,14 +71,14 @@ class TestGitHubAudit(unittest.TestCase):
     def test_api_routes_github_audit(self):
         """Test FastAPI router endpoints for user repos and audit."""
         # 1. User repos endpoint
-        repos = get_user_github_repos(username="saurabhdotdev")
+        repos = get_user_github_repos(username="octocat")
         self.assertIsInstance(repos, list)
         self.assertGreater(len(repos), 0)
 
         # 2. Audit endpoint
         req = GitHubAuditRequest(
-            github_url="https://github.com/saurabhdotdev/ai-software-architect",
-            project_title="AI Software Architect"
+            github_url="https://github.com/fastapi/fastapi",
+            project_title="FastAPI"
         )
         audit_res = post_github_audit(req, db=self.db)
         score = audit_res["overall_score"] if isinstance(audit_res, dict) else audit_res.overall_score

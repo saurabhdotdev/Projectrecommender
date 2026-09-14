@@ -373,9 +373,9 @@ def get_project_scaffold(
     )
 
 @router.get("/github/user/{username}/repos")
-def get_user_github_repos(username: str = "saurabhdotdev"):
+def get_user_github_repos(username: str):
     """
-    Fetches the public repositories for a GitHub user (defaults to saurabhdotdev).
+    Fetches the public repositories for a specified GitHub user.
     """
     return fetch_user_repositories(username)
 

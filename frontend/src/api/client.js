@@ -399,7 +399,8 @@ export async function generateMockInterviewSummary({
   return res.json();
 }
 
-export async function fetchUserGitHubRepos(username = "saurabhdotdev") {
+export async function fetchUserGitHubRepos(username) {
+  if (!username) return [];
   const res = await fetch(`${API_BASE}/projects/github/user/${encodeURIComponent(username)}/repos`);
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));

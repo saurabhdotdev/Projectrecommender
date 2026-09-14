@@ -498,7 +498,7 @@ services:
                 className="btn btn-secondary btn-sm"
                 onClick={() => {
                   onClose();
-                  onOpenGitHubAudit(workspaceItem?.github_url || 'https://github.com/saurabhdotdev/DocMindAi', project);
+                  onOpenGitHubAudit(workspaceItem?.github_url || '', project);
                 }}
                 title="Audit code quality and production readiness on GitHub"
                 style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', fontSize: '0.84rem', borderColor: 'rgba(168, 85, 247, 0.4)', color: '#c084fc' }}
