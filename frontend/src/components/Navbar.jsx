@@ -113,27 +113,6 @@ export default function Navbar({
             currentProfile={currentProfile}
           />
 
-          {/* Custom Project Studio Button */}
-          {onOpenCustomStudio && (
-            <button
-              id="btn-custom-studio"
-              className="btn btn-primary btn-sm nav-action-btn"
-              onClick={onOpenCustomStudio}
-              style={{
-                background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-                fontWeight: 600
-              }}
-              title="Architect custom project ideas with AI recommendations"
-            >
-              <span>🛠️</span>
-              <span className="btn-label-desktop">Custom Studio</span>
-            </button>
-          )}
-
           {/* GitHub Code Auditor Button */}
           {onOpenGitHubAudit && (
             <button

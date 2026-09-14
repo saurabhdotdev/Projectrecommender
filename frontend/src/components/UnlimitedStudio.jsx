@@ -279,10 +279,13 @@ export default function UnlimitedStudio({
     setSelectedAddons(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
 
-  const handleApplyTemplate = (tmpl) => {
+  const handleApplyTemplate = (tmpl, autoRun = false) => {
     setPromptText(tmpl.prompt);
     setSelectedDomain(tmpl.domain);
     setSelectedTech(tmpl.tech);
+    if (autoRun) {
+      handleArchitect(tmpl.prompt, tmpl.domain, tmpl.tech);
+    }
   };
 
   // 1-Click Instant Batch Synthesis
@@ -308,21 +311,25 @@ export default function UnlimitedStudio({
   };
 
   // Architect single custom project
-  const handleArchitect = async () => {
-    if (!promptText.trim()) {
+  const handleArchitect = async (overridePrompt, overrideDomain, overrideTech) => {
+    const textToUse = (typeof overridePrompt === 'string' ? overridePrompt : promptText).trim();
+    if (!textToUse) {
       setStatusMessage('⚠️ Please enter a project description or select an inspiration idea above.');
       return;
     }
+    const domainToUse = overrideDomain !== undefined ? overrideDomain : selectedDomain;
+    const techToUse = overrideTech !== undefined ? overrideTech : selectedTech;
+
     setArchitecting(true);
     setStatusMessage('🧠 AI Principal Architect formulating system blueprint, specs & contracts...');
     setSaveSuccess(false);
 
     try {
-      const domainParam = selectedDomain.includes('Auto-detect') ? null : selectedDomain;
+      const domainParam = domainToUse && !domainToUse.includes('Auto-detect') ? domainToUse : null;
       const res = await architectCustomProject({
-        ideaPrompt: promptText.trim(),
+        ideaPrompt: textToUse,
         domain: domainParam,
-        preferredTech: selectedTech,
+        preferredTech: techToUse,
         timelineWeeks: timelineWeeks,
         studentProfile: studentProfile || null
       });
@@ -672,7 +679,7 @@ export default function UnlimitedStudio({
             className="studio-btn-synthesize"
             style={{ width: '100%', padding: '12px', fontSize: '1rem' }}
             disabled={architecting}
-            onClick={handleArchitect}
+            onClick={() => handleArchitect()}
           >
             {architecting ? '🧠 Synthesizing Architecture...' : '🚀 Architect Custom Project'}
           </button>
@@ -680,7 +687,21 @@ export default function UnlimitedStudio({
 
         {/* RIGHT COLUMN: Architected Blueprint & Deep Engineering Sections */}
         <div className="studio-results-container">
-          {!blueprint ? (
+          {architecting ? (
+            <div className="unlimited-studio-card studio-empty-state" style={{ minHeight: '380px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '40px 24px' }}>
+              <div style={{ fontSize: '3.4rem', marginBottom: '14px', animation: 'studioMicPulse 1.5s infinite ease-in-out' }}>🧠</div>
+              <h3 style={{ fontSize: '1.3rem', marginBottom: '8px', color: 'var(--text-primary)', fontWeight: 800 }}>
+                Formulating System Architecture...
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '480px', margin: '0 auto 16px auto', lineHeight: 1.5 }}>
+                AI Principal Architect is formulating your system topology, database schemas (PostgreSQL DDL), REST &amp; WebSocket contracts, and starter scaffold files.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.84rem', fontWeight: 600 }}>
+                <span className="dot-flashing" />
+                <span>Generating production blueprints &amp; specs...</span>
+              </div>
+            </div>
+          ) : !blueprint ? (
             <div className="unlimited-studio-card studio-empty-state">
               <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🏛️</div>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '6px', color: 'var(--text-primary)' }}>
@@ -690,12 +711,26 @@ export default function UnlimitedStudio({
                 Configure your tech stack and problem statement on the left, or select an inspiration template.
                 The AI Principal Architect will formulate your system topology, database schemas, and API contracts.
               </p>
-              <button
-                className="btn btn-primary"
-                onClick={() => handleApplyTemplate(INSPIRATION_TEMPLATES[0])}
-              >
-                Try &quot;Autonomous Multi-Agent Assistant&quot;
-              </button>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button
+                  className="btn btn-primary"
+                  disabled={architecting}
+                  onClick={() => handleApplyTemplate(INSPIRATION_TEMPLATES[0], true)}
+                  style={{ fontWeight: 700 }}
+                >
+                  🚀 Architect &ldquo;Autonomous Multi-Agent Assistant&rdquo;
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  disabled={architecting}
+                  onClick={() => {
+                    const randomTmpl = INSPIRATION_TEMPLATES[Math.floor(Math.random() * INSPIRATION_TEMPLATES.length)];
+                    handleApplyTemplate(randomTmpl, true);
+                  }}
+                >
+                  🎲 Architect Random Idea
+                </button>
+              </div>
             </div>
           ) : (
             <div className="unlimited-studio-card" style={{ padding: '24px' }}>
