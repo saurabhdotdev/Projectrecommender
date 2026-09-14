@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { architectCustomProject, saveCustomProject, downloadProjectScaffold, generateUnlimitedIdeas } from '../api/client';
 
 const DOMAIN_OPTIONS = [
@@ -152,16 +152,88 @@ export default function UnlimitedStudio({
   onOpenPrepKit,
   onOpenMockInterview,
   onOpenCopilot,
-  onIdeasGenerated
+  onIdeasGenerated,
+  initialPrompt = ''
 }) {
   // Input form state
-  const [promptText, setPromptText] = useState('');
+  const [promptText, setPromptText] = useState(initialPrompt || '');
   const [selectedDomain, setSelectedDomain] = useState('All Domains / Auto-detect');
   const [selectedTech, setSelectedTech] = useState(['Python', 'FastAPI', 'Docker']);
   const [customTechInput, setCustomTechInput] = useState('');
   const [timelineWeeks, setTimelineWeeks] = useState(4);
   const [selectedArch, setSelectedArch] = useState('microservices');
   const [selectedAddons, setSelectedAddons] = useState(['auth', 'docker', 'testing']);
+
+  // Speech Recognition (Voice / Dictate concept)
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    if (initialPrompt) {
+      setPromptText(initialPrompt);
+    }
+  }, [initialPrompt]);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setSpeechSupported(true);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (transcript) {
+          setPromptText((prev) => {
+            const trimmed = prev.trim();
+            return trimmed ? `${trimmed} ${transcript.trim()}` : transcript.trim();
+          });
+        }
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+      }
+    };
+  }, []);
+
+  const toggleListening = () => {
+    if (!speechSupported || !recognitionRef.current) {
+      alert("Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.");
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (err) {
+        console.warn('Speech start error:', err);
+      }
+    }
+  };
 
   // Inspiration Gallery State
   const [templateCategory, setTemplateCategory] = useState('all');
@@ -453,11 +525,34 @@ export default function UnlimitedStudio({
 
           {/* Prompt / Idea Description */}
           <div className="form-group" style={{ marginBottom: '16px' }}>
-            <label className="form-label">Project Concept / Problem Statement</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+              <label className="form-label" style={{ margin: 0 }}>Project Concept / Problem Statement</label>
+              {speechSupported && (
+                <button
+                  type="button"
+                  onClick={toggleListening}
+                  className={`btn btn-secondary btn-sm ${isListening ? 'listening' : ''}`}
+                  style={{
+                    fontSize: '0.74rem',
+                    padding: '3px 9px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    color: isListening ? '#ef4444' : undefined,
+                    borderColor: isListening ? '#ef4444' : undefined,
+                    background: isListening ? 'rgba(239, 68, 68, 0.12)' : undefined
+                  }}
+                  title={isListening ? "Listening... click to stop" : "Talk out loud to dictate your concept"}
+                >
+                  <span>{isListening ? '🔴' : '🎙️'}</span>
+                  <span>{isListening ? 'Listening (Speak now)...' : 'Talk / Dictate Concept'}</span>
+                </button>
+              )}
+            </div>
             <textarea
               className="studio-input"
               rows={4}
-              placeholder="e.g. Real-time distributed telemetry pipeline detecting network anomalies using Kafka and XGBoost..."
+              placeholder="Describe what you want to build (or click 'Talk / Dictate' to speak out loud)... e.g. Real-time distributed telemetry pipeline detecting network anomalies using Kafka and XGBoost..."
               value={promptText}
               onChange={(e) => setPromptText(e.target.value)}
               style={{

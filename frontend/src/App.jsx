@@ -617,6 +617,16 @@ export default function App() {
     setActiveTab('copilot');
   };
 
+  const [studioInitialPrompt, setStudioInitialPrompt] = useState('');
+
+  const handleOpenCustomStudio = (prompt = '') => {
+    if (prompt && typeof prompt === 'string') {
+      setStudioInitialPrompt(prompt);
+    }
+    setActiveTab('studio');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="app-container">
       <Navbar
@@ -632,7 +642,7 @@ export default function App() {
         onOpenAuth={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
         workspaceCount={userProjects.length}
-        onOpenCustomStudio={() => setIsCustomStudioOpen(true)}
+        onOpenCustomStudio={() => handleOpenCustomStudio()}
         onOpenGitHubAudit={handleOpenGitHubAudit}
       />
 
@@ -670,7 +680,7 @@ export default function App() {
                 userProjects={userProjects}
                 studentProfile={studentProfile}
                 onIdeasGenerated={handleIdeasGenerated}
-                onOpenCustomStudio={() => setIsCustomStudioOpen(true)}
+                onOpenCustomStudio={handleOpenCustomStudio}
               />
             )}
           </div>
@@ -685,6 +695,7 @@ export default function App() {
             onOpenMockInterview={handleOpenMockInterview}
             onOpenCopilot={handleOpenCopilot}
             onIdeasGenerated={handleIdeasGenerated}
+            initialPrompt={studioInitialPrompt}
           />
         )}
 
@@ -715,7 +726,7 @@ export default function App() {
             totalCatalogSize={totalCatalogSize}
             onIdeasGenerated={handleIdeasGenerated}
             studentProfile={studentProfile}
-            onOpenCustomStudio={() => setIsCustomStudioOpen(true)}
+            onOpenCustomStudio={handleOpenCustomStudio}
             onOpenCopilot={handleOpenCopilot}
           />
         )}

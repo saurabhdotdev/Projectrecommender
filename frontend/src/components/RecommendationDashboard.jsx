@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import RecommendationCard from './RecommendationCard';
 import ProjectComparatorModal from './ProjectComparatorModal';
 import { generateUnlimitedIdeas } from '../api/client';
@@ -42,11 +42,73 @@ export default function RecommendationDashboard({
     }
   };
 
-  // Unlimited Ideas Studio State
+  // Unlimited Ideas Studio & Natural Language State
   const [customPrompt, setCustomPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
   const [genMessage, setGenMessage] = useState(null);
   const [justGenerated, setJustGenerated] = useState([]);
+
+  // Speech Recognition (Voice / Speak what you want)
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setSpeechSupported(true);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (transcript) {
+          setCustomPrompt(transcript);
+        }
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+      }
+    };
+  }, []);
+
+  const toggleListening = () => {
+    if (!speechSupported || !recognitionRef.current) {
+      alert("Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.");
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (err) {
+        console.warn('Speech start error:', err);
+      }
+    }
+  };
 
   const handleSynthesize = async (promptOverride, countOverride) => {
     const promptToUse = typeof promptOverride === 'string' ? promptOverride : customPrompt;
@@ -72,11 +134,18 @@ export default function RecommendationDashboard({
       clearTimeout(t1);
       clearTimeout(t2);
       setJustGenerated(res.generated_projects || []);
-      setGenMessage(`🎉 Successfully synthesized ${res.generated_projects?.length || countToUse} novel project blueprint(s)! Added to your recommendations below.`);
+      setGenMessage(`🎉 Successfully synthesized ${res.generated_projects?.length || countToUse} novel project blueprint(s)! Displayed below.`);
       
       if (onIdeasGenerated) {
         onIdeasGenerated(res);
       }
+
+      setTimeout(() => {
+        const el = document.getElementById('just-synthesized-showcase');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 200);
     } catch (err) {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -184,14 +253,14 @@ export default function RecommendationDashboard({
             <div className="studio-title-group">
               <span className="studio-icon">✨</span>
               <h3 className="studio-title">
-                Unlimited Ideas Studio
+                Talk &amp; Synthesize What You Want
               </h3>
               <span className="studio-tag-badge">
-                ♾️ Endless On-Demand
+                🎙️ Voice &amp; Natural Language
               </span>
             </div>
             <p className="studio-desc">
-              Never be limited by a fixed catalog! Synthesize unlimited novel, production-grade project blueprints matching your exact skills or any custom topic.
+              Describe in plain English (or speak out loud 🎙️) exactly what you want to build. Our AI Architect will immediately formulate matching production-grade blueprints and show them right here!
             </p>
           </div>
 
@@ -199,7 +268,7 @@ export default function RecommendationDashboard({
             {onOpenCustomStudio && (
               <button
                 className="studio-btn-architect"
-                onClick={onOpenCustomStudio}
+                onClick={() => onOpenCustomStudio(customPrompt)}
               >
                 <span>🛠️ Architect Custom Project</span>
               </button>
@@ -215,15 +284,30 @@ export default function RecommendationDashboard({
           </div>
         </div>
 
-        {/* Custom Prompt & Action */}
+        {/* Custom Prompt & Voice Action */}
         <div className="studio-controls-row">
-          <input
-            className="studio-input"
-            placeholder="🔍 Or type any custom prompt (e.g. 'Autonomous drone obstacle avoidance using Edge TPU')..."
-            value={customPrompt}
-            onChange={(e) => setCustomPrompt(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleSynthesize(); }}
-          />
+          <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <input
+              id="talk-what-you-want-input"
+              className="studio-input"
+              placeholder="🎙️ Talk or type what you want (e.g. 'Autonomous drone obstacle avoidance with Edge TPU')..."
+              value={customPrompt}
+              onChange={(e) => setCustomPrompt(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleSynthesize(); }}
+              style={{ paddingRight: speechSupported ? '108px' : '14px' }}
+            />
+            {speechSupported && (
+              <button
+                type="button"
+                className={`studio-mic-btn ${isListening ? 'listening' : ''}`}
+                onClick={toggleListening}
+                title={isListening ? 'Listening... click to stop' : 'Click to speak what you want (microphone)'}
+              >
+                <span>{isListening ? '🔴' : '🎙️'}</span>
+                <span>{isListening ? 'Listening...' : 'Speak'}</span>
+              </button>
+            )}
+          </div>
 
           <button
             id="custom-synthesize-btn"
@@ -261,19 +345,66 @@ export default function RecommendationDashboard({
           </div>
         )}
 
-        {/* Just Generated Fast Actions */}
+        {/* Just Generated Fast Actions & Showcase */}
         {justGenerated.length > 0 && !generating && (
-          <div className="studio-synthesized-strip">
-            <span className="studio-synthesized-label">Just Synthesized:</span>
-            {justGenerated.map((p) => (
-              <button
-                key={p.project_id}
-                className="studio-synthesized-chip"
-                onClick={() => onOpenDetails(p)}
-              >
-                🔍 {p.title.length > 35 ? p.title.substring(0, 35) + '...' : p.title}
-              </button>
-            ))}
+          <div id="just-synthesized-showcase" className="studio-showcase-container">
+            <div className="studio-showcase-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '1.4rem' }}>🎉</span>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--text-primary)', fontWeight: 800 }}>
+                    Matching Blueprints Synthesized Just For You ({justGenerated.length})
+                  </h4>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    Generated live matching your prompt: &ldquo;{customPrompt || 'Custom specification'}&rdquo;
+                  </span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                {onOpenCustomStudio && (
+                  <button
+                    className="btn btn-sm btn-primary"
+                    style={{ fontSize: '0.78rem', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                    onClick={() => onOpenCustomStudio(customPrompt)}
+                    title="Open in Custom Studio to view full architecture DDL schemas, endpoints & download starter code"
+                  >
+                    <span>🛠️</span> Architect Full Topology in Studio &rarr;
+                  </button>
+                )}
+                <button
+                  className="btn btn-sm btn-secondary"
+                  style={{ fontSize: '0.78rem', padding: '4px 10px' }}
+                  onClick={() => setJustGenerated([])}
+                >
+                  ✕ Close Showcase
+                </button>
+              </div>
+            </div>
+
+            <div className="recommendations-grid" style={{ marginTop: '16px', marginBottom: '8px' }}>
+              {justGenerated.map((item) => {
+                const enrichedItem = {
+                  ...item,
+                  match_percentage: item.match_percentage || 96,
+                  readiness_percentage: item.readiness_percentage || 88,
+                  score: item.score || 0.96
+                };
+                return (
+                  <RecommendationCard
+                    key={enrichedItem.project_id}
+                    item={enrichedItem}
+                    onOpenDetails={onOpenDetails}
+                    onOpenRoadmap={onOpenRoadmap}
+                    onBookmark={onBookmark}
+                    onStartProject={onStartProject}
+                    isStarted={userProjects.some((p) => p.project_id === enrichedItem.project_id && p.status === 'started')}
+                    isSaved={userProjects.some((p) => p.project_id === enrichedItem.project_id && p.status === 'saved')}
+                    onCompare={handleToggleCompare}
+                    isCompared={comparisonItems.some((c) => c.project_id === enrichedItem.project_id)}
+                  />
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

@@ -35,6 +35,71 @@ export default function ChatAdvisor({ profile, setProfile, onSubmit, setActiveTa
   });
   const [readyToRecommend, setReadyToRecommend] = useState(false);
 
+  // Speech Recognition (Voice / Speak to Advisor)
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setSpeechSupported(true);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (transcript) {
+          setInputText((prev) => {
+            const trimmed = prev.trim();
+            return trimmed ? `${trimmed} ${transcript.trim()}` : transcript.trim();
+          });
+        }
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+      }
+    };
+  }, []);
+
+  const toggleListening = () => {
+    if (!speechSupported || !recognitionRef.current) {
+      alert("Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.");
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (err) {
+        console.warn('Speech start error:', err);
+      }
+    }
+  };
+
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -491,6 +556,24 @@ export default function ChatAdvisor({ profile, setProfile, onSubmit, setActiveTa
               placeholder="Type your background, field, or project idea..."
               disabled={loading}
             />
+            {speechSupported && (
+              <button
+                type="button"
+                className={`btn btn-secondary btn-sm ${isListening ? 'listening' : ''}`}
+                onClick={toggleListening}
+                title={isListening ? "Listening... click to stop" : "Speak to Advisor (Voice)"}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: "8px",
+                  flexShrink: 0,
+                  color: isListening ? '#ef4444' : undefined,
+                  borderColor: isListening ? '#ef4444' : undefined,
+                  background: isListening ? 'rgba(239, 68, 68, 0.15)' : undefined
+                }}
+              >
+                <span>{isListening ? '🔴' : '🎙️'}</span>
+              </button>
+            )}
             <button
               type="button"
               className="btn btn-primary btn-sm"

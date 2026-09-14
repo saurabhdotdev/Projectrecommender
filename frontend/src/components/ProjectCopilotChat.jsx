@@ -133,6 +133,71 @@ export default function ProjectCopilotChat({ studentProfile, userProjects = [], 
   const [selectedProjectCtx, setSelectedProjectCtx] = useState(null);
   const [showProjectPicker, setShowProjectPicker] = useState(false);
 
+  // Speech Recognition (Voice / Speak to Copilot)
+  const [isListening, setIsListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setSpeechSupported(true);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (transcript) {
+          setInputText((prev) => {
+            const trimmed = prev.trim();
+            return trimmed ? `${trimmed} ${transcript.trim()}` : transcript.trim();
+          });
+        }
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+      }
+    };
+  }, []);
+
+  const toggleListening = () => {
+    if (!speechSupported || !recognitionRef.current) {
+      alert("Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.");
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (err) {
+        console.warn('Speech start error:', err);
+      }
+    }
+  };
+
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -451,6 +516,28 @@ export default function ProjectCopilotChat({ studentProfile, userProjects = [], 
           rows={1}
           disabled={loading}
         />
+        {speechSupported && (
+          <button
+            type="button"
+            className={`btn btn-secondary ${isListening ? 'listening' : ''}`}
+            onClick={toggleListening}
+            title={isListening ? "Listening... click to stop" : "Speak to AI Copilot (voice input)"}
+            style={{
+              height: '42px',
+              padding: '0 12px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '0.84rem',
+              color: isListening ? '#ef4444' : undefined,
+              borderColor: isListening ? '#ef4444' : undefined,
+              background: isListening ? 'rgba(239, 68, 68, 0.15)' : undefined
+            }}
+          >
+            <span>{isListening ? '🔴' : '🎙️'}</span>
+          </button>
+        )}
         <button
           className="copilot-send-btn"
           onClick={() => handleSendMessage()}
