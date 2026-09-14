@@ -37,27 +37,35 @@ const ENTERPRISE_ADDONS = [
 
 const INSPIRATION_TEMPLATES = [
   {
-    title: '🤖 Autonomous Multi-Agent Research Assistant',
+    icon: '🤖',
+    shortTitle: 'Multi-Agent Assistant',
+    title: 'Autonomous Multi-Agent Research Assistant',
     prompt: 'Hierarchical multi-agent research assistant that autonomously crawls technical papers, synthesizes citations, vectors embeddings into Pinecone, and generates LaTeX literature reviews.',
-    domain: 'Generative AI & LLM Systems',
+    domain: 'Generative AI & LLMs',
     tech: ['Python', 'LangChain', 'FastAPI', 'Docker']
   },
   {
-    title: '⚡ Ultra-Low Latency Order Book Engine',
+    icon: '⚡',
+    shortTitle: 'Order Matching Engine',
+    title: 'Ultra-Low Latency Order Matching Engine',
     prompt: 'High-throughput crypto matching engine processing 50,000 orders/sec with lock-free ring buffers, WebSocket order broadcast, and real-time PnL risk calculation.',
-    domain: 'FinTech & Quantitative Engineering',
+    domain: 'FinTech & Quant',
     tech: ['Rust', 'Go', 'Redis', 'Docker']
   },
   {
-    title: '🚗 Quadcopter Obstacle Avoidance & 3D SLAM',
+    icon: '🚁',
+    shortTitle: 'Drone 3D SLAM',
+    title: 'Quadcopter Obstacle Avoidance & 3D SLAM',
     prompt: 'Autonomous drone navigation pipeline using ROS2, depth-camera perception, octree 3D voxel mapping, and real-time trajectory optimization under wind turbulence.',
-    domain: 'Robotics & Autonomous Systems',
+    domain: 'Robotics & Vision',
     tech: ['C++', 'Python', 'ROS2', 'OpenCV']
   },
   {
-    title: '🔒 eBPF Real-Time Container Threat Detector',
+    icon: '🛡️',
+    shortTitle: 'eBPF Threat Detector',
+    title: 'eBPF Real-Time Container Threat Detector',
     prompt: 'Kernel-level zero-day privilege escalation detector using Linux eBPF probes, syscall anomaly tracking, and automated container isolation with Grafana alerts.',
-    domain: 'Cybersecurity & Zero-Trust',
+    domain: 'Cybersecurity',
     tech: ['Go', 'Rust', 'Linux', 'Docker']
   }
 ];
@@ -287,17 +295,24 @@ export default function UnlimitedStudio({
 
           {/* Inspiration Quick-Picks */}
           <div style={{ marginBottom: '18px' }}>
-            <label className="form-label">✨ Instant Inspiration Templates</label>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <label className="form-label" style={{ margin: 0 }}>✨ Instant Inspiration Templates</label>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Click to auto-fill</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px' }}>
               {INSPIRATION_TEMPLATES.map((tmpl, idx) => (
                 <button
                   key={idx}
                   type="button"
                   className="studio-template-btn"
                   onClick={() => handleApplyTemplate(tmpl)}
+                  title={tmpl.prompt}
                 >
-                  <span className="studio-template-title">{tmpl.title}</span>
-                  <span className="studio-template-meta">{tmpl.domain.split('&')[0]}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>{tmpl.icon}</span>
+                    <span className="studio-template-title">{tmpl.shortTitle}</span>
+                  </div>
+                  <span className="studio-template-meta">{tmpl.domain}</span>
                 </button>
               ))}
             </div>
@@ -308,15 +323,21 @@ export default function UnlimitedStudio({
             <label className="form-label">Project Concept / Problem Statement</label>
             <textarea
               className="studio-input"
-              rows={3}
+              rows={4}
               placeholder="e.g. Real-time distributed telemetry pipeline detecting network anomalies using Kafka and XGBoost..."
               value={promptText}
               onChange={(e) => setPromptText(e.target.value)}
+              style={{
+                fontFamily: 'inherit',
+                minHeight: '92px',
+                lineHeight: 1.5,
+                resize: 'vertical'
+              }}
             />
           </div>
 
           {/* Domain & Timeline Row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '12px', marginBottom: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: '14px', marginBottom: '16px', alignItems: 'start' }}>
             <div>
               <label className="form-label">Engineering Domain</label>
               <select
@@ -330,16 +351,23 @@ export default function UnlimitedStudio({
               </select>
             </div>
             <div>
-              <label className="form-label">Timeline: {timelineWeeks} Weeks</label>
-              <input
-                type="range"
-                min={1}
-                max={12}
-                step={1}
-                className="range-slider"
-                value={timelineWeeks}
-                onChange={(e) => setTimelineWeeks(Number(e.target.value))}
-              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label className="form-label" style={{ margin: 0 }}>Timeline</label>
+                <span className="badge badge-primary" style={{ fontSize: '0.74rem', padding: '2px 8px' }}>
+                  ⏱️ {timelineWeeks} {timelineWeeks === 1 ? 'Week' : 'Weeks'}
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', height: '42px' }}>
+                <input
+                  type="range"
+                  min={1}
+                  max={12}
+                  step={1}
+                  className="range-slider"
+                  value={timelineWeeks}
+                  onChange={(e) => setTimelineWeeks(Number(e.target.value))}
+                />
+              </div>
             </div>
           </div>
 
