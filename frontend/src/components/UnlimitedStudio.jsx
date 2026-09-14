@@ -723,6 +723,50 @@ export default function UnlimitedStudio({
         </div>
       )}
 
+      {/* ── Studio Multi-Tab Workbench Bar ── */}
+      <div className="studio-workbench-bar">
+        <div className="studio-tabs-scrollable">
+          {tabs && tabs.map((tab, idx) => {
+            const isActive = tab.id === activeTabId;
+            return (
+              <div
+                key={tab.id}
+                className={`studio-tab-item ${isActive ? 'active' : ''}`}
+                onClick={() => handleSwitchTab(tab.id)}
+                title={tab.title || `Blueprint ${idx + 1}`}
+              >
+                <span className="studio-tab-icon">{tab.blueprint ? '🏛️' : '📝'}</span>
+                <span className="studio-tab-title">{tab.title || `Blueprint ${idx + 1}`}</span>
+                {tabs.length > 1 && (
+                  <button
+                    type="button"
+                    className="studio-tab-close"
+                    onClick={(e) => handleCloseTab(tab.id, e)}
+                    title="Close tab"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            );
+          })}
+          <button
+            type="button"
+            className="studio-tab-add-btn"
+            onClick={handleAddNewTab}
+            title="Create a new blueprint tab"
+          >
+            <span>➕</span> New Tab
+          </button>
+        </div>
+
+        <div className="studio-tab-meta">
+          <span className="studio-autosave-indicator" title="All blueprints and inputs are auto-saved to your local session">
+            <span className="autosave-dot" /> Auto-saved
+          </span>
+        </div>
+      </div>
+
       {/* ── Studio Layout: Left Customizer Form / Right Blueprint View ── */}
       <div className="studio-layout-grid">
         {/* LEFT COLUMN: Customizer Workbench */}
@@ -1194,25 +1238,12 @@ export default function UnlimitedStudio({
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
-                <span style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  fontSize: '0.76rem',
-                  fontWeight: 600,
-                  color: '#10b981',
-                  background: 'rgba(16, 185, 129, 0.12)',
-                  padding: '4px 10px',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(16, 185, 129, 0.3)'
-                }}>
-                  🟢 Saved in Session (Survives Refresh)
-                </span>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
                 <button
                   className="btn btn-primary btn-sm"
                   disabled={saving || saveSuccess}
                   onClick={handleSaveToWorkspace}
+                  style={{ fontWeight: 600 }}
                 >
                   {saveSuccess ? '✓ Saved to Workspace' : saving ? 'Saving...' : '🚀 Save to Workspace'}
                 </button>
@@ -1225,10 +1256,11 @@ export default function UnlimitedStudio({
                 </button>
                 <button
                   className="btn btn-secondary btn-sm"
-                  onClick={handleAddNewTab}
-                  title="Add a new blueprint tab to formulate another idea"
+                  onClick={() => setActiveResultTab('github_refs')}
+                  style={{ borderColor: 'rgba(56, 189, 248, 0.45)', color: '#38bdf8', fontWeight: 600 }}
+                  title="Explore real open-source GitHub repositories matching this blueprint"
                 >
-                  <span>➕</span> Add Tab
+                  <span>🐙</span> GitHub Repos
                 </button>
                 {onOpenPrepKit && (
                   <button className="btn btn-secondary btn-sm" onClick={() => onOpenPrepKit(blueprint)}>
@@ -1249,14 +1281,6 @@ export default function UnlimitedStudio({
                     <span>💬</span> Discuss in AI Copilot
                   </button>
                 )}
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => setActiveResultTab('github_refs')}
-                  style={{ borderColor: 'rgba(56, 189, 248, 0.45)', color: '#38bdf8', fontWeight: 600 }}
-                  title="Explore real open-source GitHub repositories matching this blueprint"
-                >
-                  <span>🐙</span> GitHub Repos
-                </button>
               </div>
 
               {/* Section Tabs */}
