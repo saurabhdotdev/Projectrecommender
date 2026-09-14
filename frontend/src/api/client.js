@@ -6,7 +6,7 @@ export async function fetchTaxonomy() {
   return res.json();
 }
 
-export async function getRecommendations(studentProfile, topK = 10, enableDiversity = true, diversityLambda = 0.70, weights = null) {
+export async function getRecommendations(studentProfile, topK = 24, enableDiversity = true, diversityLambda = 0.70, weights = null) {
   const res = await fetch(`${API_BASE}/recommend`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

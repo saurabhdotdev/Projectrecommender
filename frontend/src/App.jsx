@@ -144,6 +144,16 @@ export default function App() {
     }
   });
 
+  // Global smooth scroll-to-top indicator
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 340);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Projects saved / started by student
   const [userProjects, setUserProjects] = useState(() => {
     try {
@@ -505,7 +515,7 @@ export default function App() {
     try {
       const res = await getRecommendations(
         profile,
-        10,
+        24,
         diversity,
         diversityLambda,
         weights
@@ -806,6 +816,18 @@ export default function App() {
         onSubmit={handleProfileSubmit}
         setActiveTab={setActiveTab}
       />
+
+      {/* ── Floating Smooth Back to Top Button ── */}
+      {showScrollTop && (
+        <button
+          className="smooth-scroll-top-btn"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          title="Smooth Scroll to Top"
+          aria-label="Scroll to top"
+        >
+          ⬆️
+        </button>
+      )}
     </div>
   );
 }

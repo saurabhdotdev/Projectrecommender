@@ -15,7 +15,7 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
   const [generating, setGenerating] = useState(false);
   const [synthMessage, setSynthMessage] = useState(null);
 
-  const PAGE_SIZE = 24;
+  const PAGE_SIZE = 36;
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -208,6 +208,33 @@ export default function ProjectCatalog({ onSelectProject, totalCatalogSize, onId
             👁️ +3 Computer Vision
           </button>
         </div>
+      </div>
+
+      {/* Quick Domain Filter Chips */}
+      <div className="idea-category-pills" style={{ marginBottom: '14px' }}>
+        {[
+          { label: '🌟 All Blueprints (312+)', value: '' },
+          { label: '🤖 Machine Learning', value: 'Machine Learning' },
+          { label: '⚡ Cloud & DevOps', value: 'Cloud & DevOps' },
+          { label: '🔒 Cybersecurity', value: 'Cybersecurity' },
+          { label: '📈 FinTech & Quant', value: 'FinTech' },
+          { label: '👁️ Computer Vision', value: 'Computer Vision' },
+          { label: '🚗 Robotics', value: 'Robotics' },
+          { label: '🧬 HealthTech', value: 'HealthTech' },
+          { label: '🌐 Web Dev', value: 'Web Development' },
+          { label: '⛓️ Blockchain', value: 'Blockchain' }
+        ].map((item) => (
+          <button
+            key={item.value}
+            type="button"
+            className={`idea-category-chip ${domainFilter === item.value ? 'active' : ''}`}
+            onClick={() => {
+              setDomainFilter(item.value);
+            }}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
 
       {/* Filter Bar */}

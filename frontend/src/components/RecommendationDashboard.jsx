@@ -96,13 +96,65 @@ export default function RecommendationDashboard({
     "⚡ High-Speed Trading Market Simulator"
   ];
 
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [shuffleSeed, setShuffleSeed] = useState(1);
+
+  const IDEA_CATEGORIES = [
+    { label: "✨ All Ideas", key: "All" },
+    { label: "🤖 AI & ML", key: "AI" },
+    { label: "⚡ Distributed Systems & Cloud", key: "Cloud" },
+    { label: "🔒 Cybersecurity", key: "Security" },
+    { label: "📈 FinTech & Quant", key: "FinTech" },
+    { label: "🌐 Full-Stack & Web", key: "Web" },
+    { label: "🚗 Robotics & Vision", key: "Robotics" },
+    { label: "🧬 HealthTech & Bio", key: "Health" }
+  ];
+
   // Determine displayed items based on perspective
-  let displayedItems = [];
+  let pool = [];
+  let spotlightItem = null;
   if (activePerspective === "all") {
-    displayedItems = [...recommendations];
+    pool = [...recommendations];
   } else if (perspectives && perspectives[activePerspective]) {
-    displayedItems = [perspectives[activePerspective]];
+    spotlightItem = perspectives[activePerspective];
+    let matchingTheme = [];
+    if (activePerspective === 'best_match') {
+      matchingTheme = recommendations.filter(r => r.project_id !== spotlightItem.project_id && (r.match_percentage >= 65 || r.score >= 0.7));
+    } else if (activePerspective === 'best_learning_opportunity') {
+      matchingTheme = recommendations.filter(r => r.project_id !== spotlightItem.project_id && ((r.missing_skills && r.missing_skills.length >= 1) || (r.readiness_percentage >= 30 && r.readiness_percentage <= 80)));
+    } else if (activePerspective === 'best_resume_project') {
+      matchingTheme = recommendations.filter(r => r.project_id !== spotlightItem.project_id && (r.resume_value >= 8.5 || r.difficulty === 'Advanced' || r.domain?.includes('Cloud') || r.domain?.includes('AI')));
+    } else if (activePerspective === 'quick_win') {
+      matchingTheme = recommendations.filter(r => r.project_id !== spotlightItem.project_id && (r.estimated_duration <= 4 || r.readiness_percentage >= 65));
+    } else if (activePerspective === 'stretch_project') {
+      matchingTheme = recommendations.filter(r => r.project_id !== spotlightItem.project_id && (r.difficulty === 'Advanced' || r.estimated_duration >= 5));
+    }
+    // If fewer than 4 matched, pad with top recommendations so the user always has a rich set of ideas!
+    if (matchingTheme.length < 4) {
+      const remaining = recommendations.filter(r => r.project_id !== spotlightItem.project_id && !matchingTheme.some(m => m.project_id === r.project_id));
+      matchingTheme = [...matchingTheme, ...remaining.slice(0, 6)];
+    }
+    pool = [spotlightItem, ...matchingTheme];
+  } else {
+    pool = [...recommendations];
   }
+
+  // Filter by category if selected
+  if (selectedCategory !== "All") {
+    pool = pool.filter(item => {
+      const text = `${item.domain || ''} ${item.subdomain || ''} ${item.title || ''} ${(item.required_skills || []).join(' ')}`.toLowerCase();
+      if (selectedCategory === "AI") return text.includes('ai') || text.includes('learning') || text.includes('neural') || text.includes('vision') || text.includes('llm');
+      if (selectedCategory === "Cloud") return text.includes('cloud') || text.includes('distributed') || text.includes('devops') || text.includes('system') || text.includes('docker');
+      if (selectedCategory === "Security") return text.includes('cyber') || text.includes('security') || text.includes('threat') || text.includes('crypto');
+      if (selectedCategory === "FinTech") return text.includes('fintech') || text.includes('trading') || text.includes('market') || text.includes('quant') || text.includes('finance');
+      if (selectedCategory === "Web") return text.includes('web') || text.includes('full-stack') || text.includes('api') || text.includes('backend');
+      if (selectedCategory === "Robotics") return text.includes('robot') || text.includes('drone') || text.includes('autonomous') || text.includes('ros');
+      if (selectedCategory === "Health") return text.includes('health') || text.includes('bio') || text.includes('med') || text.includes('genom');
+      return true;
+    });
+  }
+
+  let displayedItems = [...pool];
 
   // Sorting
   if (sortBy === "readiness") {
@@ -111,6 +163,13 @@ export default function RecommendationDashboard({
     displayedItems.sort((a, b) => a.estimated_duration - b.estimated_duration);
   } else if (sortBy === "duration_desc") {
     displayedItems.sort((a, b) => b.estimated_duration - a.estimated_duration);
+  } else if (sortBy === "shuffle") {
+    // Pseudo-random shuffle based on seed
+    displayedItems.sort((a, b) => {
+      const hashA = (a.project_id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + shuffleSeed) % 17;
+      const hashB = (b.project_id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + shuffleSeed) % 17;
+      return hashA - hashB;
+    });
   } else {
     // Default score
     displayedItems.sort((a, b) => b.score - a.score);
@@ -230,8 +289,23 @@ export default function RecommendationDashboard({
           </p>
         </div>
 
-        {/* Controls: Diversity Toggle & Sort */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Controls: Diversity Toggle, Shuffle & Sort */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          {/* Quick Shuffle Ideas */}
+          <button
+            id="btn-shuffle-ideas"
+            className="btn btn-sm btn-secondary"
+            onClick={() => {
+              setSortBy('shuffle');
+              setShuffleSeed((prev) => prev + 1);
+            }}
+            title="Shuffle idea pool to see fresh perspectives"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+          >
+            <span>🎲</span>
+            <span>Shuffle Ideas</span>
+          </button>
+
           {/* Diversity Toggle */}
           <button
             id="toggle-diversity-btn"
@@ -254,6 +328,7 @@ export default function RecommendationDashboard({
             <option value="readiness">Sort: Skill Readiness (Highest)</option>
             <option value="duration_asc">Sort: Duration (Shortest)</option>
             <option value="duration_desc">Sort: Duration (Longest)</option>
+            <option value="shuffle">Sort: Shuffled Randomly</option>
           </select>
         </div>
       </div>
@@ -309,6 +384,44 @@ export default function RecommendationDashboard({
         </button>
       </div>
 
+      {/* Perspective Spotlight Info Banner if active */}
+      {spotlightItem && activePerspective !== 'all' && (
+        <div className="perspective-spotlight-banner">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '1.3rem' }}>🏆</span>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                {activePerspective.replace(/_/g, ' ').toUpperCase()} Spotlight: {spotlightItem.title}
+              </div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Showing top spotlight project plus {displayedItems.length - 1} matching ideas fitting this goal
+              </div>
+            </div>
+          </div>
+          <button
+            className="btn btn-secondary btn-sm"
+            onClick={() => setActivePerspective('all')}
+            style={{ fontSize: '0.78rem', padding: '4px 10px' }}
+          >
+            Show All {recommendations.length} Ideas
+          </button>
+        </div>
+      )}
+
+      {/* Quick Domain Category Filter Chips */}
+      <div className="idea-category-pills">
+        {IDEA_CATEGORIES.map((cat) => (
+          <button
+            key={cat.key}
+            type="button"
+            className={`idea-category-chip ${selectedCategory === cat.key ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(cat.key)}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
       {/* Recommendations Grid */}
       {displayedItems.length === 0 ? (
         <div className="glass-panel" style={{ padding: '40px', textAlign: 'center', marginTop: '20px' }}>
@@ -342,28 +455,48 @@ export default function RecommendationDashboard({
       )}
 
       {/* ── Infinite Synthesize More Action Bar ── */}
-      <div style={{ textAlign: 'center', marginTop: '36px', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-        <button
-          id="btn-synthesize-more-bottom"
-          className="btn btn-primary"
-          style={{
-            background: 'linear-gradient(135deg, #a855f7 0%, #6366f1 100%)',
-            border: 'none',
-            padding: '14px 36px',
-            fontSize: '1rem',
-            fontWeight: 600,
-            borderRadius: '12px',
-            boxShadow: '0 4px 20px rgba(168, 85, 247, 0.35)',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-          }}
-          disabled={generating}
-          onClick={() => handleSynthesize("novel cutting-edge project tailored to my skills and interests")}
-        >
-          {generating ? "⏳ Synthesizing Fresh Ideas..." : "✨ Synthesize More Tailored AI Ideas"}
-        </button>
+      <div style={{ textAlign: 'center', marginTop: '36px', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <button
+            id="btn-synthesize-more-bottom"
+            className="btn btn-primary"
+            style={{
+              background: 'linear-gradient(135deg, #0284c7 0%, #10b981 100%)',
+              border: 'none',
+              padding: '12px 32px',
+              fontSize: '0.96rem',
+              fontWeight: 700,
+              borderRadius: '12px',
+              boxShadow: '0 4px 18px rgba(2, 132, 199, 0.35)',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+            disabled={generating}
+            onClick={() => handleSynthesize("novel cutting-edge engineering project tailored to my skills and interests", 6)}
+          >
+            {generating ? "⏳ Synthesizing Fresh Ideas..." : "✨ Synthesize +6 More AI Ideas"}
+          </button>
+
+          {onOpenCustomStudio && (
+            <button
+              className="btn btn-secondary"
+              style={{
+                padding: '12px 24px',
+                fontSize: '0.96rem',
+                fontWeight: 600,
+                borderRadius: '12px'
+              }}
+              onClick={onOpenCustomStudio}
+            >
+              🛠️ Architect in Unlimited Studio
+            </button>
+          )}
+        </div>
         <span style={{ color: 'var(--text-muted)', fontSize: '0.84rem' }}>
-          Generate as many ideas as you need on-demand — zero artificial limits.
+          Showing {displayedItems.length} curated engineering blueprints · Generate unlimited novel ideas on-demand
         </span>
       </div>
 

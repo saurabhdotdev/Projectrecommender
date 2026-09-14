@@ -32,7 +32,7 @@ class ProjectForgeRecommender:
     def recommend(
         self,
         student_profile: Dict,
-        top_k: int = 12,
+        top_k: int = 24,
         enable_diversity: bool = True,
         diversity_lambda: float = 0.70,
         custom_weights: Optional[Dict[str, float]] = None

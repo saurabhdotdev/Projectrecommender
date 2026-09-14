@@ -75,10 +75,56 @@
   --shadow-lg: 0 10px 28px rgba(31, 35, 40, 0.14);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+/* ── Global Smooth Custom Scrollbars ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.4);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+[data-theme="light"] * {
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(2, 132, 199, 0.45);
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 body {
@@ -90,6 +136,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -657,6 +704,8 @@ code, pre {
   gap: 8px;
   overflow-x: auto;
   padding: 6px 0 14px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
 }
 
@@ -674,18 +723,131 @@ code, pre {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.12s ease;
+  transition: all 0.15s ease;
 }
 
 .perspective-btn:hover {
-  border-color: var(--border-hover);
+  border-color: #38bdf8;
   color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .perspective-btn.active {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+}
+
+[data-theme="light"] .perspective-btn.active {
+  background: #E0F2FE;
+  border-color: #0284C7;
+  color: #0369A1;
+  box-shadow: none;
+}
+
+/* ── Idea Category Quick Chips Strip ── */
+.idea-category-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 12px;
+  margin-bottom: 14px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.idea-category-chip {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.14s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.idea-category-chip:hover {
+  border-color: #38bdf8;
+  color: var(--text-primary);
   background: var(--bg-card-hover);
-  border-color: var(--primary);
-  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.idea-category-chip.active {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.15);
+}
+
+[data-theme="light"] .idea-category-chip.active {
+  background: #E0F2FE;
+  border-color: #0284C7;
+  color: #0369A1;
+  box-shadow: none;
+}
+
+/* ── Floating Smooth Back to Top Button ── */
+.smooth-scroll-top-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
+}
+
+.smooth-scroll-top-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+}
+
+[data-theme="light"] .smooth-scroll-top-btn {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .smooth-scroll-top-btn:hover {
+  border-color: #0284C7;
+  color: #0284C7;
+}
+
+/* Perspective Spotlight Banner */
+.perspective-spotlight-banner {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 /* Project Recommendation Grid */

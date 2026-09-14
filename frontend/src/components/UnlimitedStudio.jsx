@@ -42,6 +42,7 @@ const INSPIRATION_TEMPLATES = [
     title: 'Autonomous Multi-Agent Research Assistant',
     prompt: 'Hierarchical multi-agent research assistant that autonomously crawls technical papers, synthesizes citations, vectors embeddings into Pinecone, and generates LaTeX literature reviews.',
     domain: 'Generative AI & LLMs',
+    category: 'ai',
     tech: ['Python', 'LangChain', 'FastAPI', 'Docker']
   },
   {
@@ -50,6 +51,7 @@ const INSPIRATION_TEMPLATES = [
     title: 'Ultra-Low Latency Order Matching Engine',
     prompt: 'High-throughput crypto matching engine processing 50,000 orders/sec with lock-free ring buffers, WebSocket order broadcast, and real-time PnL risk calculation.',
     domain: 'FinTech & Quant',
+    category: 'fintech',
     tech: ['Rust', 'Go', 'Redis', 'Docker']
   },
   {
@@ -58,6 +60,7 @@ const INSPIRATION_TEMPLATES = [
     title: 'Quadcopter Obstacle Avoidance & 3D SLAM',
     prompt: 'Autonomous drone navigation pipeline using ROS2, depth-camera perception, octree 3D voxel mapping, and real-time trajectory optimization under wind turbulence.',
     domain: 'Robotics & Vision',
+    category: 'robotics',
     tech: ['C++', 'Python', 'ROS2', 'OpenCV']
   },
   {
@@ -66,7 +69,80 @@ const INSPIRATION_TEMPLATES = [
     title: 'eBPF Real-Time Container Threat Detector',
     prompt: 'Kernel-level zero-day privilege escalation detector using Linux eBPF probes, syscall anomaly tracking, and automated container isolation with Grafana alerts.',
     domain: 'Cybersecurity',
+    category: 'security',
     tech: ['Go', 'Rust', 'Linux', 'Docker']
+  },
+  {
+    icon: '🌐',
+    shortTitle: 'Distributed Vector DB',
+    title: 'Distributed Log-Structured Vector Database',
+    prompt: 'High-concurrency distributed vector database with Raft consensus, disk-backed HNSW approximate nearest neighbors index, and sub-10ms similarity queries across sharded clusters.',
+    domain: 'Distributed Systems & Cloud',
+    category: 'systems',
+    tech: ['Go', 'gRPC', 'RocksDB', 'Docker']
+  },
+  {
+    icon: '🧬',
+    shortTitle: 'CRISPR Guide Predictor',
+    title: 'CRISPR-Cas9 Off-Target Binding Predictor',
+    prompt: 'Deep learning molecular pipeline predicting off-target cleavage probabilities for CRISPR guide RNAs using protein sequence transformers and 3D genomic chromatin maps.',
+    domain: 'Bioinformatics & AI',
+    category: 'science',
+    tech: ['Python', 'PyTorch', 'FastAPI', 'Docker']
+  },
+  {
+    icon: '👁️',
+    shortTitle: 'Edge Multi-Object Tracker',
+    title: 'Edge TPU Real-Time Object Re-ID Tracker',
+    prompt: 'Low-latency multi-camera edge computer vision pipeline running YOLOv10 and DeepSORT with automated Kalman filter smoothing and hardware tensor acceleration.',
+    domain: 'Computer Vision & Edge AI',
+    category: 'ai',
+    tech: ['Python', 'C++', 'OpenCV', 'TensorRT']
+  },
+  {
+    icon: '⛓️',
+    shortTitle: 'ZK-Rollup State Verifier',
+    title: 'Zero-Knowledge Validity State Verifier',
+    prompt: 'Layer-2 zero-knowledge rollup verifying thousands of off-chain transactions via Groth16 zk-SNARK circuits with on-chain Ethereum smart contract state validation.',
+    domain: 'Web3 & Cryptography',
+    category: 'security',
+    tech: ['Rust', 'Circom', 'Solidity', 'Docker']
+  },
+  {
+    icon: '📈',
+    shortTitle: 'Automated Market Maker',
+    title: 'High-Frequency Quantitative Market Maker',
+    prompt: 'Automated quantitative market making system implementing Avellaneda-Stoikov inventory skew control, tick-level L2 orderbook feeds, and real-time Sharpe ratio optimization.',
+    domain: 'FinTech & Quant',
+    category: 'fintech',
+    tech: ['Python', 'C++', 'PostgreSQL', 'Docker']
+  },
+  {
+    icon: '🛰️',
+    shortTitle: 'Satellite Telemetry Stream',
+    title: 'Orbital Satellite IoT Telemetry Ingestion',
+    prompt: 'Ultra-high-velocity IoT pipeline ingesting 200,000 sensor telemetry metrics/sec using Apache Kafka, stream window anomaly detection with Apache Flink, and ClickHouse OLAP storage.',
+    domain: 'Data Engineering & IoT',
+    category: 'systems',
+    tech: ['Java', 'Python', 'Kafka', 'ClickHouse']
+  },
+  {
+    icon: '🧠',
+    shortTitle: 'RAG Refactoring Copilot',
+    title: 'Semantic Code Refactoring & Migration AI',
+    prompt: 'Specialized developer agent that parses full abstract syntax trees (AST), indexes repository call graphs into a vector graph, and generates verified non-breaking refactoring diffs.',
+    domain: 'Generative AI & LLMs',
+    category: 'ai',
+    tech: ['Python', 'FastAPI', 'Tree-Sitter', 'Docker']
+  },
+  {
+    icon: '🔬',
+    shortTitle: 'Autonomous Lab Robot',
+    title: 'Microfluidic Automated Pipetting Controller',
+    prompt: 'Closed-loop autonomous laboratory automation system orchestrating Cartesian micro-stepper motors, computer vision droplet volume verification, and real-time MQTT telemetry.',
+    domain: 'Robotics & Autonomous Systems',
+    category: 'robotics',
+    tech: ['Python', 'C++', 'MQTT', 'Docker']
   }
 ];
 
@@ -86,6 +162,16 @@ export default function UnlimitedStudio({
   const [timelineWeeks, setTimelineWeeks] = useState(4);
   const [selectedArch, setSelectedArch] = useState('microservices');
   const [selectedAddons, setSelectedAddons] = useState(['auth', 'docker', 'testing']);
+
+  // Inspiration Gallery State
+  const [templateCategory, setTemplateCategory] = useState('all');
+  const [showAllTemplates, setShowAllTemplates] = useState(false);
+
+  const filteredTemplates = INSPIRATION_TEMPLATES.filter((tmpl) => {
+    if (templateCategory === 'all') return true;
+    return tmpl.category === templateCategory;
+  });
+  const visibleTemplates = showAllTemplates ? filteredTemplates : filteredTemplates.slice(0, 6);
 
   // UI state
   const [architecting, setArchitecting] = useState(false);
@@ -293,14 +379,61 @@ export default function UnlimitedStudio({
             <span className="studio-tag-badge">Live Config</span>
           </div>
 
-          {/* Inspiration Quick-Picks */}
+          {/* Inspiration Quick-Picks Gallery */}
           <div style={{ marginBottom: '18px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <label className="form-label" style={{ margin: 0 }}>✨ Instant Inspiration Templates</label>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Click to auto-fill</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '6px' }}>
+              <label className="form-label" style={{ margin: 0 }}>
+                ✨ Instant Inspiration Templates ({visibleTemplates.length}/{INSPIRATION_TEMPLATES.length})
+              </label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  style={{ fontSize: '0.74rem', padding: '3px 8px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                  onClick={() => {
+                    const randomTmpl = INSPIRATION_TEMPLATES[Math.floor(Math.random() * INSPIRATION_TEMPLATES.length)];
+                    handleApplyTemplate(randomTmpl);
+                  }}
+                  title="Auto-fill with a random cutting-edge inspiration template"
+                >
+                  🎲 Random Idea
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  style={{ fontSize: '0.74rem', padding: '3px 8px' }}
+                  onClick={() => setShowAllTemplates(!showAllTemplates)}
+                >
+                  {showAllTemplates ? 'Collapse (6)' : `Show All (${filteredTemplates.length})`}
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px' }}>
-              {INSPIRATION_TEMPLATES.map((tmpl, idx) => (
+
+            {/* Quick Inspiration Domain Pills */}
+            <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '6px', marginBottom: '10px', scrollBehavior: 'smooth' }}>
+              {[
+                { label: '🌟 All (12)', key: 'all' },
+                { label: '🤖 AI & Vision', key: 'ai' },
+                { label: '⚡ Cloud & Systems', key: 'systems' },
+                { label: '📈 FinTech', key: 'fintech' },
+                { label: '🔒 Security', key: 'security' },
+                { label: '🚁 Robotics', key: 'robotics' },
+                { label: '🧬 Bio Science', key: 'science' }
+              ].map((cat) => (
+                <button
+                  key={cat.key}
+                  type="button"
+                  className={`studio-tech-chip ${templateCategory === cat.key ? 'active' : ''}`}
+                  style={{ fontSize: '0.72rem', padding: '3px 8px', whiteSpace: 'nowrap' }}
+                  onClick={() => setTemplateCategory(cat.key)}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px', transition: 'all 0.2s ease' }}>
+              {visibleTemplates.map((tmpl, idx) => (
                 <button
                   key={idx}
                   type="button"
