@@ -1,6 +1,7 @@
 import re
 import json
 import urllib.request
+import urllib.parse
 import urllib.error
 import logging
 from typing import Dict, Any, List, Optional
@@ -395,3 +396,278 @@ Provide your evaluation in valid JSON with this exact schema:
             }
         ]
     }
+
+
+# ── Open-Source GitHub Reference Repositories ────────────────────────────────
+
+CURATED_DOMAIN_REPOSITORIES = {
+    "Generative AI & LLM Systems": [
+        {
+            "name": "gpt-researcher",
+            "full_name": "assafelovic/gpt-researcher",
+            "html_url": "https://github.com/assafelovic/gpt-researcher",
+            "description": "LLM based autonomous agent that conducts deep research on any topic and generates comprehensive citations.",
+            "stars": 18400,
+            "forks": 2400,
+            "language": "Python",
+            "topics": ["multi-agent", "llm", "research", "langchain", "rag"]
+        },
+        {
+            "name": "MetaGPT",
+            "full_name": "geekan/MetaGPT",
+            "html_url": "https://github.com/geekan/MetaGPT",
+            "description": "Multi-agent framework: First AI software company where agents take roles as Product Managers, Architects, and Engineers.",
+            "stars": 46200,
+            "forks": 5800,
+            "language": "Python",
+            "topics": ["multi-agent", "software-engineering", "gpt-4", "agents"]
+        },
+        {
+            "name": "DocsGPT",
+            "full_name": "arc53/DocsGPT",
+            "html_url": "https://github.com/arc53/DocsGPT",
+            "description": "Open-source documentation assistant with vector search, semantic embeddings, and citation linking.",
+            "stars": 18200,
+            "forks": 1900,
+            "language": "Python",
+            "topics": ["rag", "embeddings", "vector-database", "documentation"]
+        },
+        {
+            "name": "AutoGPT",
+            "full_name": "Significant-Gravitas/AutoGPT",
+            "html_url": "https://github.com/Significant-Gravitas/AutoGPT",
+            "description": "Autonomous AI agent architecture with recursive goal execution, tool invocation, and memory management.",
+            "stars": 168000,
+            "forks": 44000,
+            "language": "Python",
+            "topics": ["autonomous-agents", "ai", "memory", "planning"]
+        }
+    ],
+    "Distributed Systems & Cloud": [
+        {
+            "name": "etcd",
+            "full_name": "etcd-io/etcd",
+            "html_url": "https://github.com/etcd-io/etcd",
+            "description": "Distributed, reliable key-value store for the most critical data of a distributed system.",
+            "stars": 47500,
+            "forks": 9800,
+            "language": "Go",
+            "topics": ["distributed-systems", "raft", "storage", "cloud-native"]
+        },
+        {
+            "name": "raft",
+            "full_name": "hashicorp/raft",
+            "html_url": "https://github.com/hashicorp/raft",
+            "description": "Golang implementation of the Raft consensus protocol used in Consul and Nomad.",
+            "stars": 7400,
+            "forks": 1200,
+            "language": "Go",
+            "topics": ["raft", "consensus", "high-availability"]
+        },
+        {
+            "name": "celery",
+            "full_name": "celery/celery",
+            "html_url": "https://github.com/celery/celery",
+            "description": "Distributed Task Queue (asynchronous execution, worker pool, Redis/AMQP brokers).",
+            "stars": 25100,
+            "forks": 4900,
+            "language": "Python",
+            "topics": ["task-queue", "distributed", "async", "redis"]
+        }
+    ],
+    "FinTech & Quantitative Engineering": [
+        {
+            "name": "freqtrade",
+            "full_name": "freqtrade/freqtrade",
+            "html_url": "https://github.com/freqtrade/freqtrade",
+            "description": "Free, open source crypto algorithmic trading software written in Python.",
+            "stars": 31500,
+            "forks": 7600,
+            "language": "Python",
+            "topics": ["trading", "algorithmic-trading", "backtesting", "fintech"]
+        },
+        {
+            "name": "ccxt",
+            "full_name": "ccxt/ccxt",
+            "html_url": "https://github.com/ccxt/ccxt",
+            "description": "A JavaScript / Python / PHP cryptocurrency trading library with unified API across 100+ exchanges.",
+            "stars": 34800,
+            "forks": 7800,
+            "language": "JavaScript",
+            "topics": ["fintech", "trading", "exchange-api", "market-data"]
+        },
+        {
+            "name": "matching-engine",
+            "full_name": "fmzquant/matching-engine",
+            "html_url": "https://github.com/fmzquant/matching-engine",
+            "description": "High-performance in-memory order matching engine supporting price-time priority matching.",
+            "stars": 1250,
+            "forks": 380,
+            "language": "C++",
+            "topics": ["matching-engine", "order-book", "limit-orders", "hft"]
+        }
+    ],
+    "Cybersecurity & Zero-Trust": [
+        {
+            "name": "falco",
+            "full_name": "falcosecurity/falco",
+            "html_url": "https://github.com/falcosecurity/falco",
+            "description": "Cloud Native Runtime Security and kernel-level event threat detection using eBPF.",
+            "stars": 7600,
+            "forks": 1100,
+            "language": "C++",
+            "topics": ["ebpf", "security", "threat-detection", "kubernetes"]
+        },
+        {
+            "name": "nuclei",
+            "full_name": "projectdiscovery/nuclei",
+            "html_url": "https://github.com/projectdiscovery/nuclei",
+            "description": "Fast and customizable vulnerability scanner based on simple YAML based DSL.",
+            "stars": 19600,
+            "forks": 2500,
+            "language": "Go",
+            "topics": ["cybersecurity", "vulnerability-scanner", "devsecops"]
+        }
+    ],
+    "Robotics & Autonomous Systems": [
+        {
+            "name": "ORB_SLAM3",
+            "full_name": "UZ-SLAMLab/ORB_SLAM3",
+            "html_url": "https://github.com/UZ-SLAMLab/ORB_SLAM3",
+            "description": "Visual, Visual-Inertial and Multi-Map SLAM with Monocular, Stereo and RGB-D Cameras.",
+            "stars": 6100,
+            "forks": 2400,
+            "language": "C++",
+            "topics": ["slam", "robotics", "computer-vision", "autonomous"]
+        },
+        {
+            "name": "autoware",
+            "full_name": "autowarefoundation/autoware",
+            "html_url": "https://github.com/autowarefoundation/autoware",
+            "description": "Autoware - the world's leading open-source software for autonomous driving vehicles.",
+            "stars": 8200,
+            "forks": 2900,
+            "language": "C++",
+            "topics": ["autonomous-vehicles", "ros2", "robotics", "lidar"]
+        }
+    ],
+    "Computer Vision & Edge AI": [
+        {
+            "name": "ultralytics",
+            "full_name": "ultralytics/ultralytics",
+            "html_url": "https://github.com/ultralytics/ultralytics",
+            "description": "YOLOv8 and YOLOv11 real-time object detection, segmentation and pose estimation.",
+            "stars": 32800,
+            "forks": 7100,
+            "language": "Python",
+            "topics": ["yolo", "computer-vision", "edge-ai", "object-detection"]
+        },
+        {
+            "name": "openpose",
+            "full_name": "CMU-Perceptual-Computing-Lab/openpose",
+            "html_url": "https://github.com/CMU-Perceptual-Computing-Lab/openpose",
+            "description": "Real-time multi-person keypoint detection library for body, face, and hands.",
+            "stars": 30200,
+            "forks": 7500,
+            "language": "C++",
+            "topics": ["pose-estimation", "edge-vision", "deep-learning"]
+        }
+    ]
+}
+
+
+def clean_project_keywords(title: str, domain: Optional[str] = None, tech_stack: Optional[List[str]] = None) -> str:
+    """Extracts concise, high-signal search keywords for GitHub repository search."""
+    cleaned = re.sub(r'[^\w\s-]', ' ', title)
+    stopwords = {
+        'engine', 'platform', 'system', 'hierarchical', 'framework',
+        'application', 'advanced', 'based', 'using', 'powered', 'ai',
+        'novel', 'production', 'high', 'custom', 'autonomous', 'real',
+        'time', 'end', 'to', 'for', 'with', 'in', 'and', 'the', 'of'
+    }
+    tokens = [w for w in cleaned.split() if w.lower() not in stopwords and len(w) > 2]
+    keywords = tokens[:3]
+    
+    if tech_stack and len(tech_stack) > 0:
+        primary_tech = [t for t in tech_stack if t.lower() in {'python', 'rust', 'go', 'typescript', 'cpp', 'langchain', 'fastapi', 'docker', 'ros2'}]
+        if primary_tech:
+            keywords.append(primary_tech[0])
+            
+    if not keywords and domain:
+        keywords = [w for w in domain.split() if len(w) > 3][:2]
+        
+    return " ".join(keywords) if keywords else "software engineering project"
+
+
+def fetch_github_reference_projects(
+    query: str,
+    domain: Optional[str] = None,
+    tech_stack: Optional[List[str]] = None,
+    limit: int = 6
+) -> Dict[str, Any]:
+    """
+    Searches the GitHub public API for top-starred open-source reference implementations
+    matching a project's domain, stack, and concepts.
+    Gracefully falls back to high-affinity curated repositories if rate-limited or offline.
+    """
+    search_keywords = clean_project_keywords(query, domain, tech_stack)
+    encoded_q = urllib.parse.quote_plus(search_keywords)
+    api_url = f"https://api.github.com/search/repositories?q={encoded_q}&sort=stars&order=desc&per_page={limit}"
+    headers = {
+        "User-Agent": "ProjectForge-Search",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+    repositories = []
+    source = "github_api"
+
+    try:
+        req = urllib.request.Request(api_url, headers=headers)
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            items = data.get("items", [])
+            for item in items:
+                repositories.append({
+                    "name": item.get("name"),
+                    "full_name": item.get("full_name"),
+                    "html_url": item.get("html_url"),
+                    "description": item.get("description") or "Open-source reference implementation",
+                    "stars": item.get("stargazers_count", 0),
+                    "forks": item.get("forks_count", 0),
+                    "language": item.get("language") or "Code",
+                    "topics": item.get("topics", [])[:5],
+                    "updated_at": (item.get("updated_at") or "")[:10],
+                    "owner_avatar": item.get("owner", {}).get("avatar_url", "")
+                })
+    except Exception as e:
+        logger.warning(f"GitHub search API query '{search_keywords}' failed ({e}). Employing domain fallback.")
+        source = "curated_fallback"
+
+    # If GitHub returned fewer than 3 results (or rate-limited), merge with curated domain repositories
+    if len(repositories) < 3:
+        domain_key = None
+        if domain:
+            for k in CURATED_DOMAIN_REPOSITORIES.keys():
+                if any(word.lower() in domain.lower() for word in k.split()):
+                    domain_key = k
+                    break
+        if not domain_key:
+            domain_key = "Generative AI & LLM Systems"
+
+        curated = CURATED_DOMAIN_REPOSITORIES.get(domain_key, CURATED_DOMAIN_REPOSITORIES["Generative AI & LLM Systems"])
+        existing_urls = {r["html_url"] for r in repositories}
+        for c in curated:
+            if c["html_url"] not in existing_urls and len(repositories) < limit:
+                repositories.append(c)
+
+    direct_search_url = f"https://github.com/search?q={encoded_q}&type=repositories"
+
+    return {
+        "query": query,
+        "search_keywords": search_keywords,
+        "direct_search_url": direct_search_url,
+        "source": source,
+        "count": len(repositories),
+        "repositories": repositories[:limit]
+    }
+

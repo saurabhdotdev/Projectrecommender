@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import GitHubReferencesView from './GitHubReferencesView';
 import { architectCustomProject, saveCustomProject, downloadProjectScaffold, generateUnlimitedIdeas } from '../api/client';
 
 const DOMAIN_OPTIONS = [
@@ -1248,6 +1249,14 @@ export default function UnlimitedStudio({
                     <span>💬</span> Discuss in AI Copilot
                   </button>
                 )}
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setActiveResultTab('github_refs')}
+                  style={{ borderColor: 'rgba(56, 189, 248, 0.45)', color: '#38bdf8', fontWeight: 600 }}
+                  title="Explore real open-source GitHub repositories matching this blueprint"
+                >
+                  <span>🐙</span> GitHub Repos
+                </button>
               </div>
 
               {/* Section Tabs */}
@@ -1275,6 +1284,12 @@ export default function UnlimitedStudio({
                   onClick={() => setActiveResultTab('roadmap')}
                 >
                   🗺️ Sprint Roadmap
+                </button>
+                <button
+                  className={`studio-tab-btn ${activeResultTab === 'github_refs' ? 'active' : ''}`}
+                  onClick={() => setActiveResultTab('github_refs')}
+                >
+                  🐙 GitHub References
                 </button>
 
                 {/* Custom User-Added Section Tabs */}
@@ -1506,6 +1521,17 @@ export default function UnlimitedStudio({
                   </div>
                 );
               })()}
+
+              {/* TAB: GITHUB REFERENCES */}
+              {activeResultTab === 'github_refs' && blueprint && (
+                <div style={{ marginTop: '16px' }}>
+                  <GitHubReferencesView
+                    project={blueprint}
+                    onOpenGitHubAudit={onOpenPrepKit}
+                    onOpenCopilot={onOpenCopilot}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SkillGapVisualizer from './SkillGapVisualizer';
 import LearningRoadmap from './LearningRoadmap';
+import GitHubReferencesView from './GitHubReferencesView';
 import { fetchSkillGap, fetchRoadmap, logFeedback, fetchProjectPitch, downloadProjectScaffold, fetchProjectDetail } from '../api/client';
 
 export default function ProjectDetailModal({
@@ -597,6 +598,13 @@ services:
             🗺️ Sprint Roadmap
           </button>
           <button
+            className={`nav-tab-btn ${activeModalTab === 'github_refs' ? 'active' : ''}`}
+            onClick={() => setActiveModalTab('github_refs')}
+            style={{ borderRadius: 0, borderBottom: activeModalTab === 'github_refs' ? '2px solid #38bdf8' : 'none', whiteSpace: 'nowrap', color: '#38bdf8', fontWeight: 600 }}
+          >
+            🐙 GitHub Projects
+          </button>
+          <button
             className={`nav-tab-btn ${activeModalTab === 'feedback' ? 'active' : ''}`}
             onClick={() => setActiveModalTab('feedback')}
             style={{ borderRadius: 0, borderBottom: activeModalTab === 'feedback' ? '2px solid var(--primary)' : 'none', whiteSpace: 'nowrap' }}
@@ -618,6 +626,35 @@ services:
                 <p style={{ fontSize: '0.94rem', lineHeight: 1.6, color: 'var(--text-primary)' }}>
                   {project.description}
                 </p>
+              </div>
+
+              {/* GitHub Quick Reference Link Strip */}
+              <div style={{
+                background: 'rgba(56, 189, 248, 0.08)',
+                padding: '12px 16px',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                marginBottom: '20px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '10px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '1.2rem' }}>🐙</span>
+                  <span style={{ fontSize: '0.86rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                    Looking for real open-source implementations of this architecture on GitHub?
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setActiveModalTab('github_refs')}
+                  style={{ fontSize: '0.78rem', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.4)', fontWeight: 700 }}
+                >
+                  Browse GitHub Projects &rarr;
+                </button>
               </div>
 
               {/* Dataset Information */}
@@ -1607,6 +1644,17 @@ CREATE INDEX IF NOT EXISTS idx_${slug}_recorded ON ${slug}_events(record_id, rec
                   {feedbackStatus}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* TAB 8: GITHUB REFERENCES */}
+          {activeModalTab === 'github_refs' && (
+            <div style={{ animation: 'fadeIn 0.25s ease' }}>
+              <GitHubReferencesView
+                project={currentProject}
+                onOpenGitHubAudit={onOpenGitHubAudit}
+                onOpenCopilot={onOpenCopilot}
+              />
             </div>
           )}
         </div>

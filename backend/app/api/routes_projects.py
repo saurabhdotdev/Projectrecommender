@@ -23,7 +23,7 @@ from ..engine.roadmap_generator import RoadmapGenerator
 from ..services.groq_service import generate_unlimited_project_ideas
 from ..services.scaffold_generator import generate_project_scaffold_zip
 from ..services.project_architect import architect_custom_project
-from ..services.github_audit_service import fetch_user_repositories, audit_github_repository
+from ..services.github_audit_service import fetch_user_repositories, audit_github_repository, fetch_github_reference_projects
 from .routes_recommend import invalidate_recommender_cache
 from .routes_auth import get_optional_user
 
@@ -305,12 +305,46 @@ def post_save_custom_project(
         "message": f"Project '{title}' successfully saved to catalog{' and added to workspace' if workspace_saved else ''}!"
     }
 
+@router.get("/references/github")
+def get_github_references_search(
+    query: str = Query(..., description="Project title or topic to search on GitHub"),
+    domain: Optional[str] = Query(None, description="Engineering domain"),
+    tech: Optional[str] = Query(None, description="Comma-separated tech stack components"),
+    limit: int = Query(6, ge=1, le=20)
+):
+    """
+    Finds real high-starred open-source GitHub repositories matching a project topic or domain.
+    """
+    tech_list = [t.strip() for t in tech.split(",") if t.strip()] if tech else []
+    return fetch_github_reference_projects(query=query, domain=domain, tech_stack=tech_list, limit=limit)
+
 @router.get("/{project_id}", response_model=ProjectSchema)
 def get_project(project_id: str, db: Session = Depends(get_db)):
     proj = db.query(Project).filter(Project.project_id == project_id).first()
     if not proj:
         raise HTTPException(status_code=404, detail=f"Project '{project_id}' not found.")
     return proj.to_dict()
+
+@router.get("/{project_id}/github-references")
+def get_project_github_references(
+    project_id: str,
+    limit: int = Query(6, ge=1, le=20),
+    db: Session = Depends(get_db)
+):
+    """
+    Returns related open-source GitHub repositories for a specific project.
+    """
+    proj = db.query(Project).filter(Project.project_id == project_id).first()
+    if not proj:
+        return fetch_github_reference_projects(query=project_id, limit=limit)
+    
+    tech_stack = proj.required_skills if isinstance(proj.required_skills, list) else []
+    return fetch_github_reference_projects(
+        query=proj.title,
+        domain=proj.domain,
+        tech_stack=tech_stack,
+        limit=limit
+    )
 
 @router.get("/{project_id}/skill-gap", response_model=SkillGapResponse)
 def get_project_skill_gap(

@@ -256,6 +256,24 @@ export async function downloadProjectScaffold(projectId, skills = []) {
   window.URL.revokeObjectURL(downloadUrl);
 }
 
+export async function fetchGitHubReferences(query, domain = "", tech = []) {
+  const techStr = Array.isArray(tech) ? tech.join(",") : (tech || "");
+  const params = new URLSearchParams({
+    query: query || "",
+    domain: domain || "",
+    tech: techStr
+  });
+  const res = await fetch(`${API_BASE}/projects/references/github?${params.toString()}`);
+  if (!res.ok) throw new Error("Failed to fetch GitHub reference repositories.");
+  return res.json();
+}
+
+export async function fetchProjectGitHubReferences(projectId, limit = 6) {
+  const res = await fetch(`${API_BASE}/projects/${projectId}/github-references?limit=${limit}`);
+  if (!res.ok) throw new Error("Failed to fetch project GitHub references.");
+  return res.json();
+}
+
 export async function parseResume({ file = null, rawText = "" }) {
   if (file) {
     const formData = new FormData();
