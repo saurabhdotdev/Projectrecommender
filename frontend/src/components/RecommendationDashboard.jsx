@@ -42,11 +42,46 @@ export default function RecommendationDashboard({
     }
   };
 
-  // Unlimited Ideas Studio & Natural Language State
-  const [customPrompt, setCustomPrompt] = useState("");
+  // Unlimited Ideas Studio & Natural Language State (Persisted in Session)
+  const [customPrompt, setCustomPrompt] = useState(() => {
+    try {
+      return sessionStorage.getItem('projectforge_dash_prompt') || "";
+    } catch {
+      return "";
+    }
+  });
   const [generating, setGenerating] = useState(false);
   const [genMessage, setGenMessage] = useState(null);
-  const [justGenerated, setJustGenerated] = useState([]);
+  const [justGenerated, setJustGenerated] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('projectforge_dash_just_generated');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Auto-sync prompt to sessionStorage
+  useEffect(() => {
+    try {
+      if (customPrompt) {
+        sessionStorage.setItem('projectforge_dash_prompt', customPrompt);
+      } else {
+        sessionStorage.removeItem('projectforge_dash_prompt');
+      }
+    } catch {}
+  }, [customPrompt]);
+
+  // Auto-sync synthesized blueprints to sessionStorage
+  useEffect(() => {
+    try {
+      if (justGenerated && justGenerated.length > 0) {
+        sessionStorage.setItem('projectforge_dash_just_generated', JSON.stringify(justGenerated));
+      } else {
+        sessionStorage.removeItem('projectforge_dash_just_generated');
+      }
+    } catch {}
+  }, [justGenerated]);
 
   // Speech Recognition (Voice / Speak what you want)
   const [isListening, setIsListening] = useState(false);

@@ -155,14 +155,122 @@ export default function UnlimitedStudio({
   onIdeasGenerated,
   initialPrompt = ''
 }) {
-  // Input form state
-  const [promptText, setPromptText] = useState(initialPrompt || '');
-  const [selectedDomain, setSelectedDomain] = useState('All Domains / Auto-detect');
-  const [selectedTech, setSelectedTech] = useState(['Python', 'FastAPI', 'Docker']);
+  // Input form state (persisted in localStorage across page refreshes)
+  const [promptText, setPromptText] = useState(() => {
+    if (initialPrompt) return initialPrompt;
+    try {
+      const saved = localStorage.getItem('projectforge_studio_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.promptText) return parsed.promptText;
+      }
+    } catch {}
+    return '';
+  });
+
+  const [selectedDomain, setSelectedDomain] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.selectedDomain) return parsed.selectedDomain;
+      }
+    } catch {}
+    return 'All Domains / Auto-detect';
+  });
+
+  const [selectedTech, setSelectedTech] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed.selectedTech) && parsed.selectedTech.length > 0) return parsed.selectedTech;
+      }
+    } catch {}
+    return ['Python', 'FastAPI', 'Docker'];
+  });
+
   const [customTechInput, setCustomTechInput] = useState('');
-  const [timelineWeeks, setTimelineWeeks] = useState(4);
-  const [selectedArch, setSelectedArch] = useState('microservices');
-  const [selectedAddons, setSelectedAddons] = useState(['auth', 'docker', 'testing']);
+
+  const [timelineWeeks, setTimelineWeeks] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.timelineWeeks) return Number(parsed.timelineWeeks);
+      }
+    } catch {}
+    return 4;
+  });
+
+  const [selectedArch, setSelectedArch] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.selectedArch) return parsed.selectedArch;
+      }
+    } catch {}
+    return 'microservices';
+  });
+
+  const [selectedAddons, setSelectedAddons] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_form');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed.selectedAddons)) return parsed.selectedAddons;
+      }
+    } catch {}
+    return ['auth', 'docker', 'testing'];
+  });
+
+  // Current Blueprint state (persisted across page refreshes!)
+  const [blueprint, setBlueprint] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_blueprint');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return null;
+  });
+
+  // History list of architected drafts
+  const [blueprintHistory, setBlueprintHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem('projectforge_studio_history');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [];
+  });
+
+  // Auto-save blueprint to localStorage
+  useEffect(() => {
+    try {
+      if (blueprint) {
+        localStorage.setItem('projectforge_studio_blueprint', JSON.stringify(blueprint));
+      } else {
+        localStorage.removeItem('projectforge_studio_blueprint');
+      }
+    } catch (e) {
+      console.warn('Could not cache blueprint:', e);
+    }
+  }, [blueprint]);
+
+  // Auto-save form inputs to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('projectforge_studio_form', JSON.stringify({
+        promptText,
+        selectedDomain,
+        selectedTech,
+        timelineWeeks,
+        selectedArch,
+        selectedAddons
+      }));
+    } catch (e) {
+      console.warn('Could not cache studio form:', e);
+    }
+  }, [promptText, selectedDomain, selectedTech, timelineWeeks, selectedArch, selectedAddons]);
 
   // Speech Recognition (Voice / Dictate concept)
   const [isListening, setIsListening] = useState(false);
@@ -248,7 +356,6 @@ export default function UnlimitedStudio({
   // UI state
   const [architecting, setArchitecting] = useState(false);
   const [batchSynthesizing, setBatchSynthesizing] = useState(false);
-  const [blueprint, setBlueprint] = useState(null);
   const [activeResultTab, setActiveResultTab] = useState('architecture');
   const [statusMessage, setStatusMessage] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -337,11 +444,56 @@ export default function UnlimitedStudio({
       setBlueprint(res);
       setStatusMessage('✨ Architecture blueprint generated successfully! Explore tabs below.');
       setActiveResultTab('architecture');
+
+      // Prepend to saved history drafts (max 10) so they survive refresh and can be re-accessed
+      setBlueprintHistory((prev) => {
+        const item = {
+          ...res,
+          prompt: textToUse,
+          domain: domainParam || res.domain,
+          required_skills: techToUse || res.required_skills,
+          savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        const filtered = prev.filter(b => b.title !== res.title && (!b.project_id || b.project_id !== res.project_id));
+        const nextHist = [item, ...filtered].slice(0, 10);
+        try {
+          localStorage.setItem('projectforge_studio_history', JSON.stringify(nextHist));
+        } catch (e) {
+          console.warn('Could not cache studio history:', e);
+        }
+        return nextHist;
+      });
     } catch (err) {
       console.error('Architecting error:', err);
       setStatusMessage(`⚠️ Failed to architect: ${err.message || 'Unknown error'}`);
     } finally {
       setArchitecting(false);
+    }
+  };
+
+  const handleSelectFromHistory = (item) => {
+    setBlueprint(item);
+    if (item.prompt) setPromptText(item.prompt);
+    if (item.domain) setSelectedDomain(item.domain);
+    if (Array.isArray(item.required_skills) && item.required_skills.length > 0) {
+      setSelectedTech(item.required_skills);
+    }
+    setActiveResultTab('architecture');
+    setStatusMessage(`Loaded draft: "${item.title}"`);
+  };
+
+  const handleNewBlueprint = () => {
+    setBlueprint(null);
+    setStatusMessage('Canvas reset for a new blueprint. Your drafts remain safely in history.');
+  };
+
+  const handleClearHistory = () => {
+    if (window.confirm('Clear all saved architecture drafts from this browser?')) {
+      setBlueprintHistory([]);
+      try {
+        localStorage.removeItem('projectforge_studio_history');
+      } catch {}
+      setStatusMessage('Drafts history cleared.');
     }
   };
 
@@ -687,6 +839,82 @@ export default function UnlimitedStudio({
 
         {/* RIGHT COLUMN: Architected Blueprint & Deep Engineering Sections */}
         <div className="studio-results-container">
+          {/* Saved Drafts History Bar */}
+          {blueprintHistory && blueprintHistory.length > 0 && (
+            <div style={{
+              marginBottom: '14px',
+              padding: '10px 14px',
+              background: 'var(--surface-color)',
+              borderRadius: '10px',
+              border: '1px solid var(--border-color)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                🕒 Saved Drafts ({blueprintHistory.length}):
+              </span>
+              <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', flex: 1, paddingBottom: '2px', alignItems: 'center' }}>
+                {blueprintHistory.map((item, idx) => {
+                  const isCurrent = blueprint?.title === item.title;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handleSelectFromHistory(item)}
+                      className={`btn btn-xs ${isCurrent ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{
+                        whiteSpace: 'nowrap',
+                        fontSize: '0.75rem',
+                        padding: '4px 10px',
+                        borderRadius: '6px',
+                        fontWeight: isCurrent ? 700 : 500,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        cursor: 'pointer'
+                      }}
+                      title={item.prompt || item.title}
+                    >
+                      <span>{isCurrent ? '📍' : '📄'}</span>
+                      <span style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.title}</span>
+                      {item.savedAt && <span style={{ opacity: 0.65, fontSize: '0.68rem' }}>({item.savedAt})</span>}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                {blueprint && (
+                  <button
+                    type="button"
+                    onClick={handleNewBlueprint}
+                    className="btn btn-secondary btn-xs"
+                    style={{ fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px' }}
+                    title="Clear current view to architect something new (your drafts stay in history)"
+                  >
+                    ✨ Start New
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleClearHistory}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    fontSize: '0.72rem',
+                    cursor: 'pointer',
+                    padding: '3px 6px'
+                  }}
+                  title="Clear all saved drafts"
+                >
+                  🗑️ Clear
+                </button>
+              </div>
+            </div>
+          )}
+
           {architecting ? (
             <div className="unlimited-studio-card studio-empty-state" style={{ minHeight: '380px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '40px 24px' }}>
               <div style={{ fontSize: '3.4rem', marginBottom: '14px', animation: 'studioMicPulse 1.5s infinite ease-in-out' }}>🧠</div>
@@ -764,7 +992,21 @@ export default function UnlimitedStudio({
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  fontSize: '0.76rem',
+                  fontWeight: 600,
+                  color: '#10b981',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  padding: '4px 10px',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(16, 185, 129, 0.3)'
+                }}>
+                  🟢 Saved in Session (Survives Refresh)
+                </span>
                 <button
                   className="btn btn-primary btn-sm"
                   disabled={saving || saveSuccess}
@@ -778,6 +1020,13 @@ export default function UnlimitedStudio({
                   onClick={handleDownloadScaffold}
                 >
                   <span>📦</span> {downloadingZip ? 'Zipping...' : 'Download Starter (.zip)'}
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={handleNewBlueprint}
+                  title="Clear canvas to formulate another blueprint (your drafts stay in history)"
+                >
+                  <span>✨</span> Start New
                 </button>
                 {onOpenPrepKit && (
                   <button className="btn btn-secondary btn-sm" onClick={() => onOpenPrepKit(blueprint)}>
