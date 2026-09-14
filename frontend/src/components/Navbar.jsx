@@ -21,11 +21,22 @@ export default function Navbar({
     <>
       {/* Top Navbar */}
       <nav className="navbar" id="projectforge-navbar">
-        <div className="brand">
-          <div className="brand-icon">⚡</div>
+        <div
+          className="brand"
+          onClick={() => setActiveTab('advisor')}
+          title="ProjectForge — Home"
+        >
+          <div className="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" />
+            </svg>
+          </div>
           <div className="brand-text">
-            <h1>ProjectForge</h1>
-            <span>Intelligent Project Advisor & Skill-Gap System</span>
+            <div className="brand-title-row">
+              <h1>ProjectForge</h1>
+              <span className="brand-badge">STUDIO</span>
+            </div>
+            <span className="brand-subtitle">Intelligent Project & Skill Architect</span>
           </div>
         </div>
 

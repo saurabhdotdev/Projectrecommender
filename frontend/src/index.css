@@ -334,34 +334,105 @@ code, pre {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.brand:hover {
+  opacity: 0.95;
 }
 
 .brand-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: var(--primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0284c7 0%, #0d9488 50%, #10b981 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.brand:hover .brand-icon {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 6px 20px rgba(13, 148, 136, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
 }
 
 .brand-text h1 {
-  font-size: 1.15rem;
-  line-height: 1.15;
+  font-size: 1.25rem;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  margin: 0;
+  line-height: 1.1;
   color: var(--text-primary);
 }
 
-.brand-text span {
-  font-size: 0.68rem;
+[data-theme="dark"] .brand-text h1 {
+  background: linear-gradient(135deg, #ffffff 40%, #93c5fd 80%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .brand-text h1 {
+  color: #0f172a;
+  background: linear-gradient(135deg, #0f172a 40%, #0369a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  text-transform: uppercase;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+[data-theme="dark"] .brand-badge {
+  background: rgba(56, 189, 248, 0.16);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.brand-subtitle {
+  font-size: 0.73rem;
   color: var(--text-muted);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 3px;
+  line-height: 1.2;
 }
 
 .nav-links {
@@ -2120,12 +2191,12 @@ code, pre {
     padding: 10px 14px;
   }
 
-  .brand-text span {
+  .brand-subtitle {
     display: none;
   }
 
   .brand-text h1 {
-    font-size: 1rem;
+    font-size: 1.08rem;
   }
 
   .nav-actions {
