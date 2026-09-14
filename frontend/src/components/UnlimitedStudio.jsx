@@ -155,122 +155,141 @@ export default function UnlimitedStudio({
   onIdeasGenerated,
   initialPrompt = ''
 }) {
-  // Input form state (persisted in localStorage across page refreshes)
-  const [promptText, setPromptText] = useState(() => {
-    if (initialPrompt) return initialPrompt;
+  // ── Multi-Tab Workbench Workspace State ──
+  const [tabs, setTabs] = useState(() => {
     try {
-      const saved = localStorage.getItem('projectforge_studio_form');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.promptText) return parsed.promptText;
+      const savedTabs = localStorage.getItem('projectforge_studio_tabs_v4');
+      if (savedTabs) {
+        const parsed = JSON.parse(savedTabs);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
+    } catch (e) {
+      console.warn('Error reading studio tabs:', e);
+    }
+
+    // Migration fallback from existing blueprint / history
+    try {
+      const savedBp = localStorage.getItem('projectforge_studio_blueprint');
+      const savedHistory = localStorage.getItem('projectforge_studio_history');
+      const savedForm = localStorage.getItem('projectforge_studio_form');
+      const form = savedForm ? JSON.parse(savedForm) : {};
+
+      const initialTabs = [];
+      if (savedBp) {
+        const bp = JSON.parse(savedBp);
+        initialTabs.push({
+          id: `tab_bp_${bp.project_id || 'main'}`,
+          title: bp.title || 'AutoScholar: Hierarchical Multi-Agent Synthesis Engine',
+          savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          blueprint: bp,
+          promptText: form.promptText || '',
+          selectedDomain: form.selectedDomain || bp.domain || DOMAIN_OPTIONS[0],
+          selectedTech: form.selectedTech || bp.required_skills || ['Python', 'FastAPI', 'Docker'],
+          timelineWeeks: form.timelineWeeks || bp.estimated_duration || 4,
+          selectedArch: form.selectedArch || 'microservices',
+          selectedAddons: form.selectedAddons || ['auth', 'docker', 'testing'],
+          customSpecTabs: []
+        });
+      }
+
+      if (savedHistory) {
+        const hist = JSON.parse(savedHistory);
+        if (Array.isArray(hist)) {
+          hist.forEach((h, idx) => {
+            if (initialTabs.some(t => t.title === h.title)) return;
+            initialTabs.push({
+              id: `tab_hist_${idx}_${Date.now()}`,
+              title: h.title,
+              savedAt: h.savedAt || 'Saved',
+              blueprint: h,
+              promptText: h.prompt || '',
+              selectedDomain: h.domain || DOMAIN_OPTIONS[0],
+              selectedTech: h.required_skills || ['Python', 'FastAPI', 'Docker'],
+              timelineWeeks: h.estimated_duration || 4,
+              selectedArch: 'microservices',
+              selectedAddons: ['auth', 'docker', 'testing'],
+              customSpecTabs: []
+            });
+          });
+        }
+      }
+
+      if (initialTabs.length > 0) return initialTabs;
     } catch {}
-    return '';
+
+    // Default blank initial tab
+    return [{
+      id: 'tab_initial_1',
+      title: 'New Blueprint',
+      savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      blueprint: null,
+      promptText: initialPrompt || '',
+      selectedDomain: DOMAIN_OPTIONS[0],
+      selectedTech: ['Python', 'FastAPI', 'Docker'],
+      timelineWeeks: 4,
+      selectedArch: 'microservices',
+      selectedAddons: ['auth', 'docker', 'testing'],
+      customSpecTabs: []
+    }];
   });
 
-  const [selectedDomain, setSelectedDomain] = useState(() => {
+  const [activeTabId, setActiveTabId] = useState(() => {
     try {
-      const saved = localStorage.getItem('projectforge_studio_form');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.selectedDomain) return parsed.selectedDomain;
-      }
+      const savedActive = localStorage.getItem('projectforge_studio_active_tab_v4');
+      if (savedActive && tabs.some(t => t.id === savedActive)) return savedActive;
     } catch {}
-    return 'All Domains / Auto-detect';
+    return tabs[0]?.id || 'tab_initial_1';
   });
 
-  const [selectedTech, setSelectedTech] = useState(() => {
-    try {
-      const saved = localStorage.getItem('projectforge_studio_form');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed.selectedTech) && parsed.selectedTech.length > 0) return parsed.selectedTech;
-      }
-    } catch {}
-    return ['Python', 'FastAPI', 'Docker'];
-  });
+  // Active Tab representation
+  const activeTab = tabs.find(t => t.id === activeTabId) || tabs[0] || {};
 
+  // Form State initialized from active tab
+  const [promptText, setPromptText] = useState(activeTab.promptText || initialPrompt || '');
+  const [selectedDomain, setSelectedDomain] = useState(activeTab.selectedDomain || DOMAIN_OPTIONS[0]);
+  const [selectedTech, setSelectedTech] = useState(activeTab.selectedTech || ['Python', 'FastAPI', 'Docker']);
   const [customTechInput, setCustomTechInput] = useState('');
+  const [timelineWeeks, setTimelineWeeks] = useState(activeTab.timelineWeeks || 4);
+  const [selectedArch, setSelectedArch] = useState(activeTab.selectedArch || 'microservices');
+  const [selectedAddons, setSelectedAddons] = useState(activeTab.selectedAddons || ['auth', 'docker', 'testing']);
+  const [blueprint, setBlueprint] = useState(activeTab.blueprint || null);
+  const [customSpecTabs, setCustomSpecTabs] = useState(activeTab.customSpecTabs || []);
 
-  const [timelineWeeks, setTimelineWeeks] = useState(() => {
-    try {
-      const saved = localStorage.getItem('projectforge_studio_form');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.timelineWeeks) return Number(parsed.timelineWeeks);
-      }
-    } catch {}
-    return 4;
-  });
+  // Synchronize active tab in tabs list whenever inputs or blueprint change
+  useEffect(() => {
+    setTabs(prevTabs =>
+      prevTabs.map(t => {
+        if (t.id === activeTabId) {
+          return {
+            ...t,
+            promptText,
+            selectedDomain,
+            selectedTech,
+            timelineWeeks,
+            selectedArch,
+            selectedAddons,
+            blueprint,
+            customSpecTabs,
+            title: blueprint?.title || t.title
+          };
+        }
+        return t;
+      })
+    );
+  }, [promptText, selectedDomain, selectedTech, timelineWeeks, selectedArch, selectedAddons, blueprint, customSpecTabs, activeTabId]);
 
-  const [selectedArch, setSelectedArch] = useState(() => {
-    try {
-      const saved = localStorage.getItem('projectforge_studio_form');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.selectedArch) return parsed.selectedArch;
-      }
-    } catch {}
-    return 'microservices';
-  });
-
-  const [selectedAddons, setSelectedAddons] = useState(() => {
-    try {
-      const saved = localStorage.getItem('projectforge_studio_form');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed.selectedAddons)) return parsed.selectedAddons;
-      }
-    } catch {}
-    return ['auth', 'docker', 'testing'];
-  });
-
-  // Current Blueprint state (persisted across page refreshes!)
-  const [blueprint, setBlueprint] = useState(() => {
-    try {
-      const saved = localStorage.getItem('projectforge_studio_blueprint');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return null;
-  });
-
-  // History list of architected drafts
-  const [blueprintHistory, setBlueprintHistory] = useState(() => {
-    try {
-      const saved = localStorage.getItem('projectforge_studio_history');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return [];
-  });
-
-  // Auto-save blueprint to localStorage
+  // Auto-save tabs and activeTabId to localStorage
   useEffect(() => {
     try {
+      localStorage.setItem('projectforge_studio_tabs_v4', JSON.stringify(tabs));
+      localStorage.setItem('projectforge_studio_active_tab_v4', activeTabId);
       if (blueprint) {
         localStorage.setItem('projectforge_studio_blueprint', JSON.stringify(blueprint));
-      } else {
-        localStorage.removeItem('projectforge_studio_blueprint');
       }
     } catch (e) {
-      console.warn('Could not cache blueprint:', e);
+      console.warn('Could not cache studio tabs:', e);
     }
-  }, [blueprint]);
-
-  // Auto-save form inputs to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem('projectforge_studio_form', JSON.stringify({
-        promptText,
-        selectedDomain,
-        selectedTech,
-        timelineWeeks,
-        selectedArch,
-        selectedAddons
-      }));
-    } catch (e) {
-      console.warn('Could not cache studio form:', e);
-    }
-  }, [promptText, selectedDomain, selectedTech, timelineWeeks, selectedArch, selectedAddons]);
+  }, [tabs, activeTabId, blueprint]);
 
   // Speech Recognition (Voice / Dictate concept)
   const [isListening, setIsListening] = useState(false);
@@ -445,24 +464,24 @@ export default function UnlimitedStudio({
       setStatusMessage('✨ Architecture blueprint generated successfully! Explore tabs below.');
       setActiveResultTab('architecture');
 
-      // Prepend to saved history drafts (max 10) so they survive refresh and can be re-accessed
-      setBlueprintHistory((prev) => {
-        const item = {
-          ...res,
-          prompt: textToUse,
-          domain: domainParam || res.domain,
-          required_skills: techToUse || res.required_skills,
-          savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-        const filtered = prev.filter(b => b.title !== res.title && (!b.project_id || b.project_id !== res.project_id));
-        const nextHist = [item, ...filtered].slice(0, 10);
-        try {
-          localStorage.setItem('projectforge_studio_history', JSON.stringify(nextHist));
-        } catch (e) {
-          console.warn('Could not cache studio history:', e);
+      // Update active tab in tabs list with the formulated blueprint and title
+      setTabs(prev => prev.map(t => {
+        if (t.id === activeTabId) {
+          return {
+            ...t,
+            title: res.title,
+            savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            blueprint: res,
+            promptText: textToUse,
+            selectedDomain: domainParam || res.domain,
+            selectedTech: techToUse || res.required_skills,
+            timelineWeeks: timelineWeeks,
+            selectedArch: selectedArch,
+            selectedAddons: selectedAddons
+          };
         }
-        return nextHist;
-      });
+        return t;
+      }));
     } catch (err) {
       console.error('Architecting error:', err);
       setStatusMessage(`⚠️ Failed to architect: ${err.message || 'Unknown error'}`);
@@ -471,30 +490,135 @@ export default function UnlimitedStudio({
     }
   };
 
-  const handleSelectFromHistory = (item) => {
-    setBlueprint(item);
-    if (item.prompt) setPromptText(item.prompt);
-    if (item.domain) setSelectedDomain(item.domain);
-    if (Array.isArray(item.required_skills) && item.required_skills.length > 0) {
-      setSelectedTech(item.required_skills);
-    }
-    setActiveResultTab('architecture');
-    setStatusMessage(`Loaded draft: "${item.title}"`);
-  };
+  // ── Multi-Tab Operations ──
+  const handleAddNewTab = () => {
+    const newTabId = `tab_${Date.now()}`;
+    const newTabNum = tabs.length + 1;
+    const newTab = {
+      id: newTabId,
+      title: `Blueprint ${newTabNum}`,
+      savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      blueprint: null,
+      promptText: '',
+      selectedDomain: DOMAIN_OPTIONS[0],
+      selectedTech: ['Python', 'FastAPI', 'Docker'],
+      timelineWeeks: 4,
+      selectedArch: 'microservices',
+      selectedAddons: ['auth', 'docker', 'testing'],
+      customSpecTabs: []
+    };
 
-  const handleNewBlueprint = () => {
+    setTabs(prev => [...prev, newTab]);
+    setActiveTabId(newTabId);
+
+    // Hydrate form for fresh tab
     setBlueprint(null);
-    setStatusMessage('Canvas reset for a new blueprint. Your drafts remain safely in history.');
+    setPromptText('');
+    setSelectedDomain(DOMAIN_OPTIONS[0]);
+    setSelectedTech(['Python', 'FastAPI', 'Docker']);
+    setTimelineWeeks(4);
+    setSelectedArch('microservices');
+    setSelectedAddons(['auth', 'docker', 'testing']);
+    setCustomSpecTabs([]);
+    setActiveResultTab('architecture');
+    setStatusMessage(`✨ New Tab added: "Blueprint ${newTabNum}". Start typing your concept or pick a template!`);
   };
 
-  const handleClearHistory = () => {
-    if (window.confirm('Clear all saved architecture drafts from this browser?')) {
-      setBlueprintHistory([]);
-      try {
-        localStorage.removeItem('projectforge_studio_history');
-      } catch {}
-      setStatusMessage('Drafts history cleared.');
+  const handleSwitchTab = (targetTabId) => {
+    if (targetTabId === activeTabId) return;
+
+    // 1. Ensure current active tab is updated in tabs array
+    setTabs(prev => prev.map(t => {
+      if (t.id === activeTabId) {
+        return {
+          ...t,
+          promptText,
+          selectedDomain,
+          selectedTech,
+          timelineWeeks,
+          selectedArch,
+          selectedAddons,
+          blueprint,
+          customSpecTabs,
+          title: blueprint?.title || t.title
+        };
+      }
+      return t;
+    }));
+
+    // 2. Find target tab
+    const target = tabs.find(t => t.id === targetTabId);
+    if (!target) return;
+
+    // 3. Switch active ID and hydrate state
+    setActiveTabId(targetTabId);
+    setBlueprint(target.blueprint || null);
+    setPromptText(target.promptText || '');
+    setSelectedDomain(target.selectedDomain || DOMAIN_OPTIONS[0]);
+    setSelectedTech(target.selectedTech || ['Python', 'FastAPI', 'Docker']);
+    setTimelineWeeks(target.timelineWeeks || 4);
+    setSelectedArch(target.selectedArch || 'microservices');
+    setSelectedAddons(target.selectedAddons || ['auth', 'docker', 'testing']);
+    setCustomSpecTabs(target.customSpecTabs || []);
+    setActiveResultTab('architecture');
+    setStatusMessage(`Switched to tab: "${target.title}"`);
+  };
+
+  const handleCloseTab = (tabIdToClose, e) => {
+    if (e) e.stopPropagation();
+
+    if (tabs.length <= 1) {
+      // If only one tab left, reset it rather than leaving empty
+      const freshTab = {
+        id: `tab_${Date.now()}`,
+        title: 'New Blueprint',
+        savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        blueprint: null,
+        promptText: '',
+        selectedDomain: DOMAIN_OPTIONS[0],
+        selectedTech: ['Python', 'FastAPI', 'Docker'],
+        timelineWeeks: 4,
+        selectedArch: 'microservices',
+        selectedAddons: ['auth', 'docker', 'testing'],
+        customSpecTabs: []
+      };
+      setTabs([freshTab]);
+      setActiveTabId(freshTab.id);
+      setBlueprint(null);
+      setPromptText('');
+      setSelectedDomain(DOMAIN_OPTIONS[0]);
+      setSelectedTech(['Python', 'FastAPI', 'Docker']);
+      setTimelineWeeks(4);
+      setCustomSpecTabs([]);
+      setStatusMessage('Tab reset to blank canvas.');
+      return;
     }
+
+    const remaining = tabs.filter(t => t.id !== tabIdToClose);
+    setTabs(remaining);
+
+    if (tabIdToClose === activeTabId) {
+      const closingIdx = tabs.findIndex(t => t.id === tabIdToClose);
+      const nextIdx = closingIdx > 0 ? closingIdx - 1 : 0;
+      const nextTab = remaining[nextIdx] || remaining[0];
+      if (nextTab) {
+        handleSwitchTab(nextTab.id);
+      }
+    }
+  };
+
+  const handleAddCustomSpecTab = () => {
+    const title = window.prompt('Enter new section tab name (e.g. "Security & Compliance", "Deployment Runbook", "Team Milestones"):');
+    if (!title || !title.trim()) return;
+
+    const newSpecTab = {
+      id: `custom_spec_${Date.now()}`,
+      title: title.trim(),
+      content: `## ${title.trim()}\n\nAdd your custom specifications, architecture notes, or deployment instructions here.`
+    };
+
+    setCustomSpecTabs(prev => [...prev, newSpecTab]);
+    setActiveResultTab(newSpecTab.id);
   };
 
   const handleSaveToWorkspace = async () => {
@@ -839,81 +963,158 @@ export default function UnlimitedStudio({
 
         {/* RIGHT COLUMN: Architected Blueprint & Deep Engineering Sections */}
         <div className="studio-results-container">
-          {/* Saved Drafts History Bar */}
-          {blueprintHistory && blueprintHistory.length > 0 && (
-            <div style={{
-              marginBottom: '14px',
-              padding: '10px 14px',
-              background: 'var(--surface-color)',
-              borderRadius: '10px',
-              border: '1px solid var(--border-color)',
+          {/* Studio Multi-Tab Bar */}
+          <div className="studio-tabs-bar" style={{
+            marginBottom: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            background: 'var(--surface-color)',
+            padding: '6px 12px',
+            borderRadius: '12px',
+            border: '1px solid var(--border-color)',
+            gap: '8px',
+            overflowX: 'auto',
+            scrollbarWidth: 'thin'
+          }}>
+            <span style={{
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              color: 'var(--text-muted)',
+              whiteSpace: 'nowrap',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              flexWrap: 'wrap'
+              gap: '6px',
+              marginRight: '2px'
             }}>
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                🕒 Saved Drafts ({blueprintHistory.length}):
-              </span>
-              <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', flex: 1, paddingBottom: '2px', alignItems: 'center' }}>
-                {blueprintHistory.map((item, idx) => {
-                  const isCurrent = blueprint?.title === item.title;
-                  return (
+              📑 Tabs:
+            </span>
+
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center', overflowX: 'auto', flex: 1, paddingBottom: '2px' }}>
+              {tabs.map((tab) => {
+                const isActive = tab.id === activeTabId;
+                return (
+                  <div
+                    key={tab.id}
+                    onClick={() => handleSwitchTab(tab.id)}
+                    className={`studio-tab-pill ${isActive ? 'active' : ''}`}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      fontSize: '0.80rem',
+                      fontWeight: isActive ? 700 : 500,
+                      cursor: 'pointer',
+                      background: isActive ? 'rgba(56, 189, 248, 0.16)' : 'rgba(255, 255, 255, 0.04)',
+                      border: isActive ? '1px solid #38bdf8' : '1px solid var(--border-color)',
+                      color: isActive ? '#38bdf8' : 'var(--text-secondary)',
+                      transition: 'all 0.15s ease',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '220px',
+                      userSelect: 'none'
+                    }}
+                    title={tab.blueprint?.title || tab.title}
+                  >
+                    <span style={{ fontSize: '0.88rem' }}>
+                      {tab.blueprint ? '🏛️' : '📝'}
+                    </span>
+                    <span style={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      flex: 1
+                    }}>
+                      {tab.blueprint?.title || tab.title}
+                    </span>
+                    {tab.savedAt && (
+                      <span style={{ fontSize: '0.68rem', opacity: 0.65, fontWeight: 400 }}>
+                        ({tab.savedAt})
+                      </span>
+                    )}
+                    {/* Close Tab Button */}
                     <button
-                      key={idx}
                       type="button"
-                      onClick={() => handleSelectFromHistory(item)}
-                      className={`btn btn-xs ${isCurrent ? 'btn-primary' : 'btn-secondary'}`}
+                      onClick={(e) => handleCloseTab(tab.id, e)}
                       style={{
-                        whiteSpace: 'nowrap',
-                        fontSize: '0.75rem',
-                        padding: '4px 10px',
-                        borderRadius: '6px',
-                        fontWeight: isCurrent ? 700 : 500,
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: 'inherit',
+                        padding: '0 2px',
+                        fontSize: '0.82rem',
+                        lineHeight: 1,
+                        opacity: 0.6,
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '5px',
-                        cursor: 'pointer'
+                        borderRadius: '4px'
                       }}
-                      title={item.prompt || item.title}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.6')}
+                      title="Close this blueprint tab"
                     >
-                      <span>{isCurrent ? '📍' : '📄'}</span>
-                      <span style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.title}</span>
-                      {item.savedAt && <span style={{ opacity: 0.65, fontSize: '0.68rem' }}>({item.savedAt})</span>}
+                      ✕
                     </button>
-                  );
-                })}
-              </div>
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                {blueprint && (
-                  <button
-                    type="button"
-                    onClick={handleNewBlueprint}
-                    className="btn btn-secondary btn-xs"
-                    style={{ fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px' }}
-                    title="Clear current view to architect something new (your drafts stay in history)"
-                  >
-                    ✨ Start New
-                  </button>
-                )}
+                  </div>
+                );
+              })}
+
+              {/* ➕ Add Tab Button */}
+              <button
+                type="button"
+                id="studio-add-tab-btn"
+                onClick={handleAddNewTab}
+                className="btn btn-secondary btn-xs"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  color: 'var(--primary)',
+                  borderColor: 'rgba(56, 189, 248, 0.4)',
+                  background: 'rgba(56, 189, 248, 0.08)',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer'
+                }}
+                title="Add a new blueprint tab to formulate another idea"
+              >
+                <span style={{ fontSize: '0.92rem', fontWeight: 900 }}>➕</span>
+                <span>Add Tab</span>
+              </button>
+            </div>
+
+            {/* Right Controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                {tabs.length} {tabs.length === 1 ? 'Tab' : 'Tabs'}
+              </span>
+              {tabs.length > 1 && (
                 <button
                   type="button"
-                  onClick={handleClearHistory}
+                  onClick={() => {
+                    if (window.confirm('Close other tabs and keep only the current active blueprint tab?')) {
+                      setTabs(tabs.filter(t => t.id === activeTabId));
+                    }
+                  }}
                   style={{
                     background: 'transparent',
                     border: 'none',
                     color: 'var(--text-muted)',
                     fontSize: '0.72rem',
                     cursor: 'pointer',
-                    padding: '3px 6px'
+                    padding: '2px 6px',
+                    whiteSpace: 'nowrap'
                   }}
-                  title="Clear all saved drafts"
+                  title="Close other tabs"
                 >
-                  🗑️ Clear
+                  Close Others
                 </button>
-              </div>
+              )}
             </div>
-          )}
+          </div>
 
           {architecting ? (
             <div className="unlimited-studio-card studio-empty-state" style={{ minHeight: '380px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '40px 24px' }}>
@@ -1023,10 +1224,10 @@ export default function UnlimitedStudio({
                 </button>
                 <button
                   className="btn btn-secondary btn-sm"
-                  onClick={handleNewBlueprint}
-                  title="Clear canvas to formulate another blueprint (your drafts stay in history)"
+                  onClick={handleAddNewTab}
+                  title="Add a new blueprint tab to formulate another idea"
                 >
-                  <span>✨</span> Start New
+                  <span>➕</span> Add Tab
                 </button>
                 {onOpenPrepKit && (
                   <button className="btn btn-secondary btn-sm" onClick={() => onOpenPrepKit(blueprint)}>
@@ -1050,7 +1251,7 @@ export default function UnlimitedStudio({
               </div>
 
               {/* Section Tabs */}
-              <div className="studio-tab-strip">
+              <div className="studio-tab-strip" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
                 <button
                   className={`studio-tab-btn ${activeResultTab === 'architecture' ? 'active' : ''}`}
                   onClick={() => setActiveResultTab('architecture')}
@@ -1074,6 +1275,60 @@ export default function UnlimitedStudio({
                   onClick={() => setActiveResultTab('roadmap')}
                 >
                   🗺️ Sprint Roadmap
+                </button>
+
+                {/* Custom User-Added Section Tabs */}
+                {customSpecTabs && customSpecTabs.map((specTab) => (
+                  <div key={specTab.id} style={{ display: 'inline-flex', alignItems: 'center', position: 'relative' }}>
+                    <button
+                      className={`studio-tab-btn ${activeResultTab === specTab.id ? 'active' : ''}`}
+                      onClick={() => setActiveResultTab(specTab.id)}
+                      style={{ paddingRight: '22px' }}
+                    >
+                      📝 {specTab.title}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (window.confirm(`Remove custom tab "${specTab.title}"?`)) {
+                          setCustomSpecTabs(prev => prev.filter(t => t.id !== specTab.id));
+                          if (activeResultTab === specTab.id) setActiveResultTab('architecture');
+                        }
+                      }}
+                      style={{
+                        position: 'absolute',
+                        right: '6px',
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--text-muted)',
+                        fontSize: '0.74rem',
+                        cursor: 'pointer',
+                        padding: 0
+                      }}
+                      title="Remove section tab"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+
+                {/* ➕ Add Section Tab Button */}
+                <button
+                  type="button"
+                  className="studio-tab-btn"
+                  onClick={handleAddCustomSpecTab}
+                  style={{
+                    borderColor: 'rgba(56, 189, 248, 0.4)',
+                    color: '#38bdf8',
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                  title="Add custom section tab (e.g. Deployment Runbook, Security Audit, Team Notes)"
+                >
+                  <span>➕</span> Add Section Tab
                 </button>
               </div>
 
@@ -1223,6 +1478,34 @@ export default function UnlimitedStudio({
                   ))}
                 </div>
               )}
+
+              {/* TAB 5+: CUSTOM SPEC / NOTES TABS */}
+              {customSpecTabs && customSpecTabs.some(t => t.id === activeResultTab) && (() => {
+                const currentCustomTab = customSpecTabs.find(t => t.id === activeResultTab);
+                if (!currentCustomTab) return null;
+                return (
+                  <div style={{ marginTop: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                      <span style={{ fontSize: '0.84rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                        📝 {currentCustomTab.title}
+                      </span>
+                      <span style={{ fontSize: '0.74rem', color: '#10b981', fontWeight: 600 }}>
+                        ✓ Auto-saved to blueprint
+                      </span>
+                    </div>
+                    <textarea
+                      className="studio-textarea"
+                      style={{ minHeight: '220px', fontFamily: 'var(--font-mono, monospace)', fontSize: '0.86rem', lineHeight: 1.6 }}
+                      value={currentCustomTab.content || ''}
+                      placeholder="Write your custom notes, architecture decisions, deployment steps, or security checklist..."
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCustomSpecTabs(prev => prev.map(ct => ct.id === currentCustomTab.id ? { ...ct, content: val } : ct));
+                      }}
+                    />
+                  </div>
+                );
+              })()}
             </div>
           )}
         </div>
